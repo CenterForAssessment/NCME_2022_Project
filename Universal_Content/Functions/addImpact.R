@@ -42,7 +42,6 @@ addImpact <- function(
   data_table,
   score.var = "SCALE_SCORE",
   prior.score.var = "PRIOR_SCORE_for_IMPACT",
-  quantile.var = "PRIOR_SCORE_DECILE",
   impact.var = "IMPACT_PERCENTILE") {
 
     YEAR <- CONTENT_AREA <- GRADE <- NULL
