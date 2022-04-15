@@ -101,7 +101,7 @@ State_A_Data_LONG[YEAR == "2021",
                 addImpact(.SD), by = list(CONTENT_AREA, GRADE),
                 .SDcols = c("CONTENT_AREA", "GRADE",
                             "SCALE_SCORE", "PRIOR_SCORE_for_IMPACT",
-                            "PRIOR_SCORE_DECILE", "IMPACT_PERCENTILE")]
+                            "IMPACT_PERCENTILE")]
 
 ###   Pull in values between loss/hoss
 for (content_area.iter in c("ELA", "MATHEMATICS")) {
