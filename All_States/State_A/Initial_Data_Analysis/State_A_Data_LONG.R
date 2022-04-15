@@ -1,10 +1,11 @@
-/* #############################################################################
+#+ include = FALSE, purl = FALSE
+################################################################################
 ####                                                                        ####
 ####                   Data Cleaning and Prep for State A                   ####
 ####                                                                        ####
-############################################################################# */
+################################################################################
 
-#' ## Load packages and custom functions.
+#' ### Load packages and custom functions.
 #'
 #' The following `R` packages are required for the data cleaning and impact simulation.
 #'
@@ -23,7 +24,7 @@ source("../../../Universal_Content/Functions/addImpact.R")
 # Set a random seed for reproducibility of simulated data
 set.seed(3693)
 
-#' ## General data setup and cleaning.
+#' ### General data setup and cleaning.
 #'
 #' For these simulation analyses we will be using the *`sgpData_LONG_COVID`* data
 #' from the [`SGPData`](https://github.com/CenterForAssessment/SGPdata) package.
@@ -39,7 +40,7 @@ State_A_Data_LONG <- copy(SGPdata::sgpData_LONG_COVID)[YEAR < 2022]
 State_A_Data_LONG[, SCALE_SCORE := NULL]
 setnames(State_A_Data_LONG, "SCALE_SCORE_without_COVID_IMPACT", "SCALE_SCORE")
 
-#' ### Add in prior scale score variable for simulating COVID impact
+#' #### Add in prior scale score variable for simulating COVID impact
 #'
 #' The functions that are used to simulate COVID impact require two variables that
 #' are currently not in the data: a prior score and an "impact percentile".
@@ -72,7 +73,7 @@ State_A_Data_LONG[GRADE %in% c(3, 4) | YEAR %in% c("2016", "2017"),
                     SCALE_SCORE_PRIOR_2YEAR := NA]
 State_A_Data_LONG[GRADE == 3 | YEAR == "2016", SCALE_SCORE_PRIOR_1YEAR := NA]
 
-#' ## Simulate COVID Impact by content area, grade and prior score decile.
+#' ### Simulate COVID Impact by content area, grade and prior score decile.
 #'
 #' For students in grades 5 - 8, we use observed prior scores (`SCALE_SCORE_PRIOR_2YEAR`)
 #' in simulating their 2021 COVID impact. If their prior score is missing we will
@@ -80,7 +81,7 @@ State_A_Data_LONG[GRADE == 3 | YEAR == "2016", SCALE_SCORE_PRIOR_1YEAR := NA]
 #' available) we will first simulate a correlated prior score from which to then
 #' simulate COVID impact.
 #'
-#' ### Create a simulated prior scale score
+#' #### Create a simulated prior scale score
 #'
 #+ echo = TRUE, purl = TRUE
 State_A_Data_LONG[, PRIOR_SCORE_for_IMPACT := simulatePriorScore(.SD),
@@ -91,7 +92,7 @@ State_A_Data_LONG[, PRIOR_SCORE_for_IMPACT := simulatePriorScore(.SD),
 State_A_Data_LONG[YEAR == "2021" & is.na(PRIOR_SCORE_for_IMPACT),
                     PRIOR_SCORE_for_IMPACT := SCALE_SCORE]
 
-#' ### Calculate the students' prior score deciles.
+#' #### Calculate the students' prior score deciles.
 #'
 #' We will assign (typical) impact level by content area, grade and the students'
 #' prior score deciles. The function `addImpact` is flexible enough to allow for
@@ -107,7 +108,7 @@ State_A_Data_LONG[, PRIOR_SCORE_DECILE :=
               keyby=c("YEAR", "CONTENT_AREA", "GRADE")]
 
 
-#' ### Specify the level of simulated impact by content area and grade.
+#' #### Specify the level of simulated impact by content area and grade.
 #'
 #' We will also allow impact to vary by grade and content area. In most states we
 #' worked with in 2021 (and from other reports), students were more impacted in
@@ -159,7 +160,7 @@ State_A_Data_LONG <- quantile_impact[State_A_Data_LONG]
 # table(State_A_Data_LONG[, YEAR, !is.na(IMPACT_PERCENTILE)])
 
 
-#' ### Create new version of SCALE_SCORE with impact added
+#' #### Create new version of SCALE_SCORE with impact added
 #'
 #' We now have all the data elements needed to simulate random impact as specified.
 #' Although not necessary, we will create this variable separately from the unperturbed
@@ -196,7 +197,7 @@ for (content_area.iter in c("ELA", "MATHEMATICS")) {
   }
 }
 
-#' ###  Quick visual checks on the new variable
+#' ####  Quick visual checks on the new variable
 #+ echo = TRUE, purl = TRUE
 hist(State_A_Data_LONG[YEAR=='2021' & CONTENT_AREA == "ELA",
                          SCALE_SCORE_IMPACTED - SCALE_SCORE],
@@ -205,7 +206,7 @@ hist(State_A_Data_LONG[YEAR=='2021' & CONTENT_AREA == "MATHEMATICS",
                          SCALE_SCORE_IMPACTED - SCALE_SCORE],
             main = "MATHEMATICS", xlab = "Impact minus Unperturbed")
 
-#' ## Final cleaning of the data
+#' ### Final cleaning of the data
 #'
 #' With the scale score having simulated impact, we will now remove extraneous
 #' variables and rename `SCALE_SCORE_IMPACTED` to conform to conventions used in
@@ -229,7 +230,7 @@ State_A_Data_LONG[, c("PRIOR_SCORE_for_IMPACT",
                       "PRIOR_SCORE_DECILE",
                       "IMPACT_PERCENTILE") := NULL]
 
-#' ## Summary and notes
+#' ### Summary and notes
 #'
 #'   * One thing that changed from the original (simulated) COVID impact is in how
 #'     we simulated impact for 3rd and 4th graders. Originally we used their current
