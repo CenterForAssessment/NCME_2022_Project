@@ -15,18 +15,22 @@ output:
 
 ## Attach R session info in appendix
 
-Since R and R packages are constantly evolving you might want to add the R session info that contains information on the R version as well as the packages that are loaded [@Bauer2018-dl].  
+Since R and R packages are constantly evolving you might want to add the R session
+info that contains information on the R version as well as the packages that are
+loaded [@Bauer2018-dl].  
 
 ```{r echo=FALSE}
 # set width option to force fit onto page margins
 options(width=100)
-# knitr::knit_print(capture.output(print(sessionInfo(), locale = FALSE))) # when using child='Appendix_*.Rmd'
 print(sessionInfo(), locale = FALSE)
+# when using child='Appendix_*.Rmd'
+# knitr::knit_print(capture.output(print(sessionInfo(), locale = FALSE)))
 ```
 
 ## All the code in the paper
 
-To simply attach all the code you used in the PDF file in the appendix see the R chunk in the underlying `.rmd` file:
+To simply attach all the code you used in the PDF file in the appendix see the R
+chunk in the underlying `.rmd` file:
 
 ```{r, ref.label=knitr::all_labels(echo == TRUE), echo=TRUE, eval=FALSE, results='asis'}
 ```
