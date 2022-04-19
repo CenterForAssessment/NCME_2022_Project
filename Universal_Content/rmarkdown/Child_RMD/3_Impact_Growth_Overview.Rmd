@@ -9,7 +9,7 @@ on multiple imputation analysis results) median and mean baseline-referenced
 student growth percentile results for 2021.
 ```
 
-```{r, msgp-imputed, fig.cap="Observed versus estimated 2021 median (mean) baseline SGPs by content area and grade", out.width="0", out.height="0", out.extra=tab.out.ex, class = "figtab", results="asis", eval = params$imputations}
+```{r, impct-growth-msgp-imputed, fig.cap="Observed versus estimated 2021 median (mean) baseline SGPs by content area and grade", out.width="0", out.height="0", out.extra=tab.out.ex, class = "figtab", results="asis", eval = params$imputations}
 	rgroup.indx <- diff(c(which(imp_msgp[,1] != ""), (nrow(imp_msgp)+1)))
 
 	###  Include VERY small, transparent image to create table title and

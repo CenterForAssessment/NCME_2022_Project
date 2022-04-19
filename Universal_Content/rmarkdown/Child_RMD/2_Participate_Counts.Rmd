@@ -12,7 +12,7 @@ which to calculate growth since there is no exam administered two grades prior.
 The absence of SGPs for an entire grade level has a significant impact on
 comparisons done at the elementary school level.
 
-```{r, eval=ifelse(tolower(params$render.format) == "nciea", FALSE, TRUE)}
+```{r, part-counts eval=ifelse(tolower(params$render.format) == "nciea", FALSE, TRUE)}
 	rgroup.indx <- diff(c(which(SGP_Counts[,1] != ""), (nrow(SGP_Counts)+1)))
 	tmp.caption <- "Baseline SGP counts and percentages for 2019 and 2021 by content area and grade"
 
@@ -27,7 +27,7 @@ comparisons done at the elementary school level.
 	    caption=tblCap(tmp.caption)))
 ```
 
-```{r, example-table-1, fig.cap="Baseline SGP counts and percentages by year, content area and grade", out.width="0", out.height="0", out.extra='style="display: none;" data-prefix="Table"', results="asis", eval=ifelse(tolower(params$render.format) == "nciea", TRUE, FALSE)}
+```{r, part-counts2, example-table-1, fig.cap="Baseline SGP counts and percentages by year, content area and grade", out.width="0", out.height="0", out.extra='style="display: none;" data-prefix="Table"', results="asis", eval=ifelse(tolower(params$render.format) == "nciea", TRUE, FALSE)}
 rgroup.indx <- diff(c(which(SGP_Counts[,1] != ""), (nrow(SGP_Counts)+1)))
 
 ###  Include VERY small, transparent image to create table title and

@@ -11,7 +11,7 @@ therefore expected to test in the spring. In later sections we consider the pote
 impact that decreased enrollment ("attrition") may also have on our ability to
 understand changes in student performance.
 
-```{r, echo=FALSE}
+```{r, part-enroll2, echo=FALSE}
   ##  Retrieve stats for the next paragraph from the overall_participation_rates table.
   ##  We'll need to work on extending this out for multiple assessments, probably
   ##  as a "child-within-child".
@@ -54,7 +54,7 @@ students did not test.
 Table `r tblNum(1)` shows the `r tmp.test.abv` participation rates by grade
 and achievement levels.
 
-```{r, overall-participation-table, fig.cap=ovrall.part.cap, out.width="0", out.height="0", out.extra=tab.out.ex, class = "figtab", results="asis"}
+```{r, part-enroll1, overall-participation-table, fig.cap=ovrall.part.cap, out.width="0", out.height="0", out.extra=tab.out.ex, class = "figtab", results="asis"}
   ###   Overall Participation Table
   tmp_part_tbl <- copy(Report_Analyses[["participation"]][[tmp.assessment]][["overall_participation_rates"]])
   for (v in names(tmp_part_tbl) %w/o% c("GRADE", "PRIOR_ACHIEVEMENT_LEVEL")) {

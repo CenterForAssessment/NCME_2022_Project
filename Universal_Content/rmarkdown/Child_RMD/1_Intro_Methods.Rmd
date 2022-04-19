@@ -1,6 +1,6 @@
 ## Methods
 
-```{r, cache=FALSE, include=FALSE}
+```{r, methods, cache=FALSE, include=FALSE}
 ##  Get code.url text if provided
   if (!is.null(params$code.url)) {
     if (length(unique(params$code.url)) > 1) {

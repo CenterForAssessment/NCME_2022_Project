@@ -1,4 +1,4 @@
-```{r, cache=FALSE, echo=FALSE, include=FALSE}
+```{r, abstract-replace, cache=FALSE, echo=FALSE, include=FALSE}
 ###   Any necessary state-specific data formatting and variable creation - DON'T CACHE!!!
 
 ###   Create any customized text variables that need to be inserted in the abstract/exec summary
@@ -64,7 +64,7 @@
   for (i in seq(nrow(text.to.replace))) exec.sum.text <- gsub(text.to.replace[i,1], eval(parse(text=text.to.replace[i,2])), exec.sum.text, fixed=TRUE)
 ```
 
-```{r, results='asis', echo=FALSE}
+```{r, abstract-couch, results='asis', echo=FALSE}
 ###  Needs to be a YAML chunk for bookdown and text in special <div> for pagedown
 	if (tolower(params$render.format) == "bookdown") {
 		cat(c("---", "abstract: |"), sep = "\n")

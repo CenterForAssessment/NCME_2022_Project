@@ -1,6 +1,6 @@
 ##  Data
 
-```{r, cache=FALSE, echo=FALSE, include=FALSE}
+```{r, datainfo, cache=FALSE, echo=FALSE, include=FALSE}
 ##  Get assessment description text
   if (length(unique(params$test.name)) > 1) {
     assesment.string <- paste(paste0("[", head(params$test.name,-1), " (",

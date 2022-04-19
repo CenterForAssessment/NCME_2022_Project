@@ -9,7 +9,7 @@ and `pagedown` with a single process.  Its a little convoluted with the requirem
 of the invisible gif and the "figtab" class requirement, but I'm happy with where
 it is at.
 
-```{r, hist-prof, fig.cap="Historical percent proficient trends by content area and grade", out.width="0", out.height="0", out.extra=tab.out.ex, class = "figtab", results="asis"}
+```{r, impct-ach-hist-prof, fig.cap="Historical percent proficient trends by content area and grade", out.width="0", out.height="0", out.extra=tab.out.ex, class = "figtab", results="asis"}
   rgroup.indx <- diff(c(which(hist_pctprf[,1] != ""), (nrow(hist_pctprf)+1)))
   # tmp.caption <- "Historical percent proficient trends by content area and grade"
 
@@ -30,7 +30,7 @@ provides a comparison of the observed (with missing students) and estimated (bas
 on multiple imputation analysis results) percent proficient results for 2021.
 ```
 
-```{r, pct-prof-imputed, fig.cap="Observed versus estimated 2021 percent proficient by content area and grade", out.width="0", out.height="0", out.extra=tab.out.ex, class = "figtab", results="asis", eval = params$imputations}
+```{r, impct-ach-pctprof-imputed, fig.cap="Observed versus estimated 2021 percent proficient by content area and grade", out.width="0", out.height="0", out.extra=tab.out.ex, class = "figtab", results="asis", eval = params$imputations}
   rgroup.indx <- diff(c(which(imp_pctprf[,1] != ""), (nrow(imp_pctprf)+1)))
   # tmp.caption <- "Observed versus estimated 2021 percent proficient by content area and grade"
 

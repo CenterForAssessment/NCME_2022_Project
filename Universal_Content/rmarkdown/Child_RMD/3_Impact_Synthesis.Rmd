@@ -3,7 +3,7 @@
 Figure `r figNum(1)` illustrates different degrees of learning loss might that
 may be encountered in student growth trajectories on state summative assessments.
 
-```{r, fig.cap = "Example learning loss illustration with a summative state assessment", out.width="100%", fig.align='center', fig.topcaption=TRUE, out.extra=fig.out.ex, results="asis"}
+```{r, impct-growth-synth, fig.cap = "Example learning loss illustration with a summative state assessment", out.width="100%", fig.align='center', fig.topcaption=TRUE, out.extra=fig.out.ex, results="asis"}
 
 	if (tolower(params$render.format) == "bookdown") {
 		tmp.fig.caption <- knitr::opts_current$get("fig.cap")
