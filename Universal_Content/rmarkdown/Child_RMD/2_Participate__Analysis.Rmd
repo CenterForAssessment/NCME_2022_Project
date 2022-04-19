@@ -1,0 +1,106 @@
+
+```{r, Student_Participation, cache=TRUE, include=FALSE}
+	indiv_smry <- Report_Data[[assessment]][VALID_CASE=='VALID_CASE' & YEAR %in% c(2019, 2021) & GRADE %in% params$sgp.grades$State_Assessment, list(
+	#Report_Data[[assessment]][VALID_CASE=='VALID_CASE' & eval(parse(text = params$grd.subset)), list(
+									Mean_Baseline = round(mean(eval(parse(text = params$baseline.sgp)), na.rm = TRUE), 1),
+									SD_Baseline = round(sd(eval(parse(text = params$baseline.sgp)), na.rm = TRUE), 1),
+                  Score_Corr_Baseline = round(cor(SCALE_SCORE, SCALE_SCORE_PRIOR_2YEAR, use="pairwise.complete"), 2),
+									Total_Students = .N,
+									Baseline_Count = sum(!is.na(eval(parse(text = params$baseline.sgp))))), keyby = list(CONTENT_AREA, GRADE, YEAR)]
+	indiv_smry[, Pct_Baseline := round((Baseline_Count/Total_Students)*100, 1)]
+
+	indiv_counts <- Report_Data[[assessment]][VALID_CASE=='VALID_CASE' & YEAR %in% c(2019, 2021) & GRADE %in% params$sgp.grades$State_Assessment, list(
+	                             # eval(parse(text = params$grd.subset)), list(
+									Total_Students = .N,
+									Baseline_Count = sum(!is.na(eval(parse(text = params$baseline.sgp)))))]
+									# Cohort_Count = sum(!is.na(eval(parse(text = params$cohort.sgp)))),
+									# Both = sum(!is.na(eval(parse(text = params$baseline.sgp))) & !is.na(eval(parse(text = params$cohort.sgp)))),
+									# Neither = sum(is.na(eval(parse(text = params$baseline.sgp))) & is.na(eval(parse(text = params$cohort.sgp)))),
+									# Baseline_NO_Cohort = sum(!is.na(eval(parse(text = params$baseline.sgp))) & is.na(eval(parse(text = params$cohort.sgp)))),
+									# Cohort_NO_Baseline = sum(!is.na(eval(parse(text = params$cohort.sgp))) & is.na(eval(parse(text = params$baseline.sgp)))))]
+
+	# both.pct <- round((indiv_counts$Both/indiv_counts$Total_Students)*100, 1)
+	# neither.pct <- round((indiv_counts$Neither/indiv_counts$Total_Students)*100, 1)
+	baseline.pct <- round((indiv_counts$Baseline_Count/indiv_counts$Total_Students)*100, 1)
+	# cohort.pct <- round((indiv_counts$Cohort_NO_Baseline/indiv_counts$Total_Students)*100, 1)
+	# both.pct + neither.pct + baseline.pct + cohort.pct # should = ~100
+
+	###   The following is from the skip year report.  
+	###   Will need to figure out a way to summarize the "missing" kids prior achievement though -
+	###   I.e. kids present in 2019, but not 2021.
+
+	# Report_Data[[assessment]][, SCALE_SCORE_STANDARDIZED := scale(SCALE_SCORE), by=c("CONTENT_AREA", "GRADE")]
+	# missing <- Report_Data[[assessment]][is.na(eval(parse(text = params$cohort.sgp))) & !is.na(eval(parse(text = params$baseline.sgp))) & eval(parse(text = params$grd.subset)) & CONTENT_AREA %in% params$subject_order,
+	# 												 list(SCALE_SCORE_STANDARDIZED, SCALE_SCORE_PRIOR_2YEAR, eval(parse(text = params$baseline.sgp)), CONTENT_AREA, GRADE)]
+	# setnames(missing, "V3", params$baseline.sgp)
+	# missing_smry <- missing[, list(
+	# 												Mean_SS = mean(SCALE_SCORE, na.rm = TRUE),
+	# 												Mean_SS_Prior = mean(SCALE_SCORE_PRIOR_2YEAR, na.rm = TRUE),
+	# 												Mean_SGP = mean(eval(parse(text = params$baseline.sgp)), na.rm = TRUE),
+	# 												N = .N)]#, keyby = c("CONTENT_AREA", "GRADE")]
+
+	# indiv.q80 <- as.numeric(Report_Data[[assessment]][VALID_CASE=='VALID_CASE' & eval(parse(text = params$grd.subset)),
+	# 														as.list(quantile(abs(eval(parse(text = params$cohort.sgp)) - eval(parse(text = params$baseline.sgp))), probs=0.8, na.rm=TRUE))])
+```
+
+```{r, results='asis'}
+	###  Create SGP_Counts object for table in "Counts" section
+	SGP_Counts <- indiv_smry[GRADE %in% params$sgp.grades$State_Assessment, c(1:3, 7:9)] # Percentages receiving SGPs
+	if (any(as.numeric(params$sgp.grades$State_Assessment)>9)) {
+		SGP_Counts[, GRADE := as.numeric(GRADE)]
+		setkey(SGP_Counts, CONTENT_AREA, GRADE)
+	}
+	SGP_Counts$CONTENT_AREA <- sapply(SGP_Counts$CONTENT_AREA, capwords, USE.NAMES=FALSE)
+	SGP_Counts$CONTENT_AREA[duplicated(SGP_Counts$CONTENT_AREA)] <- ""
+	SGP_Counts[, Total_Students := prettyNum(Total_Students, preserve.width = "individual", big.mark=',')]
+	SGP_Counts[, Baseline_Count := prettyNum(Baseline_Count, preserve.width = "individual", big.mark=',')]
+	# SGP_Counts[, Cohort_Count := prettyNum(Cohort_Count, preserve.width = "individual", big.mark=',')]
+	# setcolorder(SGP_Counts, c(1:5, 7, 6, 8))
+
+	row.names(SGP_Counts) <- NULL
+	setnames(SGP_Counts, c("Content Area", "Grade", "Year", "Total Students", "Count", "Percent"))
+	# setnames(SGP_Counts, sapply(names(SGP_Counts), capwords, USE.NAMES=FALSE))
+	SGP_Counts <- as.matrix(SGP_Counts)
+	SGP_Counts[which(SGP_Counts==0)] <- '  --  --  '
+	SGP_Counts[which(SGP_Counts==" 0.0")] <- ' --  -- '
+
+	##  To get table to work with rnames/rgroups
+	# tmp.rnames <- SGP_Counts[,1]
+	# SGP_Counts <- SGP_Counts[,-1]
+
+	tmp.css.cell <- matrix(nrow=nrow(SGP_Counts), ncol=ncol(SGP_Counts))
+	tmp.css.cell[which(1:nrow(SGP_Counts) %% 2 == 0),2:ncol(SGP_Counts)] <- "border-bottom: 1px solid grey;"
+  SGP_Counts <- htmlTable::addHtmlTableStyle(SGP_Counts, css.cell=tmp.css.cell, css.tspanner.sep = "border-top: 2px solid grey;")
+```
+
+```{r, include=FALSE}
+###  Conditional text for Participation section.
+	skip.excluded.grade <- "4<sup>th</sup> grade ELA and mathematics"
+
+	###  From Skip-Year Analyisis:
+  # if (is.null(params$skip.grades.list)) {
+	# 	skip.excluded.grade <- paste0(ord(as.numeric(setdiff(params$sgp.grades$State_Assessment, params$skip.grades))), " grade")
+	# } else { #  4<sup>th</sup> grade ELA and mathematics and 5<sup>th</sup> grade science
+	# 	low.grades <- sort(sapply(sapply(params$sgp.grades$State_Assessment.list, as.numeric), min))
+  #   # length(low.grades) <- 4; low.grades[4] <- 6; names(low.grades)[4] <- "SOCIAL_STUDIES" # For testing ca_3 with Utah
+	# 	ca_1 <- c(names(low.grades[1]), names(which(diff(low.grades)==0)))
+	# 	ca_1_camel <- sapply(ca_1, capwords) # sub("ela", "ELA", tolower(ca_1))
+	# 	ca_1_text <- paste0(ord(low.grades[1]), " grade ", paste(paste(head(ca_1_camel, -1), collapse=", "), tail(ca_1_camel, 1), sep=" and "))
+	# 	low.grades <- low.grades[-(which(low.grades==low.grades[1]))]
+	# 	ca_2 <- c(names(low.grades[1]), names(which(diff(low.grades)==0)))
+	# 	ca_2_camel <- sapply(ca_2, capwords)
+	# 	if (length(ca_2) > 1) {
+	# 		ca_2_text <- paste0(", ", ord(low.grades[1]), " grade ", paste(paste(head(ca_2_camel, -1), collapse=", "), tail(ca_2_camel, 1), sep=" and "))
+	# 	} else ca_2_text <- paste0(ord(low.grades[1]), " grade ", ca_2_camel)
+	# 	low.grades <- low.grades[-(which(low.grades==low.grades[1]))]
+	# 	if (length(low.grades) > 0) {  #  support up to 3 different grade starts.
+	# 		ca_3 <- c(names(low.grades[1]), names(which(diff(low.grades)==0)))
+	# 		ca_3_camel <- sapply(ca_3, capwords)
+	# 		if (length(ca_3) > 1) {
+	# 			ca_3_text <- paste0(" and ", low.grades[1], "grade ", paste(paste(head(ca_3_camel, -1), collapse=", "), tail(ca_3_camel, 1), sep=" and "))
+	# 		} else ca_3_text <- paste0(ord(low.grades[1]), " grade ", ca_3_camel)
+  #     # separate complex lists (multiple 'ands') with ', and' http://www.sussex.ac.uk/informatics/punctuation/comma/listing
+	# 		skip.excluded.grade <- paste(ca_1_text, paste(ca_2_text, ca_3_text, sep=", and "), sep=", ")
+	# 	} else 	skip.excluded.grade <- paste(ca_1_text, ca_2_text, sep=", and ")
+	# }
+```

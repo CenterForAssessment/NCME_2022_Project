@@ -5,6 +5,14 @@
 ####                                                                        ####
 ################################################################################
 
+#' ## Data cleaning and preparation for State A
+#'
+#' This section of the appendix assumes the user is operating with their working
+#' directory set to "*NCME_2022_Project/All_States/State_A/Initial_Data_Analysis*".
+
+#+ echo = TRUE, purl = TRUE
+setwd("./Initial_Data_Analysis")
+
 #' ### Load packages and custom functions.
 #'
 #' The following `R` packages are required for the data cleaning and impact simulation.
@@ -229,6 +237,8 @@ State_A_Data_LONG <-
 State_A_Data_LONG[, c("PRIOR_SCORE_for_IMPACT",
                       "PRIOR_SCORE_DECILE",
                       "IMPACT_PERCENTILE") := NULL]
+## reset working directory to State_A
+setwd("..")
 
 #' ### Summary and notes
 #'

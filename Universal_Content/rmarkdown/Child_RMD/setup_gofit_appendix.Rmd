@@ -1,0 +1,43 @@
+
+```{r, echo=FALSE, include=FALSE}
+  ###   set opts_chunk
+  knitr::opts_chunk$set(
+    cache.path = file.path(params$base.directory, "_cache", "GoFit"),
+    echo = FALSE,
+    fig.topcaption = TRUE,
+    fig.cap = TRUE) # For pagedown (turned off in bookdown and provided manually)
+
+  knitr::knit_hooks$set(class = function(before, options, envir) {
+    if(before){
+      sprintf("<div class = '%s'>", options$class)
+    }else{
+      "</div>"
+    }
+  })
+
+  fig.out.ex <- 'data-prefix="Figure"'
+  tab.out.ex <- 'style="display: none;" data-prefix="Table"'
+
+  ###   Load some R packages and functions required for HTML table creation silently.
+  ###   Load SGP and other packages here to avoid messages.
+  require(ymlthis)
+	require(data.table)
+  require(SGP)
+
+  ###   Set Table, Figure and Equation Counters
+  # startAppendix()
+  setCounters()
+  options(table_counter=FALSE)
+  options(table_num_str = "G%d") # Prepend Appendix Letter when using tblNum()
+  options(table_counter_str = paste0("**Table ", "G", "%s:**")) # "**Table A%s:**" LETTERS[appendix.number]
+  options(fig_num_str = "G%d") # Prepend Appendix Letter when using figNum()
+  options(fig_caption_no_sprintf = paste0("**Figure ", "G", "%d:** %s")) # "**Figure A%d:** %s"
+
+  ###   Utility function - Assumes first two "levels" are the main dichotomy
+  ord <- function(x) { # <sup>th</sup>
+    o <- toOrdinal::toOrdinal(x)
+    return(paste0(x, "<sup>", substr(o, nchar(o)-1, nchar(o)),"</sup>"))
+  }
+
+  "%w/o%" <- function(x,y) x[!x %in% y]
+```

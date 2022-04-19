@@ -1,0 +1,15 @@
+PRM__draft.text__PRM
+
+The COVID-19 pandemic is having far-reaching effects on all facets of our lives.
+The impact on education included school closures in Spring 2020 and a 2020-2021
+academic school year with mixed remote and in-person instruction that looked and
+felt quite different from pre-pandemic times. PRM__state.name__PRM, like all states,
+is currently grappling with evaluating the academic impact the pandemic has had,
+as well as how to make efficient, targeted use of resources to resources to
+ameliorate learning loss.
+
+This report investigates the pandemics impact on student achievement (status) and
+growth. To pursue this investigation, historical TXT__test.name.abv__TXT data was
+used to establish "fair" achievement comparisons and to derive baseline student
+growth percentiles (i.e., describing 2021 growth relative to 2019 norms). Data
+in TXT__test.subj__TXT was used in these investigations.

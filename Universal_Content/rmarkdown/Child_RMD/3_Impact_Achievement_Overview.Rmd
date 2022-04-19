@@ -1,0 +1,56 @@
+## Impact on achievement
+
+Here is an example of how to include tables for counter/caption similar to figures
+in `pagedown` template.  Adam has been unable to put this into a function because
+the `include_graphics` function does not play well with environments other than
+the top level.  It also can NOT be done with `knitr::knit_child`.  However, this
+solution seems pretty clean and lets us render the table the same way in `bookdown`
+and `pagedown` with a single process.  Its a little convoluted with the requirement
+of the invisible gif and the "figtab" class requirement, but I'm happy with where
+it is at.
+
+```{r, hist-prof, fig.cap="Historical percent proficient trends by content area and grade", out.width="0", out.height="0", out.extra=tab.out.ex, class = "figtab", results="asis"}
+  rgroup.indx <- diff(c(which(hist_pctprf[,1] != ""), (nrow(hist_pctprf)+1)))
+  # tmp.caption <- "Historical percent proficient trends by content area and grade"
+
+	###  Include VERY small, transparent image to create table title and
+	knitr::include_graphics("data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7", dpi=NA, error = FALSE)
+
+  knitr::knit_print(
+		htmlTable::htmlTable(hist_pctprf,
+			tspanner=rep("", length(rgroup.indx)), n.tspanner=rgroup.indx,
+	    caption = tblCap(knitr::opts_current$get("fig.cap"))))
+```
+
+```{asis, echo = params$imputations}
+Given the number of students missing in `r params$state.name`, multiple imputation
+analyses were conducted to provide estimates of what the pandemic's impact might
+have been if all students had participated. [Table `r tblNum(1)`](#fig:pct-prof-imputed)
+provides a comparison of the observed (with missing students) and estimated (based
+on multiple imputation analysis results) percent proficient results for 2021.
+```
+
+```{r, pct-prof-imputed, fig.cap="Observed versus estimated 2021 percent proficient by content area and grade", out.width="0", out.height="0", out.extra=tab.out.ex, class = "figtab", results="asis", eval = params$imputations}
+  rgroup.indx <- diff(c(which(imp_pctprf[,1] != ""), (nrow(imp_pctprf)+1)))
+  # tmp.caption <- "Observed versus estimated 2021 percent proficient by content area and grade"
+
+	###  Include VERY small, transparent image to create table title and
+	knitr::include_graphics("data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7", dpi=NA, error = FALSE)
+
+  knitr::knit_print(
+		htmlTable::htmlTable(imp_pctprf,
+			tspanner=rep("", length(rgroup.indx)), n.tspanner=rgroup.indx,
+	    caption = tblCap(knitr::opts_current$get("fig.cap"))))
+```
+
+```{asis, echo = params$imputations}
+Integer nisl maecenas nec arcu odio tortor mauris, commodo. Morbi, cubilia risus
+pulvinar vestibulum cubilia malesuada. Facilisi nec tristique in facili sis
+tincidunt et dictumst rutrum cum. Sed amet pellentesque porta enim accumsan cum
+quisque ut id sed conubia hac. Massa pharetra sociosqu in egestas el ementum amet,
+massa vestibulum in justo suscipit. Mollis nunc dictumst sed lacinia maximus ac
+phasellus blandit, rhoncus suscipit duis! Arcu cum tortor velit habitasse vehicula,
+nascetur viverra fames ac. Hac litora in, nisi tempor et. Purus dictum porttitor
+ultricies diam ut a proin egestas. Molestie nec sed nibh lacinia ultrices malesuada
+amet sociosqu.
+```

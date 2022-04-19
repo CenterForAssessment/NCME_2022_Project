@@ -1,0 +1,16 @@
+#  Summary
+
+The analyses conducted in this report investigate the academic impact (learning
+loss) students in `r params$state.name` experienced from 2019 to 2021. The report
+attempts to help answer these questions:
+
+- What was the overall impact on student learning in the state of `r params$state.name` due to COVID-19?
+- Was the impact greater in particular content areas or grade levels?
+- What demographic subgroups fared best and which demographic subgroups fared
+most poorly in terms of learning during the COVID-19 pandemic?
+- Are there COVID-19 related instructional approaches that led to greater student
+learning than others? If so, what were they and how much more learning were they associated with?
+
+\noindent These findings will allow the `r params$state.org` to allocate relief
+and remediation resources in a more targeted way, as well as inform stakeholders
+about the impacts of the COVID-19 pandemic on student educational outcomes.

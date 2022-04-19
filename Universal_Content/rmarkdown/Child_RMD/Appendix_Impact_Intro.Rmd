@@ -1,0 +1,3 @@
+# In-depth Examination of Academic Impact
+
+The following appendix takes a deeper dive into academic impact in `r params$state.name`.

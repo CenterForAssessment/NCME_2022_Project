@@ -1,0 +1,107 @@
+## Participation of Enrolled Students
+
+Non-participation^[We assume that being in the data file without a scale score
+indicates non-participation. We did not have demographic variables for these
+non-participating students and where therefore only able to examine non-participation
+by grade, school and district.] may jeopardize our ability to understand performance,
+either overall or for some groups of students (e.g., subgroups or schools). In
+this analysis of participation we focus on students officially enrolled in the
+state^[We assume that being within the data file constitutes enrollment.] and were
+therefore expected to test in the spring. In later sections we consider the potential
+impact that decreased enrollment ("attrition") may also have on our ability to
+understand changes in student performance.
+
+```{r, echo=FALSE}
+  ##  Retrieve stats for the next paragraph from the overall_participation_rates table.
+  ##  We'll need to work on extending this out for multiple assessments, probably
+  ##  as a "child-within-child".
+
+  tmp.assessment <- "State_Assessment"
+  tmp.test.abv <- params[["test.abv"]][[tmp.assessment]]
+  tmp.participation.table <-
+    Report_Analyses[["participation"]][[tmp.assessment]][["overall_participation_counts"]][
+      YEAR == tail(params[["years"]][[tmp.assessment]], 1) & LEVEL == "State" & GRADE == "All" & SUBGROUP == "All" & PRIOR_ACHIEVEMENT_LEVEL == "All"]
+
+  tmp.rates <- c()
+  tmp.nonpart <- c()
+
+  for (s in params[["GL_subjects"]][[tmp.assessment]]) {
+    tmp.rates <- c(tmp.rates, round(tmp.participation.table[CONTENT_AREA == s, PERCENT_TESTED], 1))
+    tmp.nonpart <- c(tmp.nonpart, tmp.participation.table[CONTENT_AREA == s, NUMBER_STUDENTS - NUMBER_TESTED])
+  }
+
+  ##  Rates
+  tmp.partic.rate <- paste(tmp.rates, "in", params$GL_camel[[assessment]])
+  tmp.partic.rate <- paste(paste(head(tmp.partic.rate, -1), collapse=", "), tail(tmp.partic.rate, 1), sep=" and ")
+  tmp.partic.rate <- gsub("Math$", "Mathematics", tmp.partic.rate)
+
+  ##  Counts
+  tmp.partic.count <- paste(prettyNum(tmp.nonpart, big.mark=","), "eligible students in", params$GL_camel[[assessment]])
+  tmp.partic.count <- paste(paste(head(tmp.partic.count, -1), collapse=", "), tail(tmp.partic.count, 1), sep=" and ")
+  tmp.partic.count <- gsub("Math$", "Mathematics", tmp.partic.count)
+
+  ##  Set up caption for 'Overall Participation' table
+  ovrall.part.cap <- paste("Overall", params[["test.abv"]][[tmp.assessment]], "Participation Rates")
+```
+
+###  `r tmp.test.abv` Participation Rates
+
+The overall participation rate in 2021 for the `r tmp.test.abv` assessment was
+`r tmp.partic.rate`. These participation rates mean that `r tmp.partic.count` out
+of `r prettyNum(tmp.participation.table$NUMBER_STUDENTS[1], big.mark=",")` eligible
+students did not test.
+
+Table `r tblNum(1)` shows the `r tmp.test.abv` participation rates by grade
+and achievement levels.
+
+```{r, overall-participation-table, fig.cap=ovrall.part.cap, out.width="0", out.height="0", out.extra=tab.out.ex, class = "figtab", results="asis"}
+  ###   Overall Participation Table
+  tmp_part_tbl <- copy(Report_Analyses[["participation"]][[tmp.assessment]][["overall_participation_rates"]])
+  for (v in names(tmp_part_tbl) %w/o% c("GRADE", "PRIOR_ACHIEVEMENT_LEVEL")) {
+    tmp_part_tbl[, eval(v) := round(get(v), 2)]
+  }
+  tmp.ach.lev <- c(rev(params$achievement_levels[[assessment]]), "No Prior Level")
+  ovr.indx <- c(which(tmp_part_tbl$GRADE=="All" & tmp_part_tbl$PRIOR_ACHIEVEMENT_LEVEL=="All"),
+                which(tmp_part_tbl$GRADE!="All" & tmp_part_tbl$PRIOR_ACHIEVEMENT_LEVEL=="All"),
+                match(tmp.ach.lev, tmp_part_tbl$PRIOR_ACHIEVEMENT_LEVEL))
+  tmp_part_tbl <- tmp_part_tbl[ovr.indx,]
+
+  rgroup.indx <- c(1,length(which(tmp_part_tbl$GRADE!="All" & tmp_part_tbl$PRIOR_ACHIEVEMENT_LEVEL=="All")), length(tmp.ach.lev))
+  cgroup.indx <- c(2, rep(2, length(params[["GL_subjects"]][[tmp.assessment]])))
+  cgroup.names <- c("", params[["GL_camel"]][[tmp.assessment]])
+	# tmp.caption <- paste("Overall", params[["test.abv"]][[tmp.assessment]], "Participation Rates")
+
+  setnames(tmp_part_tbl,
+    sapply(gsub(paste(c(params[["GL_subjects"]][[tmp.assessment]], "[.]"), collapse="|"), "", names(tmp_part_tbl)), capwords))
+
+  ###  Include VERY small, transparent image to create table title and
+	knitr::include_graphics("data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7", dpi=NA, error = FALSE)
+
+  knitr::knit_print(
+		htmlTable::htmlTable(tmp_part_tbl, rnames=FALSE,
+			title="", align=paste0('cc', paste(rep('r', ncol(tmp_part_tbl)-2), collapse="")), # rnames = tmp.rnames,
+			tspanner=rep("", length(rgroup.indx)), n.tspanner=rgroup.indx,
+			n.cgroup=cgroup.indx, cgroup=cgroup.names,
+	    caption=Literasee::tblCap(ovrall.part.cap), css.table="min-width: 85%;"))
+```
+
+<!--  
+  Not sure if we want to extend the universal text for grades/schools below?
+  We'd need to implement a similar strategy for the stats used below as was done above.
+  Or add a custom analysis for each state...  
+-->
+
+The students who did not participate were more often in higher grades (e.g., in
+ELA 349 non-participating students were in grade 8 compared to the 111
+non-participating students in grade). Also, students who did not participate were
+also were more often in lower achievement levels in 2019 than students who
+participated (e.g., in ELA 50.0% of the non-participating students were in the
+lowest achievement level, Below Proficiency, in 2019 whereas 28.5% of participating
+students were classified as Below Proficiency in 2019).
+
+Non-participation also clustered within certain schools. In ELA out of the 1,799
+schools, 447 schools had at least one student who did not test. A smaller number
+of these schools accounted for the majority of the students who did not participate.
+In ELA, 96 schools accounted for 58.7% of the non-participation. Similarly, for
+Mathematics, 115 schools accounted for 62.0% of the non-participation. See Figures
+1 and 2 in the Participation Appendix for more detail.

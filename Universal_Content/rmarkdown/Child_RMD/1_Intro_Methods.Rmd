@@ -1,0 +1,91 @@
+## Methods
+
+```{r, cache=FALSE, include=FALSE}
+##  Get code.url text if provided
+  if (!is.null(params$code.url)) {
+    if (length(unique(params$code.url)) > 1) {
+      url.string <- paste(paste0("[here](", head(unique(params$code.url),-1), ")", collapse=", "),
+                          paste0("[here](", tail(unique(params$code.url), 1), ")."), sep=" and ")
+    }  else url.string <- paste0("at [this link](", noquote(params$code.url[[1]]), ").")
+
+    url.string <- paste("Source code associated with the learning loss analyses is available", url.string)
+  }
+```
+
+All analyses were conducted using the [`R` Software Environment](http://www.r-project.org/)
+[@Rsoftware] in conjunction with the [`SGP` package](https://github.com/CenterForAssessment/SGP) [@sgp2020].
+`r if(!is.null(params$code.url)) {paste0(url.string)}`
+
+Lorem ipsum dolor sit amet, nisi augue pulvinar sed odio, orci, ligula in a
+maecenas. Nullam pellentesque est sed aliquam lacus sagittis, non senectus montes,
+natoque. Nunc phasellus donec turpis pharetra urna. Cum, ultricies sed in lacus
+pretium suspendissesed sed, lacinia. Porttitor id sociosqu donec potenti leo lectus
+magnis taciti, pharetra lectus. Pulvinar ut et sociis non nunc, odio. Odio, mauris
+volutpat in.
+
+### Status and Achievement Comparisons
+
+Curae pharetra erat risus ut facilisis ac varius, euismod ultrices eget nisl. In
+senectus, tortor diam quis ac blandit felis sed et. Malesuada sed inceptos, mauris
+aenean tortor congue quis sapien. Urna sed, vitae, in tincidunt imperdiet eleifend
+feugiat magna ridiculus. Ullamcorper tristique litora sapien ad eros massa nisl.
+Turpis eu ultrices ligula eget inceptos cursus venenatis non, ut. Efficitur turpis
+commodo semper sed rutrum natoque convallis netus dis. Ipsum ultricies quis.
+Tincidunt sed tincidunt arcu.
+
+- Varius, eros, mattis vulputate fringilla dis felis eros. Felis, enim dolor
+vestibulum curabitur commodo ex nisi. Duis nostra, nibh condimentum urna curabitur
+interdum mauris, dui, ac.
+- Faucibus mus semper tortor justo ut ornare vel consectetur ipsum. Sed nunc vel,
+taciti, eu urna neque ut habitasse sed ipsum dis sed faucibus. Leo donec vel, varius
+ac tortor at. Etiam leo egestas maecenas purus eros ultrices iaculis.
+- Tempus imperdiet dis sed nunc ut. Sed sit convallis lacus neque habitant id id
+posuere nostra. Ligula convallis nec vitae. Eget himenaeos sit purus sed mauris
+pellentesque lorem sollicitudin nisl.
+- Dolor amet et dictum ad elementum, sed, sed nibh turpis. Nunc id cubilia dolor
+mauris, vestibulum nulla odio venenatis leo dignissim. Eu egestas semper porttitor.
+
+### Student Growth Percentiles
+
+Sed maximus tellus eu aptent elementum, donec, sollicitudin. Accumsan vel in
+feugiat elit dictum. Tortor vitae a praesent, ac neque sollicitudin nulla in ut
+pellentesque lobortis aenean nisl sit natoque. Adipiscing eu aliquam risus, aliquam!
+Amet nisi torquent porta ligula felis. Ad erat pretium, ipsum per interdum. Vel
+parturient egestas molestie orci et mauris a. Purus non vitae primis eros sapien,
+sodales quam quam mauris aliquam. Leo eros habitant nostra urna condimentum et
+vel nisl eget, ligula. Nisl risus adipiscing mauris in sed libero in. Amet pulvinar
+neque varius. Risus sed proin non congue massa laoreet augue nostra. Dis at
+bibendum in, quam tortor laoreet se nectus porttitor. Non eros consequat eget
+massa in pretium. Eros nibh velit enim id, id eu placerat diam vitae dictumst.
+
+- Aliquet ultrices molestie donec litora ac.
+- Mus magnis vitae cursus tellus amet tempor himenaeos. Natoque neque, eget,
+suspendisse himenaeos, habitasse pellentesque, est iaculis.
+- Augue torquent rutrum sit non nec pretium eget.
+  * Turpis parturient ligula natoque facilisi a dignissim ipsum.
+  * Arcu dolor at nullam sed torquent tellus non.
+  * Cubilia eget in nisi, penatibus aenean congue lorem et ornare tristique leo
+  facilisi orci vel. Non varius vestibulum nam morbi pe llentesque sit.
+- Vitae in eget eu sed elit, et ad lacus, eleifend nisl, potenti eget egestas.
+- Eros eu porttitor, tristique fames, et pellentesque lacinia et.
+
+```{asis, echo = params$imputations}
+
+### Missing data imputation
+
+Montes vitae eleifend leo fringilla pulvinar. Varius ornare malesuada sed facilisi
+eu blandit aliquet aliquet. Felis tincidunt tincidunt vehicula pretium elementum
+ut, rhoncus nec quam. Ac sapien ipsum vel purus tincidunt vestibulum consectetur.
+In litora ac ac himenaeos sed cum.
+
+Nunc, hac eros tempor curabitur faucibus velit. Sed a, in ac nisl maximus, etiam
+eget ligula eget in convallis. Natoque facilisis purus, molestie, torquent, quisque
+quam orci ac. Ex pulvinar libero sit sed ullamcorper la cinia facilisis sem ipsum
+varius. Justo dolor etiam consectetur in aliquam nunc interdum. Finibus rutrum,
+dui, at ultricies massa. Consequat consectetur purus aptent himenaeos litora massa.
+Phasellus, non eu libero purus. Habitant diam consequat vel nibh amet eget proin.
+Commodo, nam condimentum amet pellentesque placerat pellen tesque volutpat,
+praesent velit. Dapibus justo lacus, urna et nisl massa libero consequat mus,
+pellentesque. Ac, cubilia vehicula cubilia sed, id orci sed netus. Convallis lacus
+congue curae vitae faucibus cras facilisi eu ex. Eu et, donec auctor pulvinar donec.
+```

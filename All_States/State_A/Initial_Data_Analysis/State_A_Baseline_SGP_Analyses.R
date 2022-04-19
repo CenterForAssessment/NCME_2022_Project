@@ -9,10 +9,9 @@
 #'
 #' The baseline SGP analysis section of the appendix assumes the user is operating
 #' with their working directory set to "*NCME_2022_Project/All_States/State_A/Initial_Data_Analysis*".
-#'
-#' MOVE THIS SECTION TO PARENT!!!  Make single H1 for all
-#'
-#'
+
+#+ echo = TRUE, purl = TRUE
+setwd("./Initial_Data_Analysis")
 
 #' ### Load packages and custom functions.
 #'
@@ -92,10 +91,12 @@ State_A_SGP <- abcSGP(sgp_object = State_A_Data_LONG,
 #' the data in the next section before finally saving in a named list (`Report_Data`).
 #'
 #'
-#+ echo = FALSE, purl = FALSE
+#+ echo = FALSE, purl = TRUE
 all.files <- list.files("Goodness_of_Fit", recursive = TRUE, full.names = TRUE)
 file.remove(grep(".pdf|.Rdata", all.files, value = TRUE))
 unlink(grep("Decile_Tables", list.dirs(), value=TRUE), recursive = TRUE)
+## reset working directory to State_A
+setwd("..")
 
 #' ### Summary and notes
 #'

@@ -1,0 +1,27 @@
+# Academic Impact of the Pandemic
+
+Figure `r figNum(1)` shows how to place multiple images or plots in a single figure
+frame. Note that you should use `fig.show = 'hold'` and NOT ` fig.align='center'`
+in the `knitr` chunk.  It also illustrates different learning loss trajectories
+and recovery patterns that the state might encounter in student growth over an
+extended timeline. This emphasizes the importance of being able to measure and
+monitor student growth this year and going forward in 2022.
+
+```{r, fig.cap = "Example learning loss recovery trajectories.", fig.show = 'hold', out.width="50%", out.extra=fig.out.ex, results="asis"}
+
+	if (tolower(params$render.format) == "bookdown") {
+		tmp.fig.caption <- knitr::opts_current$get("fig.cap")
+		cat(gsub("</p>\n", "</div>", gsub("<p>", "<div class='caption'>", markdown::markdownToHTML(text=Gmisc::figCapNo(tmp.fig.caption), fragment.only=TRUE))))
+	}
+	knitr::include_graphics(
+    c(file.path(getPath(params$unvrsl.rmd.path, "../.."), "assets", "images", "example_figure_4a.png"),
+      file.path(getPath(params$unvrsl.rmd.path, "../.."), "assets", "images", "example_figure_4b.png")), error = FALSE)
+```
+
+Senectus nulla eget diam nostra a porta turpis conubia. Vel, dictumst curabitur
+tempor tempor. Et nec, sed ligula tincidunt, bibendum, aenean gravida. Arcu quis
+sed, fames ut tristique, dolor ipsum quisque, ipsum cubilia. Non, facilisis,
+aliquam lectus egestas consequat vel magna mauris nulla. Tincidunt nulla aenean
+ac mus per. Tempus ante at eros parturient, semper. Interdum nibh commodo suscipit
+id nec. Aenean vel interdum, sed nibh magnis in. Litora erat arcu sit. Volutpat
+sed vitae et suscipit est.

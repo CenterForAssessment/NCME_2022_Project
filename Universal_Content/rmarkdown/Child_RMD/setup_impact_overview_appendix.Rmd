@@ -1,0 +1,116 @@
+
+```{r, echo=FALSE, include=FALSE}
+  ###   set opts_chunk
+  knitr::opts_chunk$set(
+    cache.path = file.path(params$base.directory, "_cache", "Impact_Overview"),
+    echo = FALSE,
+    fig.topcaption = TRUE,
+    fig.cap = TRUE) # For pagedown (turned off in bookdown and provided manually)
+
+  knitr::knit_hooks$set(class = function(before, options, envir) {
+    if(before){
+      sprintf("<div class = '%s'>", options$class)
+    }else{
+      "</div>"
+    }
+  })
+
+  # figcptn <- 'style="display: none;" data-prefix="Figure"'
+  # longdiv <- 'style="transform: rotate(270deg);"' # See code chunk below!
+  fig.out.ex <- 'data-prefix="Figure"'
+  tab.out.ex <- 'style="display: none;" data-prefix="Table"'
+
+  ###  See the `css` chunk below. This could eventually be moved into the Literasee css (as with `.figtab` class)
+  # .longdiv img {
+  #   max-width: 150%;
+  #   transform: rotate(270deg);
+  #   width: 150%;
+  #   margin-left: -1.5in;
+  #   margin-top: 0.5in;
+  # }
+
+  ###   Load some R packages and functions required for HTML table creation silently.
+  ###   Load SGP and other packages here to avoid messages.
+  require(magrittr)
+  require(ymlthis)
+	require(data.table)
+  require(SGP)
+  require(grid)
+
+  # require(magick) # only use for "Appendix_Impact_Grade_Level_State-v6.Rmd" (developed w/ GA)
+
+  ###   Set Table, Figure and Equation Counters
+  # startAppendix()
+  setCounters()
+  options(table_counter=FALSE)
+  options(table_num_str = "B%d") # Prepend Appendix Letter when using tblNum()
+  options(table_counter_str = paste0("**Table ", "B", "%s:**")) # "**Table A%s:**" LETTERS[appendix.number]
+  options(fig_num_str = "B%d") # Prepend Appendix Letter when using figNum()
+  options(fig_caption_no_sprintf = paste0("**Figure ", "B", "%d:** %s")) # "**Figure A%d:** %s"
+
+  ###   Utility function - Assumes first two "levels" are the main dichotomy
+  ord <- function(x) { # <sup>th</sup>
+    o <- toOrdinal::toOrdinal(x)
+    return(paste0(x, "<sup>", substr(o, nchar(o)-1, nchar(o)),"</sup>"))
+  }
+
+  "%w/o%" <- function(x,y) x[!x %in% y]
+```
+
+```{css}
+  svg.svglite {
+    font-family: 'Oswald', sans-serif;
+  }
+
+  .svglite {
+    font-family: 'Oswald', sans-serif;
+  }
+
+  svg {
+    font-family: 'Oswald', sans-serif;
+  }
+
+
+  .longdiv p.caption {
+    /* for cat(svg) */
+    /* transform: rotate(270deg);
+    margin-left: -725px;
+    padding-left: 600px; */
+    /* for include_graphics */
+    transform: rotate(270deg);
+    margin-left: -945px;
+    margin-right: -225px;
+    padding-left: 55px;
+  }
+
+  .longdiv object {
+      /* 13 x 17 image */
+      max-width: 150%;
+      transform: rotate(270deg);
+      width: 150%;
+      margin-left: -1.45in;
+      margin-top: 0.5in;
+  }
+
+  .longdiv img {
+      /* 13 x 17 image */
+      max-width: 150%;
+      transform: rotate(270deg);
+      width: 150%;
+      margin-left: -1.5in;
+      margin-top: -0.05in;
+      /* max-width: 125%;
+      transform: rotate(270deg);
+      width: 125%;
+      margin-left: -1in;
+      margin-top: 1.5in; */
+  }
+
+  .figcptn {
+    break-inside: avoid;
+  }
+
+  .figcptn p.caption {
+      display: none;
+  }
+```

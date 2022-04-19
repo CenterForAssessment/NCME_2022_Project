@@ -21,14 +21,14 @@ This repository is a template for the workflow that we have used over the past
 year in our efforts with multiple states to begin investigating the *academic*
 impact of the Covid-19 pandemic. In these efforts we attempted to create
 generalizable data formats, standardized methods for analysis and universal content
-for reporting. This repo serves as an "all-in-one" representation of how our efforts
-were structured across the various states. Combining the multiple stages and
-components of these projects into a single repository is helpful in that users do
-not need to navigate multiple repositories as we have. However, it does mean that
-this this repo is quite complex in and of itself - sorry :wink:
+for reporting. This repo serves as an "all-in-one" representation of how we
+structured our efforts across the various states. Combining the multiple stages
+and components of these projects into a single repository is helpful in that users
+do not need to navigate multiple repositories as we have. However, it does mean
+that this this repo is quite complex in and of itself - sorry :wink:
 
 There are detailed README files in many of the sub-component directories of this
-repo that give more detailed information about there contents. The main components
+repo that give more detailed information about their contents. The main components
 located in this top directory are:
 
 

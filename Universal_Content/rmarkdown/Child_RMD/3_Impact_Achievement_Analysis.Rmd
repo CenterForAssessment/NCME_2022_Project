@@ -1,0 +1,56 @@
+
+```{r, Student_Achv, cache=TRUE, include=FALSE}
+###   Create summary table(s) of student achievement here...
+
+##    Annual Pct Prof Trends
+hist_pctprf <- Report_Analyses[["Summary_Tables"]][["State_Assessment"]][["Achievement"]][["Overall_PctProf"]]
+
+# Put table formatting here to reduce coding in text RMD script
+if (any(as.numeric(params$grades$State_Assessment)>9)) {
+  hist_pctprf[, GRADE := as.numeric(GRADE)]
+  setkey(hist_pctprf, CONTENT_AREA, GRADE)
+}
+hist_pctprf$CONTENT_AREA <- sapply(hist_pctprf$CONTENT_AREA, capwords, USE.NAMES=FALSE)
+hist_pctprf$CONTENT_AREA[duplicated(hist_pctprf$CONTENT_AREA)] <- ""
+
+row.names(hist_pctprf) <- NULL
+setnames(hist_pctprf, sapply(names(hist_pctprf), capwords, USE.NAMES=FALSE))
+hist_pctprf <- as.matrix(hist_pctprf)
+
+rgroup.indx <- diff(c(which(hist_pctprf[,1] != ""), (nrow(hist_pctprf)+1)))
+
+hist_pctprf <- htmlTable::addHtmlTableStyle(hist_pctprf,
+  align=paste(rep('c', ncol(hist_pctprf)), collapse=""),
+  css.table="min-width: 85%;", # only port to addHtmlTableStyle if strictly using pagedown format
+  css.tspanner.sep = "border-top: 2px solid grey;")
+
+if (params$imputations) {
+  ##    2021 Observed/Imputation Differences
+  imp_pctprf <- Report_Analyses[["Summary_Tables"]][["State_Assessment"]][["Imputation"]][["CONTENT_AREA__GRADE"]][,
+                    .(CONTENT_AREA, GRADE,
+                      Observed = round(PERCENT_PROFICIENT_OBSERVED,1), # PERCENT_PROFICIENT_OBSERVED
+                      Estimated = round(MEAN_PERCENT_PROFICIENT_IMPUTED, 1),
+                      Difference = round(MEAN_DIFF_PP_OBSERVED_IMPUTED, 1),
+                      Participation = paste0(round(PARTICIPATION_RATE, 1), "%"))] # COUNT_PP_OBSERVED, COUNT_PP_IMPUTED,
+
+  # Put table formatting here to reduce coding in text RMD script
+  if (any(as.numeric(params$grades$State_Assessment)>9)) {
+    imp_pctprf[, GRADE := as.numeric(GRADE)]
+    setkey(imp_pctprf, CONTENT_AREA, GRADE)
+  }
+  imp_pctprf$CONTENT_AREA <- sapply(imp_pctprf$CONTENT_AREA, capwords, USE.NAMES=FALSE)
+  imp_pctprf$CONTENT_AREA[duplicated(imp_pctprf$CONTENT_AREA)] <- ""
+
+  row.names(imp_pctprf) <- NULL
+  setnames(imp_pctprf, sapply(names(imp_pctprf), capwords, USE.NAMES=FALSE))
+  imp_pctprf <- as.matrix(imp_pctprf)
+
+  # tmp.css.cell <- matrix(nrow=nrow(imp_pctprf), ncol=ncol(imp_pctprf))
+  # tmp.css.cell[which(1:nrow(imp_pctprf) %% 2 == 0),2:ncol(imp_pctprf)] <- "border-bottom: 1px solid grey;"
+  imp_pctprf <- htmlTable::addHtmlTableStyle(imp_pctprf,
+    align=paste(rep('c', ncol(imp_pctprf)), collapse=""),
+    css.table="min-width: 85%;", # only port to addHtmlTableStyle if strictly using pagedown format
+    # css.table="margin-top: -1.25em;margin-bottom: 1em;min-width: 75%;",
+    css.tspanner.sep = "border-top: 2px solid grey;") # css.cell=tmp.css.cell,
+}
+```

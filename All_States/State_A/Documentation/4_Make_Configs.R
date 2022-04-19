@@ -1,16 +1,18 @@
-#####
-###   Set up the Learning Loss Analysis Report Configuration and Content Lists
-###   Identify necessary meta-data and parameters required to run the report.
-###   Create/customize/complete the required YAML and RMD file config lists
-#####
+#' ## Academic Impact Analysis Step 4: Make Configurations
+#'
+#' In this step we set up report configuration and content lists. This means we
+#' specify any necessary meta-data and parameters required to run the report and
+#' create/customize/complete the required YAML and RMD file config lists.
+#'
+#'
+#'
+#' This step assumes the user is operating with their working directory set to
+#' "*NCME_2022_Project/All_States/State_A/Documentation*".
 
-###   Set up your R working directory
+
+#+ echo = TRUE, purl = TRUE
 setwd("./Documentation")
-
-###   Load required package(s)
-require(Literasee)
-
-###   Locate the "Universal_Content" directory
+##   Locate the "Universal_Content" directory
 universal.content.path <- file.path("..", "..", "..", "Universal_Content")
 
 
@@ -19,106 +21,84 @@ universal.content.path <- file.path("..", "..", "..", "Universal_Content")
 ###
 
 ##   Remove existing objects before (re)running
-if (exists("report.config")) rm(report.config)
-if (exists("rmd.files")) rm(rmd.files)
+# if (exists("report.config")) rm(report.config)
+# if (exists("rmd.files")) rm(rmd.files)
 
 ##   The "custom.config" list is created to supply unique client/state info.
 ##   It can also be used to override some of the Universal settings (authors, etc.)
 
-custom.config <- list(
+report.config <- list(
   client.info = list(
-    state.name = "Demonstration COVID", # required at a minimum
+    state.name = "State A", # required at a minimum
     state.abv = "D.C.", # for cover page, not SGPstateData
     city.name = "Washington",
-    organization = "Demonstration Department of Education",
-    org.head = "Joseph R. Biden, Jr.",
-    github.repo = "CenterForAssessment/SGP_Research/tree/master/Demonstration/Learning_Loss_Analysis",
-    acknowledgements = "the entire staff of the DDoE Assessment and Accountability Office, and particularly Maggie Q. Public,"
+    organization = "State A Department of Education",
+    org.head = "Secretary Miguel Cardona",
+    github.repo = "https://github.com/CenterForAssessment/NCME_2022_Project/tree/main/All_States/State_A",
+    acknowledgements = "the entire staff of the SADoE Assessment and Accountability Office, and particularly Maggie Q. Public,"
   ),
-  # Override defaults for author/Affil
+  # Title/subtitle, author.names, author.affil, date
   top.level = list(  #  Title/subtitle, author.names, author.affil, date
     title = "Example Academic Impact Analysis",
     subtitle = "Student Achievement and Growth during the COVID-19 Pandemic",
-    draft = TRUE  #  default if TRUE - "DRAFT REPORT -- DO NOT CITE OR CIRCULATE" #
+    author.names = c("Adam R. VanIwaarden", "Damian W. Betebenner"),
+    # author.affil = "Center for Assessment", # Only needed if different affiliations.
+    # date = "March 2021",  #  auto configured to MONTH YEAR format
+    draft = "DRAFT REPORT -- DO NOT CITE OR CIRCULATE" # NULL to remove draft status
   ),
   ##  `params` are passed to R and executed internally to create Universal/Customized
   ##  text or used to run further analyses on the Report_Data.  Many of these can
   ##  be created internally in the `params.Rmd` script. This list is semi-exhaustive
   ##  of what can be supplied to the .Rmd.
   params = list(
-    # draft.text = "ALTERNATE DRAFT TEXT",
+    state.name = "State A", # required at a minimum
+    state.abv = "S.A.",
+    draft = TRUE, # NULL to remove draft status
+    draft.text = "DRAFT REPORT -- DO NOT CITE OR CIRCULATE", # NULL to remove draft status
     keyword = "academic impact", # should be lower case.  Camel applied as needed in params.Rmd or can be customized as keyword_camel
+    imputations = FALSE,
     min.size.school = 15,  #  N size cutoff - exclude SCHOOLs with fewer than X students from summaries/analyses
     min.size.district = 50, # N size cutoff - exclude DISTRICTs with fewer than X students from summaries/analyses
+    draft.text = c(), # "ALTERNATE DRAFT TEXT", #  auto configured to 'DRAFT REPORT -- DO NOT CITE' if report.config$top.level$draft = TRUE
+    keyword = "academic impact", # should be lower case.  Camel applied as needed in params.Rmd or can be customized as keyword_camel
+    base.directory = getwd(),
+    unvrsl.rmd.path = file.path("..", "..", "..", "Universal_Content", "rmarkdown", "Child_RMD"),
+    custom.rmd.path = file.path("assets", "rmd", "Custom_Content"),
     sgp.abv = list( # SGP package abbreviation for accessing relevant SGPstateData meta-data.
-      State_Assessment = "DEMO_COVID",
-      College_Entrance = c(),
-      ELP_Assessment = c(),
-      Interim_Assessment = c()
+      State_Assessment = "State_A"#,
+      # College_Entrance = c(),
+      # ELP_Assessment = c(),
+      # Interim_Assessment = c()
     ),
-    years = list(
-      State_Assessment = as.character(c(2016:2019, 2021)),
-      College_Entrance = c(),
-      ELP_Assessment = c(),
-      Interim_Assessment = c()
-    ),
-    GL_subjects = list(
-      State_Assessment = c("ELA", "MATHEMATICS"),
-      College_Entrance = c(),
-      ELP_Assessment = c(),
-      Interim_Assessment = c()
-    ),
-    GL_text = list(
-      State_Assessment = "ELA and mathematics",
-      College_Entrance = c(),
-      ELP_Assessment = c(),
-      Interim_Assessment = c()
+    sgp.name = list(
+      State_Assessment = "State A"
     ),
     test.name = list(
-      State_Assessment = "Demonstration Student Assessment Program",
-      College_Entrance = c(),
-      ELP_Assessment = c(),
-      Interim_Assessment = c()
+      State_Assessment = "A+ State Assessment Program"
     ),
     test.abv = list(
-      State_Assessment = "DEMO_COVID",
-      College_Entrance = c(),
-      ELP_Assessment = c(),
-      Interim_Assessment = c()
+      State_Assessment = "ASAP"
     ),
     test.url = list(
-      State_Assessment = "https://centerforassessment.github.io/SGPdata/",
-      College_Entrance = c(),
-      ELP_Assessment = c(),
-      Interim_Assessment = c()
+      State_Assessment = "https://centerforassessment.github.io/SGPdata/"
     ),
-    grades = list(
-      State_Assessment = as.character(3:8),
-      College_Entrance = c(),
-      ELP_Assessment = c(),
-      Interim_Assessment = c()
-    ),
-    demographics = list(
-      State_Assessment = c("ETHNICITY", "FREE_REDUCED_LUNCH_STATUS", "ELL_STATUS", "IEP_STATUS", "GENDER"),
-      College_Entrance = c(),
-      ELP_Assessment  =  c(),
-      Interim_Assessment = c()
+    code.url = list(
+      State_Assessment = "https://github.com/CenterForAssessment/NCME_2022_Project/tree/main/All_States/State_A/Initial_Data_Analysis"
     ),
     gof.path = list(
-      State_Assessment = file.path("..", "Data", "FULL_ANALYSIS", "Goodness_of_Fit"),
-      College_Entrance = c(),
-      ELP_Assessment  =  c(),
-      Interim_Assessment = c()
+      State_Assessment = file.path("..", "Initial_Data_Analysis", "Goodness_of_Fit")
     )
   )
 )
 
+source(file.path(universal.content.path, "rmarkdown", "Child_RMD", "params.R"))
+
 ##   The following script will merge the report.config (universal) and custom.config lists and return 'report.config' to be used in next steps
-source(file.path(universal.content.path, "Learning_Loss_Analysis", "Meta_Data", "Report_Configs.R"))
+source(file.path(universal.content.path, "Meta_Data", "Report_Configs.R"))
 
 ##   The following script will merge the rmd.files (universal) and custom.files lists and return 'rmd.files' to be used in next steps
 # custom.files <- list(...) # override defaults if desired.  Otherwise a message that universal list will be used.
-# source(file.path(universal.content.path, "Learning_Loss_Analysis", "Meta_Data", "Report_Content.R"))
+# source(file.path(universal.content.path, "Meta_Data", "Report_Content.R"))
 
 ##    Besides adding/reordering Rmd files though custom.files, one can request a
 ##    subset of files. This will result in a truncated report, allowing chapter/section
@@ -127,36 +107,35 @@ source(file.path(universal.content.path, "Learning_Loss_Analysis", "Meta_Data", 
 ##   The following script will merge the rmd.files (universal) and custom.files lists and return 'rmd.files' to be used in next steps
 # custom.files <- list(...) # override defaults if desired.  Otherwise a message that universal list will be used.
 
-custom.files <- list(
+###    List and order of child .Rmd files to be used in report/appendices
+
+rmd.files <- list(
   report = list(
     file.order = c(
       "setup.Rmd",
       "params.Rmd",
-      "0_Executive_Summary.Rmd", # implies 0_Executive_Summary_Text.Rmd
-      # "1_Intro_Background.Rmd",
-      # "1_Intro_Legislative_Charge.Rmd",
-      # "1_Intro_Research_Questions.Rmd",
-      # "1_Intro_Data_Sources.Rmd",
-      # "1_Intro_Methods.Rmd",
-      # "2_Participate__Overview.Rmd",
-      # "2_Participate_Enrolled_Students.Rmd"#,
-      # "2_Participate_Counts.Rmd",
-      # "2_Participate_Mode_of_Instruction.Rmd",
-      # "2_Participate_Attendance.Rmd",
-      # "2_Participate_School_Closures.Rmd",
+      "0_Abstract.Rmd",
+      "1_Intro__Overview.Rmd",
+      "1_Intro_Background.Rmd",
+      "1_Intro_Methods.Rmd",
+      "1_Intro_Data_Sources.Rmd",
+      "2_Participate__Analysis.Rmd",
+      "2_Participate__Overview.Rmd",
+      # "2_Participate_Enrolled_Students.Rmd",
+      "2_Participate_Counts.Rmd",
       "3_Impact__Overview.Rmd",
       "3_Impact_Achievement_Analysis.Rmd",
       "3_Impact_Achievement_Overview.Rmd",
       "3_Impact_Growth_Analysis.Rmd",
       "3_Impact_Growth_Overview.Rmd",
-      "3_Impact_Synthesis.Rmd"#,
-      # "4_Discussion__Overview.Rmd",
-      # "9_Summary.Rmd"
+      # "3_Impact_Synthesis.Rmd",
+      "4_Summary.Rmd"
     ),
-    references = NULL),
+    references = TRUE
+  ),
   appendices = list(
     # A = list(
-    #   title = "Participation Analyses",
+    #   title = "Participation Supplimental Analyses",
     #   file.order = c(
     #     "setup_participation_appendix.Rmd",   #  Should be appendix specific (counter override, etc.)
     #     "params.Rmd",  #  Could be appendix specific - params_appendix_a.Rmd
@@ -165,32 +144,34 @@ custom.files <- list(
     #     "Appendix_Participation_MinMax_Replace.Rmd"
     #   ),
     #   references = NULL
+    # )#,
+    #  Needs to be done still
+    # G = list(
+    #   title = "Goodness of Fit Plots",
+    #   file.order = c(
+    #     "setup_gofit_appendix.Rmd",   #  Should be appendix specific (counter override, etc.)
+    #     "params.Rmd",  #  Could be appendix specific - params_gofit_appendix.Rmd
+    #     "Appendix_GoFit_Intro.Rmd",
+    #     "Appendix_GoFit_Grade_Level.Rmd"
+    #   ),
+    #   references = NULL
     # )
-    B = list(
-      title = "Academic Impact Analyses",
-      file.order = c(
-        "setup_impact_overview_appendix.Rmd",   #  Should be appendix specific (counter override, etc.)
-        "params.Rmd",  #  Could be appendix specific - params_appendix_a.Rmd
-        "Appendix_Impact_Intro.Rmd",
-        "Appendix_Impact_Grade_Level_State.Rmd"
-        # "Appendix_Impact_Overall.Rmd"
-      ),
-      references = NULL
-    ),
-    G = list(
-      title = "Goodness of Fit",
-      file.order = c(
-        "setup_gofit_appendix.Rmd",   #  Should be appendix specific (counter override, etc.)
-        "params.Rmd",  #  Could be appendix specific - params_appendix_a.Rmd
-        "Appendix_GoFit_Intro.Rmd",
-        "Appendix_GoFit_Grade_Level.Rmd"
-      ),
-      references = NULL
+  ),
+  bookdown = list(
+    rmd.path = file.path("assets", "rmd", "bookdown"),
+    report = list(
+      file.order = c()
+    )
+  ),
+  pagedown = list(
+    rmd.path = c(),
+    report = list(
+      file.order = c(1:4, 6, 5, 7:20)
     )
   )
 )
 
-source(file.path(universal.content.path, "Learning_Loss_Analysis", "Meta_Data", "Report_Content.R"))
+source(file.path(universal.content.path, "Meta_Data", "Report_Content.R"))
 
 
 #####

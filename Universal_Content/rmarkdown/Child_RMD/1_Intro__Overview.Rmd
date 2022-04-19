@@ -1,0 +1,16 @@
+# Introduction
+
+At the end of January 2020, the World Health Organization declared the novel
+coronavirus (COVID-19) a public health emergency of international concern and the
+United States Secretary of Health and Human Services declared a public health
+emergency for the United States. Although many continued to carry out their daily
+lives without interruption, drastic changes began to occur in `r params$state.name`
+and around the country.
+
+The COVID-19 pandemic continues to have far-reaching effects on all facets of our
+lives. The impact on education included school closures in Spring 2020 and a 2020-2021
+academic school year with mixed remote and in-person instruction that looked and
+felt quite different from pre-pandemic times. `r params$state.name`, like all states,
+is currently grappling with evaluating the academic impact the pandemic has had,
+as well as how to make efficient, targeted use of resources to resources to
+ameliorate learning loss.

@@ -1,0 +1,78 @@
+```{r, cache=FALSE, echo=FALSE, include=FALSE}
+###   Any necessary state-specific data formatting and variable creation - DON'T CACHE!!!
+
+###   Create any customized text variables that need to be inserted in the abstract/exec summary
+
+##    E.g. TXT__test.name.abv__TXT
+
+###   Test Name (Abbreviation)
+	if(length(params$test.name) > 1) {
+		test.name.abv <- paste(
+				paste0(head(params$test.name, -1),  " (", head(params$test.abv, -1), ")", collapse=", "),
+				paste0(tail(params$test.name, 1),  " (", tail(params$test.abv, 1), ")"), sep=" and ")
+		if (any(tmp.dups <- duplicated(params$GL_text_long))) {
+			dup.indx <- which(params$GL_text_long %in% params$GL_text_long[tmp.dups])
+			dup.txt <- unlist(params$GL_text_long[dup.indx[1]], use.names = F)
+			dup.test.abv <- paste(head(params$test.abv[dup.indx], -1), tail(params$test.abv[dup.indx], 1), sep=" and ")
+			tmp.tests <- c(dup.test.abv, unlist(params$test.abv[-dup.indx], use.names=F))
+			tmp.txt <- c(dup.txt, unlist(params$GL_text_long[-dup.indx], use.names=F))
+		} else {
+			tmp.tests <- params$test.abv
+			tmp.txt <- params$GL_text_long
+		}
+		if (all(tmp.dups)) {
+			test.subj <- paste0(tmp.txt, " from ", tmp.tests)
+		} else {
+			test.subj <- paste(
+					paste0(head(tmp.txt, -1),  " from ", head(tmp.tests, -1), collapse=", "),
+					paste0(tail(tmp.txt, 1),  " from ", tail(tmp.tests, 1)), sep=" and ")
+		}
+		# test.subj <- paste(
+		# 		paste0(head(params$GL_text_long, -1),  " (", head(params$test.abv, -1), ")", collapse=", "),
+		# 		paste0(tail(params$GL_text_long, 1),  " (", tail(params$test.abv, 1), ")"), sep=" and ")
+	} else {
+		test.name.abv <- paste0(params$test.name[[1]], " (", params$test.abv[[1]], ")")
+		test.subj <- paste0(params$GL_text_long[[1]], " from ", params$test.abv[[1]])
+	}
+
+###   Executive Summary figures/stats that need to be calculated
+
+
+##    Calculate School Level Values
+	# exec_sch_sum <- Report_Data[[assessment]][VALID_CASE=='VALID_CASE' & !is.na(SCHOOL_NUMBER), list(
+  #     			          MEAN_BASELINE_SGP = mean(eval(parse(text = params$baseline.sgp)), na.rm = TRUE),
+  #           			    MEAN_COHORT_SGP = mean(eval(parse(text = params$cohort.sgp)), na.rm = TRUE)),
+  #           			  keyby = c("CONTENT_AREA", "YEAR", "SCHOOL_NUMBER")]
+
+###   Not sure this process can be simplified any...  
+###   Needs to be a YAML chunk for bookdown and text in special <div> for pagedown/nciea_report
+	# wmwd <- knitr::knit_print(print(getwd())) # get current directory to see where each render format is working from
+
+##    Read in Executive Summary text - render format specific
+	if (tolower(params$render.format) == "bookdown") {
+		exec.sum.text <- readLines(file.path(params$unvrsl.rmd.path[[1]], "0_Abstract_Text.Rmd"))
+	} else {
+		exec.sum.text <- readLines("0_Abstract_Text.Rmd")
+	}
+
+##    Replace parameter variables used in the text (e.g., PRM__draft.text__PRM)
+  param.to.replace <- unique(do.call(rbind, str_match_all(exec.sum.text, "PRM__\\s*(.*?)\\s*__PRM")))
+  for (i in seq(nrow(param.to.replace))) exec.sum.text <- gsub(param.to.replace[i,1], eval(parse(text=paste0("params[['", param.to.replace[i,2], "']][[1]]"))), exec.sum.text, fixed=TRUE)
+
+##    Replace text variables created above and used in the text (e.g., TXT__test.name.abv__TXT)
+  text.to.replace <- unique(do.call(rbind, str_match_all(exec.sum.text, "TXT__\\s*(.*?)\\s*__TXT")))
+  for (i in seq(nrow(text.to.replace))) exec.sum.text <- gsub(text.to.replace[i,1], eval(parse(text=text.to.replace[i,2])), exec.sum.text, fixed=TRUE)
+```
+
+```{r, results='asis', echo=FALSE}
+###  Needs to be a YAML chunk for bookdown and text in special <div> for pagedown
+	if (tolower(params$render.format) == "bookdown") {
+		cat(c("---", "abstract: |"), sep = "\n")
+		cat("\t", exec.sum.text, sep = "\n\t")
+		cat(c("", "---"), sep = "\n")
+	} else {
+		cat(c("","<div class='exec-summary'>", "", "# Executive Summary {-}"), sep = "\n")
+		cat(exec.sum.text, sep = "\n")
+		cat(c("", "</div>"), sep = "\n")
+	}
+```

@@ -1,0 +1,37 @@
+## Academic Impact by Content Area and Grade
+
+<!--  
+  If we want to make this universal, the stats in the text below will need to be
+  identified in a "Report_Analyses" object and extracted in a generic way.
+  Or add a custom .Rmd for each state...  
+-->
+
+The following figures plot the academic impact for all `r params$state.name`
+students for each content area and grade combination.
+
+```{r, aiplot-ela-g5, fig.cap = "Academic impact by prior scale score, ELA Grade 5.", out.width="100%", fig.align='center', out.extra=fig.out.ex, results="asis"}
+
+	if (tolower(params$render.format) == "bookdown") {
+		tmp.fig.caption <- knitr::opts_current$get("fig.cap")
+		cat(gsub("</p>\n", "</div>", gsub("<p>", "<div class='caption'>", markdown::markdownToHTML(text=Gmisc::figCapNo(tmp.fig.caption), fragment.only=TRUE))))
+	} else fign <- figNumIncrement() # Advance counter for pagedown
+	knitr::include_graphics(file.path(params$asset.directory, "Rplots", "Impact", "Academic_Impact_ELA_5.png"), dpi=300, error = FALSE)
+```
+
+```{r, aiplot-ela-g6, fig.cap = "Academic impact by prior scale score, ELA Grade 6.", out.width="100%", fig.align='center', out.extra=fig.out.ex, results="asis"}
+
+	if (tolower(params$render.format) == "bookdown") {
+		tmp.fig.caption <- knitr::opts_current$get("fig.cap")
+		cat(gsub("</p>\n", "</div>", gsub("<p>", "<div class='caption'>", markdown::markdownToHTML(text=Gmisc::figCapNo(tmp.fig.caption), fragment.only=TRUE))))
+	} else fign <- figNumIncrement() # Advance counter for pagedown
+	knitr::include_graphics(file.path(params$asset.directory, "Rplots", "Impact", "Academic_Impact_ELA_6.pdf"), dpi=300, error = FALSE)
+```
+
+```{r, aiplot-math-g5, fig.cap = "Academic impact by prior scale score, Math Grade 5.", out.width="100%", fig.align='center', out.extra=fig.out.ex, results="asis"}
+
+	if (tolower(params$render.format) == "bookdown") {
+		tmp.fig.caption <- knitr::opts_current$get("fig.cap")
+		cat(gsub("</p>\n", "</div>", gsub("<p>", "<div class='caption'>", markdown::markdownToHTML(text=Gmisc::figCapNo(tmp.fig.caption), fragment.only=TRUE))))
+	} else fign <- figNumIncrement() # Advance counter for pagedown
+	knitr::include_graphics(file.path(params$asset.directory, "Rplots", "Impact", "Academic_Impact_MATHEMATICS_5.pdf"), dpi=300, error = FALSE)
+```

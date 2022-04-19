@@ -1,0 +1,33 @@
+##  Data
+
+```{r, cache=FALSE, echo=FALSE, include=FALSE}
+##  Get assessment description text
+  if (length(unique(params$test.name)) > 1) {
+    assesment.string <- paste(paste0("[", head(params$test.name,-1), " (",
+                                          head(params$test.abv, -1), ")](", noquote(
+                                          head(params$test.url, -1)), ") for grades ",
+                                          lapply(lapply(head(params$grades, -1), as.numeric), min), " to ",
+                                          lapply(lapply(head(params$grades, -1), as.numeric), max), collapse=", "),
+                              paste0("[", tail(params$test.name,1), " (",
+                                          tail(params$test.abv, 1), ")](", noquote(
+                                          tail(params$test.url, 1)), ") for grades ",
+                                          lapply(lapply(tail(params$grades, 1), as.numeric), min), " to ",
+                                          lapply(lapply(tail(params$grades, 1), as.numeric), max)), sep=" and ")
+  }  else {
+    assesment.string <- paste0("[", params$test.name[[1]], " (", params$test.abv[[1]], ")](", noquote(params$test.url[[1]]),
+                               ") for grades ", min(as.numeric(params$grades[[1]])), " to ", max(as.numeric(params$grades[[1]])))
+  }
+  assesment.string <- gsub("grades 0", "grades K", assesment.string)
+
+# `r if(!is.null(params$test.trans.year)) paste0("(transitioning from ", params$test.trans.name, " assessments in 2019)")`
+
+```
+
+`r params$state.name` has extensive historical state summative assessment data from
+the `r assesment.string` to evaluate student achievement and growth over the two-year
+gap in assessment data. `r ifelse(!is.null(params$additional.data.description), params$additional.data.description, "")`
+
+We calculated baseline growth for 2021 (using 2019 as the baseline year with
+`r paste(unique(c(SGP:::yearIncrement("2019", 1, 4), "2017")), collapse=" and ")`
+`r if(!is.null(params$test.trans.year)) paste(params$test.trans.name, "assessments")`
+as priors).

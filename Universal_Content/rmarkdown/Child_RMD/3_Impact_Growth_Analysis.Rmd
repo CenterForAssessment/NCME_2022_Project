@@ -1,0 +1,32 @@
+
+```{r, Student_Growth, cache=TRUE, include=FALSE, eval = params$imputations}
+###   Create summaries of SGPs here...
+
+##    2021 Observed/Imputation Differences
+  imp_msgp <- Report_Analyses[["Summary_Tables"]][["State_Assessment"]][["Imputation"]][["CONTENT_AREA__GRADE"]][
+                    GRADE %in% params$sgp.grades$State_Assessment, .(CONTENT_AREA, GRADE,
+                      Observed = paste0(MEDIAN_SGP_BASELINE_OBSERVED, " (", round(MEAN_SGP_BASELINE_OBSERVED, 1), ")"),
+                      Estimated = paste0(MEDIAN_SGP_BASELINE_IMPUTED, " (", round(MEAN_SGP_BASELINE_IMPUTED, 1), ")"),
+                      Difference = paste0(round(MEDIAN_DIFF_SGPB_OBSERVED_IMPUTED, 1), " (", round(MEAN_DIFF_SGPB_OBSERVED_IMPUTED, 1), ")"),
+                      Calculation_Rate = paste0(round(SGPB_CALCULATION_RATE, 1), "%"))]
+
+  # Put table formatting here to reduce coding in text RMD script
+  if (any(as.numeric(params$grades$State_Assessment)>9)) {
+    imp_msgp[, GRADE := as.numeric(GRADE)]
+    setkey(imp_msgp, CONTENT_AREA, GRADE)
+  }
+  imp_msgp$CONTENT_AREA <- sapply(imp_msgp$CONTENT_AREA, capwords, USE.NAMES=FALSE)
+  imp_msgp$CONTENT_AREA[duplicated(imp_msgp$CONTENT_AREA)] <- ""
+
+  row.names(imp_msgp) <- NULL
+  setnames(imp_msgp, sapply(names(imp_msgp), capwords, USE.NAMES=FALSE))
+  imp_msgp <- as.matrix(imp_msgp)
+
+  # tmp.css.cell <- matrix(nrow=nrow(imp_msgp), ncol=ncol(imp_msgp))
+  # tmp.css.cell[which(1:nrow(imp_msgp) %% 2 == 0),2:ncol(imp_msgp)] <- "border-bottom: 1px solid grey;"
+  imp_msgp <- htmlTable::addHtmlTableStyle(imp_msgp,
+    align=paste(rep('c', ncol(imp_msgp)), collapse=""),
+    css.table="min-width: 85%;", # only port to addHtmlTableStyle if strictly using pagedown format
+    # css.table="margin-top: -1.25em;margin-bottom: 1em;min-width: 75%;",
+    css.tspanner.sep = "border-top: 2px solid grey;") # css.cell=tmp.css.cell,           
+```

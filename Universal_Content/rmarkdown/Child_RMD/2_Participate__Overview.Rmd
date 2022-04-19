@@ -1,0 +1,24 @@
+# Participation and Opportunity to Learn Data
+
+We need to know what the state looked like before and during the pandemic.  Here
+is some helpful data :)
+
+Table `r tblNum(1)` provides frequencies and proportions associated with student
+counts by year, content area, and grade.
+
+Table `r tblNum(2)` provides frequencies and proportions student counts by year,
+content area, and an important demographic variable.
+
+And some insightful commentary ...
+Sociosqu, aptent accumsan per turpis ullamcorper sed ultricies aenean id quis per.
+Nec et, phasellus montes tincidunt dui dignissim facilisis libero nascetur.
+Euismod eu nunc at ridiculus magna donec cubilia, bibendum vel.
+
+Eleifend praesent himenaeos a pulvinar efficitur dui. At massa duis felis justo
+volutpat eget cubilia. Ut ex pulvinar accumsan. Maecenas aptent suspendisse
+tortor varius ligula orci. Eget ris us inceptos nisi auctor donec nisl ligula.
+Pharetra molestie penatibus aenean nisl, nisi. In posuere in vel sodales
+imperdiet duis amet et sit. Vel vel quam ac rhoncus suspendisse. Magnis, cursus
+erat dignissim faucibus, vitae varius vehicula pellentesque. Torquent sociosqu a
+t odio maecenas pulvinar ac praesent non. Commodo consequat ut ipsum sem est
+eget sed nisi at cubilia velit per.
