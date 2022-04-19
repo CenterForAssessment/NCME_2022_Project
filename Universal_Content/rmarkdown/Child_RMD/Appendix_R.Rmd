@@ -1,16 +1,15 @@
 ---
-title: "Appendix B"
-subtitle: "Online appendix"
-appendix-prefix: "B"
+title: "Appendix R"
+subtitle: "R Session Information"
+appendix-prefix: "R Session"
 output:
   html_document:
-    template: wp-appendix.html
-    fig_width: 7
-    fig_height: 6
-    fig_caption: false
-    dev: "svg"
-    css: ['wp.css', 'wp-fonts.css', 'wp-page.css']
-    csl: american-sociological-association.csl
+    template: ../assets/pandoc/wp_appendix.html
+    self_contained: true
+    css:
+    - ../assets/css/wp.css
+    - ../assets/css/wp-fonts.css
+    - ../assets/css/wp-page.css
 ---
 
 ## Attach R session info in appendix
@@ -19,7 +18,7 @@ Since R and R packages are constantly evolving you might want to add the R sessi
 info that contains information on the R version as well as the packages that are
 loaded [@Bauer2018-dl].  
 
-```{r echo=FALSE}
+```{r rsessinfo, echo=FALSE}
 # set width option to force fit onto page margins
 options(width=100)
 print(sessionInfo(), locale = FALSE)
@@ -37,5 +36,5 @@ chunk in the underlying `.rmd` file:
 
 # References {-}
 
-::: {#refs_appndxB}
+::: {#refs_appndxR}
 :::

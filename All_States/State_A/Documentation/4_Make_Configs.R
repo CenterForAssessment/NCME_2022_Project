@@ -39,7 +39,7 @@ report.config <- list(
   ),
   # Title/subtitle, author.names, author.affil, date
   top.level = list(  #  Title/subtitle, author.names, author.affil, date
-    title = "Example Academic Impact Analysis",
+    title = "Academic Impact in State A",
     subtitle = "Student Achievement and Growth during the COVID-19 Pandemic",
     author.names = c("Adam R. VanIwaarden", "Damian W. Betebenner"),
     # author.affil = "Center for Assessment", # Only needed if different affiliations.

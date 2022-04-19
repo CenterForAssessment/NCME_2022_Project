@@ -38,8 +38,9 @@ if (!require(remotes)) {
 }
 
 ###   Install/update latest packages from GITHUB
-# remotes::install_github("centerforassessment/Literasee")
+remotes::install_github("centerforassessment/Literasee")
 remotes::install_github("centerforassessment/cfaTools")
+remotes::install_github("centerforassessment/toOrdinal")
 remotes::install_github("centerforassessment/SGPdata")
 remotes::install_github("centerforassessment/SGP")
 # remotes::install_github("centerforassessment/SGPmatrices")
