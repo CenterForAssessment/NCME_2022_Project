@@ -56,11 +56,11 @@
 	}
 
 ##    Replace parameter variables used in the text (e.g., PRM__draft.text__PRM)
-  param.to.replace <- unique(do.call(rbind, str_match_all(exec.sum.text, "PRM__\\s*(.*?)\\s*__PRM")))
+  param.to.replace <- unique(do.call(rbind, stringr::str_match_all(exec.sum.text, "PRM__\\s*(.*?)\\s*__PRM")))
   for (i in seq(nrow(param.to.replace))) exec.sum.text <- gsub(param.to.replace[i,1], eval(parse(text=paste0("params[['", param.to.replace[i,2], "']][[1]]"))), exec.sum.text, fixed=TRUE)
 
 ##    Replace text variables created above and used in the text (e.g., TXT__test.name.abv__TXT)
-  text.to.replace <- unique(do.call(rbind, str_match_all(exec.sum.text, "TXT__\\s*(.*?)\\s*__TXT")))
+  text.to.replace <- unique(do.call(rbind, stringr::str_match_all(exec.sum.text, "TXT__\\s*(.*?)\\s*__TXT")))
   for (i in seq(nrow(text.to.replace))) exec.sum.text <- gsub(text.to.replace[i,1], eval(parse(text=text.to.replace[i,2])), exec.sum.text, fixed=TRUE)
 ```
 

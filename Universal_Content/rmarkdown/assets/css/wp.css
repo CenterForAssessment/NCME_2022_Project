@@ -197,6 +197,7 @@ sub, sup {
 }
 table {
   margin: auto;
+  break-inside: avoid;
 }
 
 /* bibliography */

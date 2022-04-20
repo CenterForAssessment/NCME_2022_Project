@@ -70,7 +70,7 @@ pct_proficient <- function(achievement_level) {
 tmp <- Report_Data[[assessment]][
           YEAR %in% c("2018", "2019", "2021") &
           CONTENT_AREA %in% c("ELA", "MATHEMATICS"),
-            .(PERCENT_PROFICIENT=pct_proficient(ACHIEVEMENT_ProfandAbove)),
+            .(PERCENT_PROFICIENT= round(pct_proficient(ACHIEVEMENT_ProfandAbove), 1)),
           keyby=c("YEAR", "CONTENT_AREA", "GRADE")]
 
 Report_Analyses[["Summary_Tables"]][[assessment]][[

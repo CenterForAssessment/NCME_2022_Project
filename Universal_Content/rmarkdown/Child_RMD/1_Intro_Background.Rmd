@@ -20,7 +20,7 @@ not been placed in the report yet, we need to advance the counter by one - `figN
 		tmp.fig.caption <- knitr::opts_current$get("fig.cap")
 		cat(gsub("</p>\n", "</div>", gsub("<p>", "<div class='caption'>", markdown::markdownToHTML(text=Gmisc::figCapNo(tmp.fig.caption), fragment.only=TRUE))))
 	} else fig.incr <- figNumIncrement() # Advance counter for pagedown
-	knitr::include_graphics(file.path(getPath(params$unvrsl.rmd.path, "../.."), "assets", "images", "example_figure_1.png"), dpi=150, error = FALSE)
+	knitr::include_graphics(file.path(getPath(params$unvrsl.rmd.path, "../.."), "rmarkdown", "assets", "images", "example_figure_1.png"), dpi=150, error = FALSE)
 ```
 
 As Figure `r figNum()` shows, interim assessments occur at multiple time points
@@ -36,7 +36,7 @@ state summative assessments taken at the end of an academic year.
 		tmp.fig.caption <- knitr::opts_current$get("fig.cap")
 		cat(gsub("</p>\n", "</div>", gsub("<p>", "<div class='caption'>", markdown::markdownToHTML(text=Gmisc::figCapNo(tmp.fig.caption), fragment.only=TRUE))))
 	} else fig.incr <- figNumIncrement() # Advance counter for pagedown
-	knitr::include_graphics(file.path(getPath(params$unvrsl.rmd.path, "../.."), "assets", "images", "example_figure_2.png"), dpi=300, error = FALSE)
+	knitr::include_graphics(file.path(getPath(params$unvrsl.rmd.path, "../.."), "rmarkdown", "assets", "images", "example_figure_2.png"), dpi=300, error = FALSE)
 ```
 
 The figure counter is now at `r figNum()`: should be 2.

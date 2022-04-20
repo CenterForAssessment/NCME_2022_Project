@@ -135,7 +135,7 @@
   }
 }
 
-/* 
+/*
 @page appndx:first {
   @bottom-right {
     content: var(--appendix-prefix, "A") " - " counter(page);
@@ -148,7 +148,7 @@
   display:none;
 }
 */
- 
+
 /* Front page or title page */
 /* Create blank page before appendix (fixes page numbering format) */
 /* */

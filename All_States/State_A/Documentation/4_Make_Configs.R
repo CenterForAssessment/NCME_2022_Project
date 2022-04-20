@@ -15,6 +15,9 @@ setwd("./Documentation")
 ##   Locate the "Universal_Content" directory
 universal.content.path <- file.path("..", "..", "..", "Universal_Content")
 
+load("../Data/Report_Data.Rdata")
+load("../Data/Report_Analyses.Rdata")
+
 
 ###
 ###   Merge custom and universal config lists
@@ -53,6 +56,8 @@ report.config <- list(
   params = list(
     state.name = "State A", # required at a minimum
     state.abv = "S.A.",
+    state.org = "State A Department of Education",
+    state.org.abv = "SADoE",
     draft = TRUE, # NULL to remove draft status
     draft.text = "DRAFT REPORT -- DO NOT CITE OR CIRCULATE", # NULL to remove draft status
     keyword = "academic impact", # should be lower case.  Camel applied as needed in params.Rmd or can be customized as keyword_camel

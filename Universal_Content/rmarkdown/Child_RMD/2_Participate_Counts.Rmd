@@ -1,9 +1,9 @@
 ## Assessment Participation
 
-This section gets at missing data through participation rates.  Some data may need
-to be provided by the state.  Another way to get at it would be to check SGP
-calculation rates.  This assumes that students we had in the 2019 data should be
-present in the 2021 data.  It may be the best we can do...
+This section gets at missing data through participation rates. Some data may need
+to be provided by the state. Another way to get at it would be to check SGP
+calculation rates. This assumes that students we had in the 2019 data should be
+present in the 2021 data. It may be the best we can do...
 
 Table `r tblNum(1)` provides frequencies and proportions associated with student
 SGP counts by year, content area, and grade. An important aspect of Table `r tblNum(1)`
@@ -12,7 +12,7 @@ which to calculate growth since there is no exam administered two grades prior.
 The absence of SGPs for an entire grade level has a significant impact on
 comparisons done at the elementary school level.
 
-```{r, part-counts eval=ifelse(tolower(params$render.format) == "nciea", FALSE, TRUE)}
+```{r, part-counts, eval=ifelse(tolower(params$render.format) == "nciea", FALSE, TRUE)}
 	rgroup.indx <- diff(c(which(SGP_Counts[,1] != ""), (nrow(SGP_Counts)+1)))
 	tmp.caption <- "Baseline SGP counts and percentages for 2019 and 2021 by content area and grade"
 

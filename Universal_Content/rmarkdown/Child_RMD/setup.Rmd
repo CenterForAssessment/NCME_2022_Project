@@ -50,3 +50,12 @@
 
   "%w/o%" <- function(x,y) x[!x %in% y]
 ```
+
+```{css}
+  .figtab {
+    break-inside: avoid;
+  }
+  .figtab p.caption {
+    display: none;
+  }
+```

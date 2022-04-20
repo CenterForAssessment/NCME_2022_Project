@@ -1,4 +1,4 @@
-#+ include = FALSE, purl = FALSE
+#+ ida-sgp, include = FALSE, purl = FALSE
 ################################################################################
 ####                                                                        ####
 ####             Create 2019 and 2021 Baseline SGPs for State A             ####
@@ -10,14 +10,14 @@
 #' The baseline SGP analysis section of the appendix assumes the user is operating
 #' with their working directory set to "*NCME_2022_Project/All_States/State_A/Initial_Data_Analysis*".
 
-#+ echo = TRUE, purl = TRUE
-setwd("./Initial_Data_Analysis")
+#+ ida-sgp-wd, echo = TRUE, purl = TRUE
+# setwd("./Initial_Data_Analysis")
 
 #' ### Load packages and custom functions.
 #'
 #' The `SGP` package is required for the data analysis with simulated data.
 #'
-#+ echo = TRUE, purl = TRUE
+#+ ida-sgp-pkg, echo = TRUE, purl = TRUE
 require(SGP)
 
 #' ### Load baseline matrices for Demonstration Covid
@@ -26,7 +26,7 @@ require(SGP)
 #' data set that our simulated impact data comes from. Baselines were established
 #' with data from the 2019 cohort.
 #'
-#+ echo = TRUE, purl = TRUE
+#+ ida-sgp-bslnmtrx, echo = TRUE, purl = TRUE
 load("../../../Universal_Content/Data/Baseline_Matrices/DEMO_COVID_Baseline_Matrices-SingleCohort.Rdata")
 
 #' ### Modify SGPstateData
@@ -38,7 +38,7 @@ load("../../../Universal_Content/Data/Baseline_Matrices/DEMO_COVID_Baseline_Matr
 #' object. This meta-data is required to use various functions in the `SGP` package
 #' as well as some custom functions that have been created to analyze academic impact.
 #'
-#+ echo = TRUE, purl = TRUE
+#+ ida-sgp-meta, echo = TRUE, purl = TRUE
 SGPstateData[["State_A"]] <- SGPstateData[["DEMO_COVID"]]
 SGPstateData[["State_A"]][["Baseline_splineMatrix"]][["Coefficient_Matrices"]] <- DEMO_COVID_Baseline_Matrices
 SGPstateData[["State_A"]][["Growth"]][["Levels"]] <-
@@ -54,7 +54,7 @@ SGPstateData[["State_A"]][["SGP_Configuration"]][["percentile.cuts"]] <- NULL
 #'
 #' NOTE TO SELF - read in and print out the progressions as a part of this appendix (in PARENT document)
 #'
-#+ echo = TRUE, purl = TRUE
+#+ ida-sgp-config, echo = TRUE, purl = TRUE
 source("SGP_CONFIG/BASELINE_SGP/ELA.R")
 source("SGP_CONFIG/BASELINE_SGP/MATHEMATICS.R")
 
@@ -70,7 +70,7 @@ baseline.config <- c(ELA_2021.config,
 #' results. We expect the typical growth for 2019 to be near 50 (the baselines)
 #' were created using their data), but expect typical growth to be lower for 2021.
 #'
-#+ echo = TRUE, purl = TRUE
+#+ ida-sgp-abcsgp, echo = TRUE, message = FALSE, purl = TRUE
 State_A_SGP <- abcSGP(sgp_object = State_A_Data_LONG,
                       state = "State_A",
                     	steps = c("prepareSGP", "analyzeSGP", "combineSGP"),
@@ -91,12 +91,12 @@ State_A_SGP <- abcSGP(sgp_object = State_A_Data_LONG,
 #' the data in the next section before finally saving in a named list (`Report_Data`).
 #'
 #'
-#+ echo = FALSE, purl = TRUE
+#+ ida-sgp-trimrepo, echo = FALSE, message = FALSE, purl = TRUE
 all.files <- list.files("Goodness_of_Fit", recursive = TRUE, full.names = TRUE)
-file.remove(grep(".pdf|.Rdata", all.files, value = TRUE))
-unlink(grep("Decile_Tables", list.dirs(), value=TRUE), recursive = TRUE)
+flrm.tf <- file.remove(grep(".pdf|.Rdata", all.files, value = TRUE))
+unlk.tf <- unlink(grep("Decile_Tables", list.dirs(), value=TRUE), recursive = TRUE)
 ## reset working directory to State_A
-setwd("..")
+#  setwd("..")
 
 #' ### Summary and notes
 #'

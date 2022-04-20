@@ -14,8 +14,8 @@ monitor student growth this year and going forward in 2022.
 		cat(gsub("</p>\n", "</div>", gsub("<p>", "<div class='caption'>", markdown::markdownToHTML(text=Gmisc::figCapNo(tmp.fig.caption), fragment.only=TRUE))))
 	}
 	knitr::include_graphics(
-    c(file.path(getPath(params$unvrsl.rmd.path, "../.."), "assets", "images", "example_figure_4a.png"),
-      file.path(getPath(params$unvrsl.rmd.path, "../.."), "assets", "images", "example_figure_4b.png")), error = FALSE)
+    c(file.path(getPath(params$unvrsl.rmd.path, "../.."), "rmarkdown", "assets", "images", "example_figure_4a.png"),
+      file.path(getPath(params$unvrsl.rmd.path, "../.."), "rmarkdown", "assets", "images", "example_figure_4b.png")), error = FALSE)
 ```
 
 Senectus nulla eget diam nostra a porta turpis conubia. Vel, dictumst curabitur

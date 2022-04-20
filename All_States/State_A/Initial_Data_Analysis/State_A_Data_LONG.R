@@ -1,4 +1,4 @@
-#+ include = FALSE, purl = FALSE
+#+ ida-prep, include = FALSE, purl = FALSE
 ################################################################################
 ####                                                                        ####
 ####                   Data Cleaning and Prep for State A                   ####
@@ -10,14 +10,14 @@
 #' This section of the appendix assumes the user is operating with their working
 #' directory set to "*NCME_2022_Project/All_States/State_A/Initial_Data_Analysis*".
 
-#+ echo = TRUE, purl = TRUE
-setwd("./Initial_Data_Analysis")
+#+ ida-prep-wd, echo = TRUE, purl = TRUE
+# setwd("./Initial_Data_Analysis")
 
 #' ### Load packages and custom functions.
 #'
 #' The following `R` packages are required for the data cleaning and impact simulation.
 #'
-#+ echo = TRUE, purl = TRUE
+#+ ida-prep-pkg, echo = TRUE, purl = TRUE
 require(SGP)
 require(SGPdata)
 require(data.table)
@@ -42,7 +42,7 @@ set.seed(3693)
 #' Here we will simulate a different impact scenario for "State_A" and remove both
 #' the unperturbed and original versions.
 #'
-#+ echo = TRUE, purl = TRUE
+#+ ida-prep-getdata, echo = TRUE, purl = TRUE
 # First load and rename/remove SCALE_SCORE* variables included in the data
 State_A_Data_LONG <- copy(SGPdata::sgpData_LONG_COVID)[YEAR < 2022]
 State_A_Data_LONG[, SCALE_SCORE := NULL]
@@ -53,7 +53,7 @@ setnames(State_A_Data_LONG, "SCALE_SCORE_without_COVID_IMPACT", "SCALE_SCORE")
 #' The functions that are used to simulate COVID impact require two variables that
 #' are currently not in the data: a prior score and an "impact percentile".
 #'
-#+ echo = TRUE, purl = TRUE
+#+ ida-prep-lags, echo = TRUE, purl = TRUE
 # getShiftedValues DOES NOT add in 2020 (YEAR completely missing from data)
 # We need to add in this information with a small data.table - `missing_data`
 missing_data <- data.table(YEAR = "2020",
@@ -91,7 +91,7 @@ State_A_Data_LONG[GRADE == 3 | YEAR == "2016", SCALE_SCORE_PRIOR_1YEAR := NA]
 #'
 #' #### Create a simulated prior scale score
 #'
-#+ echo = TRUE, purl = TRUE
+#+ ida-prep-simprior, echo = TRUE, purl = TRUE
 State_A_Data_LONG[, PRIOR_SCORE_for_IMPACT := simulatePriorScore(.SD),
         by = c("YEAR", "CONTENT_AREA", "GRADE"),
         .SDcols = c("YEAR", "CONTENT_AREA", "GRADE",
@@ -108,7 +108,7 @@ State_A_Data_LONG[YEAR == "2021" & is.na(PRIOR_SCORE_for_IMPACT),
 #' impact could be modeled as a function of school membership, demographic
 #' characteristic(s), be completely random, etc.
 #'
-#+ echo = TRUE, purl = TRUE
+#+ ida-prep-priordec, echo = TRUE, purl = TRUE
 State_A_Data_LONG[, PRIOR_SCORE_DECILE :=
                 as.integer(cut(PRIOR_SCORE_for_IMPACT,
                   breaks=quantile(PRIOR_SCORE_for_IMPACT,
@@ -130,7 +130,7 @@ State_A_Data_LONG[, PRIOR_SCORE_DECILE :=
 #' 10 random uniform values between two boundaries and then sort them from lowest
 #' to highest to correspond with the prior score deciles.
 #'
-#+ echo = TRUE, purl = TRUE
+#+ ida-prep-impct1, echo = TRUE, purl = TRUE
   qtile.impact <- list(
     ELA = list(
       "3" = rev(sort(round(runif(10, 25, 40), 0))),
@@ -151,7 +151,7 @@ State_A_Data_LONG[, PRIOR_SCORE_DECILE :=
 #' From the `qtile.impact` list we create a `data.table` object that we will be
 #' merged in with LONG data at the student level.
 #'
-#+ echo = TRUE, purl = TRUE
+#+ ida-prep-impct2, echo = TRUE, purl = TRUE
 quantile_impact <- data.table(CONTENT_AREA = rep(names(qtile.impact), each=6*10),
                               GRADE = rep(rep(as.character(3:8), each=10), 2),
                               PRIOR_SCORE_DECILE = rep(1:10, 12),
@@ -175,7 +175,7 @@ State_A_Data_LONG <- quantile_impact[State_A_Data_LONG]
 #' `SCALE_SCORE` variable (rather than overwriting it). This will let us do some
 #' checks and comparisons against the original variable.
 #'
-#+ echo = TRUE, purl = TRUE
+#+ ida-prep-addImpact, echo = TRUE, purl = TRUE
 State_A_Data_LONG[, SCALE_SCORE_IMPACTED := SCALE_SCORE]
 State_A_Data_LONG[YEAR == "2021",
              SCALE_SCORE_IMPACTED :=
@@ -188,7 +188,7 @@ State_A_Data_LONG[YEAR == "2021",
 #' observed/obtainable scores. We will pull in those values based on meta-data for the
 #' LOSS/HOSS at the content area/grade level stored in `SGP::SGPstateData`.
 #'
-#+ echo = TRUE, purl = TRUE
+#+ ida-prep-lhoss, echo = TRUE, purl = TRUE
 for (content_area.iter in c("ELA", "MATHEMATICS")) {
   for (grade.iter in as.character(3:8)) {
     tmp.loss.hoss <-
@@ -206,7 +206,7 @@ for (content_area.iter in c("ELA", "MATHEMATICS")) {
 }
 
 #' ####  Quick visual checks on the new variable
-#+ echo = TRUE, purl = TRUE
+#+ ida-prep-hists, fig.align="center", fig.width=5, fig.height=5, message=FALSE, echo = TRUE, purl = TRUE
 hist(State_A_Data_LONG[YEAR=='2021' & CONTENT_AREA == "ELA",
                          SCALE_SCORE_IMPACTED - SCALE_SCORE],
             main = "ELA", xlab = "Impact minus Unperturbed")
@@ -221,7 +221,7 @@ hist(State_A_Data_LONG[YEAR=='2021' & CONTENT_AREA == "MATHEMATICS",
 #' the `SGP` package. We also re-create the `ACHIEVEMENT_LEVEL` variable based
 #' on the altered (for 2021 only) scale score.
 #'
-#+ echo = TRUE, purl = TRUE
+#+ ida-prep-finclean, echo = TRUE, purl = TRUE
 State_A_Data_LONG[, SCALE_SCORE := NULL]
 State_A_Data_LONG[, ACHIEVEMENT_LEVEL := NULL]
 setnames(State_A_Data_LONG, "SCALE_SCORE_IMPACTED", "SCALE_SCORE")
@@ -238,7 +238,7 @@ State_A_Data_LONG[, c("PRIOR_SCORE_for_IMPACT",
                       "PRIOR_SCORE_DECILE",
                       "IMPACT_PERCENTILE") := NULL]
 ## reset working directory to State_A
-setwd("..")
+#  setwd("..")
 
 #' ### Summary and notes
 #'

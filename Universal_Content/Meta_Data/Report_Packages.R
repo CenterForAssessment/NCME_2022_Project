@@ -32,6 +32,14 @@ if (!require(VIM)) {
 	install.packages("VIM", dep=T)
 }
 
+##   Tables
+if (!require(htmlTable)) {
+	install.packages("htmlTable", dep=T)
+}
+if (!require(Gmisc)) {
+	install.packages("Gmisc", dep=T)
+}
+
 ###   Install/update latest packages from GITHUB
 if (!require(remotes)) {
 	install.packages("remotes", dep=T)

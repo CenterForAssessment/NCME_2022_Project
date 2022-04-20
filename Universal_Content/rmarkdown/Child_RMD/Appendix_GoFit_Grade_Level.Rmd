@@ -1,0 +1,105 @@
+
+```{r, cache=FALSE, results="asis", echo=FALSE}
+	gof.type <- NULL
+	# if (grepl("SIMEX$", params$baseline.sgp$State_Assessment)) gof.type <- paste0(gof.type, ".SIMEX")
+	# if (grepl("SIMEX_RANKED", params$baseline.sgp$State_Assessment)) gof.type <- paste0(gof.type, ".RANKED_SIMEX")
+
+	grd.subj.list <- list(ELA = c("5", "6", "7", "8"), MATHEMATICS = c("5", "6", "7", "8"))
+	# grd.subj.list <- list()
+	# if (is.null(params$grades.list$State_Assessment)) {
+	# 	for (ca in params$GoF_GL_subjects$State_Assessment) grd.subj.list[[ca]] <- params$sgp.grades$State_Assessment
+	# } else {
+	# 	for (ca in params$GoF_GL_subjects$State_Assessment) grd.subj.list[[ca]] <- params$grades.list$State_Assessment[[ca]] %w/o% "EOCT"
+	# }
+	grd.subj.list <- suppressWarnings(lapply(lapply(grd.subj.list, as.numeric), sort))  #  make numeric for re-order when grades >= 10 present
+
+	for (ca in names(grd.subj.list)) {
+		##  COHORT plots (i.e. 2019, cohort that established the baseline)
+		chrt.plot.list <- NULL
+		# chrt.year <- ifelse(params$Year_Long_Form$State_Assessment, "2018_2019", "2019")
+		chrt.year <- "2019"
+
+		chrt.plots <-  unique(gsub(".png|.pdf", "", list.files(file.path("Goodness_of_Fit", paste0(ca, ".", chrt.year, ".", "BASELINE", gof.type)))))
+		chrt.plots <- chrt.plots[order(chrt.plots)][chrt.plots != "Decile_Tables"]
+		# weed out norm group nesting
+		nest.test <- sapply(seq(chrt.plots), function(f) grepl(chrt.plots[f], chrt.plots[-f]))
+		if(any(nest.test)) chrt.plots <- chrt.plots[-which(nest.test, arr.ind = TRUE)[,2]]
+		chrt.prg <- sapply(chrt.plots, function(f) strsplit(f, ";")[[1]])
+		chrt.grd <- sapply(chrt.prg, function(f) gsub(paste0(chrt.year, "_", sub("MATHEMATICS", "MATH", ca), "_"), "", f[1]))
+		chrt.plots <- chrt.plots[!duplicated(chrt.grd) & chrt.grd %in% grd.subj.list[[ca]]]
+		if (any(!chrt.grd %in% grd.subj.list[[ca]])) chrt.grd <- chrt.grd[chrt.grd %in% grd.subj.list[[ca]]]
+		chrt.plots <- chrt.plots[order(unlist(sapply(chrt.grd[!duplicated(chrt.grd)], as.numeric)))] # re-order for grades >= 10
+		chrt.plot.list <- c(chrt.plot.list, file.path("Goodness_of_Fit", paste0(ca, ".", chrt.year, ".", "BASELINE", gof.type), paste0(chrt.plots[!is.na(chrt.plots)], ".png")))
+
+		##  BASELINE plots (i.e. 2021, actually used baseline/different cohort than used to create baseline)
+		bsln.plot.list <- NULL
+		# bsln.year <- ifelse(params$Year_Long_Form$State_Assessment, "2020_2021", "2021")
+		bsln.year <- "2021"
+
+		bsln.plots <- unique(gsub(".png|.pdf", "", list.files(file.path("Goodness_of_Fit", paste0(ca, ".", bsln.year, ".", "BASELINE", gof.type)))))
+		bsln.plots <- bsln.plots[order(bsln.plots)][bsln.plots != "Decile_Tables"]
+		# weed out norm group nesting
+		nest.test <- sapply(seq(bsln.plots), function(f) grepl(bsln.plots[f], bsln.plots[-f]))
+		if(any(nest.test)) bsln.plots <- bsln.plots[-which(nest.test, arr.ind = TRUE)[,2]]
+		bsln.prg <- sapply(bsln.plots, function(f) strsplit(f, ";")[[1]])
+		bsln.grd <- sapply(bsln.prg, function(f) gsub(paste0(bsln.year, "_", sub("MATHEMATICS", "MATH", ca), "_"), "", f[1]))
+		bsln.plots <- bsln.plots[!duplicated(bsln.grd) & bsln.grd %in% grd.subj.list[[ca]]]  #  additional removal of dups needed for Utah
+		if (any(!bsln.grd %in% grd.subj.list[[ca]])) bsln.grd <- bsln.grd[bsln.grd %in% grd.subj.list[[ca]]]
+		bsln.plots <- bsln.plots[order(unlist(sapply(bsln.grd[!duplicated(bsln.grd)], as.numeric)))] # re-order for grades >= 10
+		bsln.plot.list <- c(bsln.plot.list, file.path("Goodness_of_Fit", paste0(ca, ".", bsln.year, ".", "BASELINE", gof.type), paste0(bsln.plots[!is.na(bsln.plots)], ".png")))
+
+		###  Copy fit plots for bookdown
+		##   Baseline plots
+		# new.bsln.paths <- file.path(params$base.directory, "assets", "Goodness_of_Fit",
+		# 	                            gsub(file.path(params$gof.path$State_Assessment, ""), "", bsln.plot.list, fixed=TRUE))
+		# bsln.tmp.dir <- lapply(new.bsln.paths, strsplit, "/")
+		# for (d in seq(bsln.tmp.dir)) { # should all be the same here (same content area) and only once
+		# 	if(!file.exists(file.path(params$base.directory, "assets", "Goodness_of_Fit", tail(bsln.tmp.dir[[d]][[1]], 2)[1]))) {
+		# 		dir.create(file.path(params$base.directory, "assets", "Goodness_of_Fit", tail(bsln.tmp.dir[[d]][[1]], 2)[1]), recursive=TRUE)
+		# 	}
+		# }
+		# bsln.fc <- file.copy(bsln.plot.list, new.bsln.paths)
+		# bsln.plot.list <- gsub(params$gof.path$State_Assessment, file.path(params$base.directory, "assets", "Goodness_of_Fit"), bsln.plot.list, fixed=TRUE)
+		#
+		# ##  Cohort plots
+		# new.chrt.paths <- file.path(params$base.directory, "assets", "Goodness_of_Fit",
+		# 	                            gsub(file.path(params$gof.path$State_Assessment, ""), "", chrt.plot.list, fixed=TRUE))
+		# 	chrt.tmp.dir <- lapply(new.chrt.paths, strsplit, "/")
+		# 	for (d in seq(chrt.tmp.dir)) { # should all be the same here (same content area) and only once
+		# 		if(!file.exists(file.path(params$base.directory, "assets", "Goodness_of_Fit", tail(chrt.tmp.dir[[d]][[1]], 2)[1]))) {
+		# 			dir.create(file.path(params$base.directory, "assets", "Goodness_of_Fit", tail(chrt.tmp.dir[[d]][[1]], 2)[1]), recursive=TRUE)
+		# 		}
+		# 	}
+		# 	chrt.fc <- file.copy(chrt.plot.list, new.chrt.paths)
+		# 	chrt.plot.list <- gsub(params$gof.path$State_Assessment, file.path(params$base.directory, "assets", "Goodness_of_Fit"), chrt.plot.list, fixed=TRUE)
+
+		plot.chunks <- split(seq_along(grd.subj.list[[ca]]), ggplot2::cut_interval(seq_along(grd.subj.list[[ca]]), length=2))
+		GOF_Subj <- names(grd.subj.list)[which(names(grd.subj.list) == ca)]
+
+		child.plot.list <- vector(mode="list", length(plot.chunks))
+		for (k in seq(plot.chunks)) {
+		  child.plot.list[[k]]$files = c(rbind(chrt.plot.list[plot.chunks[[k]]], bsln.plot.list[plot.chunks[[k]]]))
+		  child.plot.list[[k]]$caption = paste0("Baseline referenced (2019 left, 2021 right) fit plots for ",
+									capwords(sub("MATHEMATICS", "MATH", GOF_Subj)),
+									" (", paste(ord(grd.subj.list[[ca]][plot.chunks[[k]]]), collapse = " and "), " grades)")
+		}
+
+		cat("
+
+### ", capwords(GOF_Subj), "
+
+		")
+
+		##  Note that out.width='48%' is the max output size for 2x2 fit plots currently in pagedown
+		res <- lapply(child.plot.list, function(f) {
+		 knitr::knit_child(text = c(
+		    paste0('```{r, fig.cap = \'', f$caption, '\', fig.show = \'hold\', out.width=\'48%\', out.extra=\'data-prefix=\"Figure\"\', results=\'asis\', echo=FALSE}'),
+		    'knitr::include_graphics(',
+		    paste0(' c(\n\t', paste0("'", paste(f$files, collapse="',\n\t'"), "'"), '), error = FALSE)'),
+		    '```',
+		    ''
+		  ), envir = environment(), quiet = TRUE)
+		})
+		cat(unlist(res), sep = '\n')
+	}
+```

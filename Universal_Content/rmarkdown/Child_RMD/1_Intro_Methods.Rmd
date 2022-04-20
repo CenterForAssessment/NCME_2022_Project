@@ -69,7 +69,7 @@ suspendisse himenaeos, habitasse pellentesque, est iaculis.
 - Vitae in eget eu sed elit, et ad lacus, eleifend nisl, potenti eget egestas.
 - Eros eu porttitor, tristique fames, et pellentesque lacinia et.
 
-```{asis, echo = params$imputations}
+```{asis, meths-imp-text, echo = params$imputations}
 
 ### Missing data imputation
 

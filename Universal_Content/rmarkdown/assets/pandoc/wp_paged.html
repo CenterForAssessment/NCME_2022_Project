@@ -206,14 +206,19 @@ $abstract$
 </div>
 $endif$
 <section class="keywords" role="list" aria-labelledby="$idprefix$keywords-header">
+$if(keywords)$
 <p><span id="$idprefix$keywords-header" class="keywords-heading" aria-level="3" role="heading">Keywords</span>: $for(keywords)$<span role="listitem">$keywords$</span>$sep$, $endfor$.</p>
+$endif$
 </section>
 </section>
+<div class="pagebreak"> </div>
 
 
+<main role="main">
 <div class="main-container">
 $body$
 </div>
+</main>
 
 </article>
 

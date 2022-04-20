@@ -1,6 +1,6 @@
 ## Impact on academic growth
 
-```{asis, echo = params$imputations}
+```{asis, impct-imp-grwth1, echo = params$imputations}
 Given the number of students missing in `r params$state.name`, multiple imputation
 analyses were conducted to provide estimates of what the pandemic's impact might
 have been if all students had participated. [Table `r tblNum(1)`](#fig:msgp-imputed)
@@ -21,7 +21,7 @@ student growth percentile results for 2021.
 	    caption=tblCap(knitr::opts_current$get("fig.cap"))))
 ```
 
-```{asis, echo = params$imputations}
+```{asis, impct-imp-grwth2, echo = params$imputations}
 Integer nisl maecenas nec arcu odio tortor mauris, commodo. Morbi, cubilia risus
 pulvinar vestibulum cubilia malesuada. Facilisi nec tristique in facili sis
 tincidunt et dictumst rutrum cum. Sed amet pellentesque porta enim accumsan cum

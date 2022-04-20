@@ -1,0 +1,257 @@
+###   Establish render format for params dry-run
+# basewd <- knitr::knit_print(print(getwd())) # ...Documentation
+if (is.null(params$render.format)) params$render.format <- "dry_run"
+
+###
+###   Establish directories and paths
+###
+
+###   Working Directory
+if (is.null(params$working.directory)) {
+  params$working.directory <- getwd()
+}
+
+##  Create assets and/or Rplots directories if doesn't exist
+if (!dir.exists(file.path(params$base.directory, "assets", "Rplots"))) {
+  dir.create(file.path(params$base.directory, "assets", "Rplots"), showWarnings = FALSE, recursive = TRUE)
+}
+params$asset.directory <- ifelse(tolower(params$render.format)=="pagedown", file.path("..", "assets"), file.path(".", "assets"))
+
+tmp.leader <- getPath(params$base.directory, "..") # getPath gets one directory before base.directory here.
+if (is.null(params$gof.path)) {
+  ##  Should be specified/customized for each assessment type
+  params$gof.path$State_Assessment <- params$gof.path$ELP_Assessment <- file.path(tmp.leader, "Goodness_of_Fit")
+} else {
+  ##  Should be specified/customized for each assessment type
+  for (tst in names(params$gof.path)) {
+    if (length(params$gof.path[[tst]]) != 0)
+      params$gof.path[[tst]] <- getPath(params$base.directory, params$gof.path[[tst]])
+  }
+}
+
+###
+###   Lists of state specific variables included in the report.
+###
+
+###   Draft
+# Example draft.text <- "FOR INTERNAL USE ONLY - DO NOT CIRCULATE!"
+if (is.null(params$draft.text)) {
+  params$draft.text <- ""
+}
+if (params$draft.text != "") {
+  if (!grepl("[\\]|[<]", params$draft.text)) {
+    params$draft.text <- paste0("<p style='text-align: center;'><br><strong>", params$draft.text, "</strong><br></p>")
+  }
+}
+
+###   Keyword (i.e. "Learning Loss" or equivalent substitute)
+if (is.null(params$keyword)) {
+  params$keyword <- "learning loss"
+}
+if (is.null(params$keyword_camel)) {
+  params$keyword_camel <- capwords(params$keyword)
+}
+
+###   State name and education organization
+if (is.null(params$sgp.abv)) {
+  if (is.null(params$sgp.name)) stop("State name or abbreviation parameter (sgp.name or sgp.abv) must be provided at a minimum!")
+}
+if (is.null(params$sgp.name)) {
+  if (is.null(params$sgp.abv)) stop("State name or abbreviation parameter (sgp.name or sgp.abv) must be provided at a minimum!")
+}
+
+if (is.null(params$state.org)) {
+  params$state.org <- SGPstateData[[tmp.sgp.abv]][["Assessment_Program_Information"]][["Organization"]][["Name"]]
+}
+if (is.null(params$state.org.abv)) {
+  params$state.org.abv <- SGPstateData[[tmp.sgp.abv]][["Assessment_Program_Information"]][["Organization"]][["Abbreviation"]]
+}
+
+if (is.null(params$imputations)) params$imputations <- FALSE
+
+###
+###   Lists of (state +) assessment specific variables included in the report.
+###
+
+for (assessment in c("State_Assessment")) {# , "College_Entrance", "ELP_Assessment", "Interim_Assessment")) { # only SA for Demonstration Session
+  if (!is.null(params$sgp.name[[assessment]]) | !is.null(params$sgp.abv[[assessment]])) {
+
+    if (is.null(params$sgp.abv[[assessment]])) {
+      tmp.sgp.abv <- params$sgp.abv[[assessment]] <- SGP::getStateAbbreviation(params$sgp.name[[assessment]])
+    } else tmp.sgp.abv <- params$sgp.abv[[assessment]]
+    if (is.null(params$sgp.name[[assessment]])) {
+      params$sgp.name[[assessment]] <- SGP::getStateAbbreviation(params$sgp.abv[[assessment]], type="STATE")
+    }
+
+    if (is.null(params$GL_camel[[assessment]]) & !is.null(params$GL_subjects[[assessment]])) {
+      params$GL_camel[[assessment]] <-
+        unlist(SGPstateData[[tmp.sgp.abv]][["Student_Report_Information"]][["Content_Areas_Labels"]][
+          match(params$GL_subjects[[assessment]], names(SGPstateData[[tmp.sgp.abv]][["Student_Report_Information"]][["Content_Areas_Labels"]]))], use.names=F)
+    }
+    if (is.null(params$test.name[[assessment]])) {
+      params$test.name[[assessment]] <- SGPstateData[[tmp.sgp.abv]][["Assessment_Program_Information"]][["Assessment_Name"]]
+    }
+    if (is.null(params$test.abv[[assessment]])) {
+      params$test.abv[[assessment]] <- SGPstateData[[tmp.sgp.abv]][["Assessment_Program_Information"]][["Assessment_Abbreviation"]]
+    }
+    if (is.null(params$test.url[[assessment]])) {
+      params$test.url[[assessment]] <- SGPstateData[[tmp.sgp.abv]][["Assessment_Program_Information"]][["Organization"]][["URL"]]
+    }
+    if (is.null(params$test.trans.year[[assessment]])) {
+      params$test.trans.year[[assessment]] <- SGPstateData[[tmp.sgp.abv]][["Assessment_Program_Information"]][["Assessment_Transition"]][["Year"]]
+      if (!is.null(params$test.trans.year[[assessment]])) {
+        if (grepl("2019", params$test.trans.year[[assessment]])) {
+          params$test.trans.name[[assessment]] <- SGPstateData[[tmp.sgp.abv]][["Assessment_Program_Information"]][["Assessment_Transition"]][["Assessment_Abbreviation"]]
+        } else params$test.trans.year[[assessment]] <- NULL
+      }
+    }
+  }
+
+  ###   SGP version to use (SIMEX, BASELINE, UNCORRECTED, etc.)
+  if (is.null(params$baseline.sgp[[assessment]])) {
+    params$baseline.sgp[[assessment]] <- "SGP_BASELINE"
+  }
+  # if (is.null(params$cohort.sgp[[assessment]])) {
+  #   params$cohort.sgp[[assessment]] <- "SGP"
+  # }
+
+  if (is.null(params$years[[assessment]])) {
+    if (!is.null(Report_Data[[assessment]]))
+      params$years[[assessment]] <- as.numeric(unique(Report_Data[[assessment]][, YEAR]))
+  }
+  if (!is.null(params$years[[assessment]])) this.year <- max(params$years[[assessment]])
+
+  # if (is.null(params$sgp.max.order[[assessment]])) {
+  #   if (!is.null(Report_Data[[assessment]])) {
+  #     params$sgp.max.order[[assessment]] <-
+  #       max(sapply(strsplit(unique(Report_Data[[assessment]][YEAR == this.year,
+  #         as.character(SGP_NORM_GROUP_BASELINE)]), ";"), length))-1
+  #   }
+  # }
+
+  ###   Year Format
+  if (is.null(params$Year_Long_Form[[assessment]])) {
+    if (!is.null(Report_Data[[assessment]]))
+      params$Year_Long_Form[[assessment]] <- any(grepl("_", unique(Report_Data[[assessment]][, YEAR])))
+  }
+
+  ###   Content Areas
+  if (is.null(params$GL_subjects[[assessment]])) {
+    if (!is.null(Report_Data[[assessment]]))
+      params$GL_subjects[[assessment]] <- unique(Report_Data[[assessment]][!is.na(SGP_BASELINE) & GRADE != "EOCT", CONTENT_AREA])
+  }
+  if (is.null(params$GL_camel[[assessment]])) {
+    if (!is.null(params$GL_subjects[[assessment]]))
+      params$GL_camel[[assessment]] <- sapply(params$GL_subjects[[assessment]], capwords)
+  }
+  if (length(params$GL_subjects[[assessment]]) > 1) {
+    if (is.null(params$GL_text[[assessment]]))
+      params$GL_text[[assessment]] <-
+        paste(paste(head(params$GL_camel[[assessment]], -1), collapse=", "), tail(params$GL_camel[[assessment]], 1), sep=" and ")
+  } else {
+    if (is.null(params$GL_text[[assessment]]))
+      params$GL_text[[assessment]] <- params$GL_camel[[assessment]]
+  }
+
+  if (!is.null(params$GL_text[[assessment]])) {  # "English language arts (ELA) and mathematics"
+    params$GL_text_long[[assessment]] <- gsub("ELA", "English language arts (ELA)", params$GL_text[[assessment]])
+    params$GL_text_long[[assessment]] <- gsub("ELP", "English language proficiency (ELP)", params$GL_text_long[[assessment]])
+  }
+
+  if (is.null(params$GoF_GL_subjects[[assessment]])) {
+    if (!is.null(params$gof.path[[assessment]]))
+      params$GoF_GL_subjects[[assessment]] <- params$GL_subjects[[assessment]]
+  }
+
+  # if (is.null(params$EOC_subjects)) {
+  #   params$EOC_subjects <- unique(Report_Data[!is.na(SGP) & GRADE == "EOCT", CONTENT_AREA])
+  # }
+  # if (length(params$EOC_subjects > 0)) {
+  #   params$eoct.tf <- FALSE
+  #   params$EOC_subjects <- NULL
+  # } else  params$eoct.tf <- TRUE
+
+  if (is.null(params$EOC_subjects[[assessment]])) {
+    params$subject_order[[assessment]] <- params$GL_subjects[[assessment]]
+  } else params$subject_order[[assessment]] <- c(params$GL_subjects[[assessment]], params$EOC_subjects[[assessment]])
+
+  if (is.null(params$GoF_EOC_subjects[[assessment]])) {
+    params$GoF_EOC_subjects[[assessment]] <- params$EOC_subjects[[assessment]]
+  }
+
+  ###   Grades
+  if (is.null(params$grades[[assessment]])) {
+    if (!is.null(Report_Data[[assessment]]))
+      params$grades[[assessment]] <-
+        sort(unique(Report_Data[[assessment]][YEAR == this.year & !is.na(SCALE_SCORE), GRADE]))
+  }
+  if (!is.null(Report_Data[[assessment]])) {
+    Grade_x_Subj <- unique(Report_Data[[assessment]][YEAR == this.year & !is.na(SCALE_SCORE) & GRADE != "EOCT", GRADE, CONTENT_AREA])
+    Grade_x_Subj_Count <- Grade_x_Subj[, .(Count = length(unique(GRADE))), by = CONTENT_AREA]
+    if (!all(diff(Grade_x_Subj_Count$Count)==0)) {
+      params$grades.list[[assessment]] <- list()
+      for (ca in params$subject_order[[assessment]]){
+        params$grades.list[[assessment]][[ca]] <- Grade_x_Subj[CONTENT_AREA == ca, GRADE]
+      }
+      ###  Grade/Subject Subset Restriction :: e.g. ((CONTENT_AREA %in% c('ELA', 'MATHEMATICS') & GRADE %in% 4:10)|(CONTENT_AREA == 'SCIENCE' & GRADE %in% 5:10))
+      grd.sub <- sapply(params$grades.list[[assessment]], as.numeric)
+      tmp.subset <- "("
+      while(length(grd.sub) > 0) {
+        common.grds <- names(grd.sub[duplicated(grd.sub)])
+        if (length(common.grds) > 0) {
+          tmp.subset <- paste0(tmp.subset, "(CONTENT_AREA %in% c('", paste(names(grd.sub)[1], common.grds, sep="', '"), "') & GRADE %in% ", paste0(range(grd.sub[[1]]), collapse=":"), ")")
+        } else tmp.subset <- paste0(tmp.subset, "(CONTENT_AREA == '", names(grd.sub)[1], "') & GRADE %in% ", paste0(range(grd.sub[[1]]), collapse=":"), ")")
+        grd.sub <- grd.sub[!duplicated(grd.sub)][-1]
+        if (length(grd.sub) > 0) tmp.subset <- paste0(tmp.subset, "|")
+      }
+      params$grd.subset[[assessment]] <- tmp.subset
+    } else {
+      params$grd.subset[[assessment]] <- paste0("GRADE %in% c('", paste(params$grades[[assessment]], collapse="','"), "')")
+    }
+  }
+
+  if (is.null(params$sgp.grades[[assessment]])) {
+    if (!is.null(Report_Data[[assessment]]))
+      params$sgp.grades[[assessment]] <-
+        sort(unique(Report_Data[[assessment]][YEAR == this.year & !is.na(SGP_BASELINE), GRADE]))
+  }
+
+  if (!is.null(params$grades.list[[assessment]])) {
+    stop("Need to figure params$sgp.grd.subset[[assessment]] out (Utah!)")
+  }
+
+  ###   Achievement levels
+  if (!is.null(params$sgp.abv[[assessment]])) {
+    if (is.null(params$achievement_levels[[assessment]])) {
+      params$achievement_levels[[assessment]] <- SGPstateData[[params$sgp.abv[[assessment]]]][["Achievement"]][["Levels"]][["Labels"]]
+    }
+    if (is.null(params$proficient_levels[[assessment]])) {
+      params$proficient_levels[[assessment]] <- SGPstateData[[params$sgp.abv[[assessment]]]][["Achievement"]][["Levels"]][["Proficient"]]
+    }
+  }
+
+  ###   Analysis/Documentation code repo
+  if (is.null(params$code.url[[assessment]])) {
+    if (!is.null(params$sgp.name[[assessment]]))
+      params$code.url[[assessment]] <- paste0("https://github.com/CenterForAssessment/", gsub(" ", "_", params$sgp.name[[assessment]]))
+  }
+}
+
+###   Minimum School Size
+if (is.null(params$min.size.school)) {
+  params$min.size.school <- 15
+}
+
+if (is.null(params$min.size.district)) {
+  params$min.size.district <- 50
+}
+
+###   Clean out NULL elements
+##    1 - prune top-level lists
+params <- params[lengths(params) != 0]
+
+##    2 - prune 'assessment' lower-level lists
+for (prm in seq(length(params))) {
+  params[[prm]] <- params[[prm]][lengths(params[[prm]]) != 0]
+}
+# save(params, file=file.path(params$base.directory, paste0("params_", params$render.format, ".rda")))
