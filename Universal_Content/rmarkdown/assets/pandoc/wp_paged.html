@@ -129,6 +129,64 @@ $for(css)$
 <link rel="stylesheet" href="$css$" $if(html5)$$else$type="text/css" $endif$/>
 $endfor$
 
+$if(appendix)$
+$if(appendix-prefix)$
+<style type="text/css">
+$for(appendix-prefix)$
+.appendix-$appendix-prefix/lowercase$-container {
+	page: appndx$appendix-prefix/lowercase$;
+}
+
+.pagedjs_appndx$appendix-prefix/lowercase$_first_page {
+  display:none;
+}
+
+@page appndx$appendix-prefix/lowercase$ {
+  @bottom-right {
+    content:  "$appendix-prefix$ - " counter(page);
+    color: #279F27;
+    font-weight: bold;
+  }
+}
+
+.appndx-title {
+  break-before: page;
+}
+
+.appndx-title {
+  counter-reset: page 1;
+}
+$endfor$
+</style>
+$else$
+<style type="text/css">
+.appendix-container {
+	page: appndx;
+}
+
+.pagedjs_appndx_first_page {
+  display:none;
+}
+
+@page appndx {
+  @bottom-right {
+    content: "APX - " counter(page);
+    color: #279F27;
+    font-weight: bold;
+  }
+}
+
+.appndx-title {
+  break-before: page;
+}
+
+.appndx-title {
+  counter-reset: page 1;
+}
+</style>
+$endif$
+$endif$
+
 </head>
 
 <body>
@@ -149,7 +207,6 @@ $include-before$
 $endfor$
 
 <br><br><br><br>
-
 
 <article>
 
@@ -223,9 +280,11 @@ $body$
 </article>
 
 $if(appendix)$
+
 $for(appendix)$
 $appendix$
 $endfor$
+
 $endif$
 
 

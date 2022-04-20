@@ -29,9 +29,15 @@ abstract: |-
   ```{r child = '../../../../Universal_Content/rmarkdown/Child_RMD/0_Abstract.Rmd'}
   ```
 appendix: |-
-  ```{r, echo=FALSE, results='asis'}
-    res <- rmarkdown::render('../../../../Universal_Content/rmarkdown/Child_RMD/Appendix_R.Rmd', quiet = TRUE)
-    cat(readLines(res), sep = '\n')
+  ```{r, appndx-A, echo=FALSE, results='asis'}
+    cat(readLines("Appendix_A_Init_Analyses.html"), sep = '\n')
   ```
+  ```{r, appndx-R, echo=FALSE, results='asis'}
+    res <- rmarkdown::render('../../../../Universal_Content/rmarkdown/Child_RMD/Appendix_R.Rmd', quiet = TRUE)
+    fcp.tf <- file.copy(res, "../../../../All_States/State_A/Documentation/report/", overwrite = TRUE)
+    frm.tf <- file.remove(res)
+    cat(readLines("../../../../All_States/State_A/Documentation/report/Appendix_R.html"), sep = '\n')
+  ```
+appendix-prefix: ["A", "R"] # Need to correspond to the `appendix-prefix` YAML in the appendix script(s)
 knit: pagedown::chrome_print
 ---

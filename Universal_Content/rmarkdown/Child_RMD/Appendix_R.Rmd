@@ -1,15 +1,11 @@
 ---
 title: "Appendix R"
 subtitle: "R Session Information"
-appendix-prefix: "R Session"
+appendix-prefix: "R"
 output:
   html_document:
     template: ../assets/pandoc/wp_appendix.html
     self_contained: true
-    css:
-    - ../assets/css/wp.css
-    - ../assets/css/wp-fonts.css
-    - ../assets/css/wp-page.css
 ---
 
 ## Attach R session info in appendix
@@ -18,10 +14,12 @@ Since R and R packages are constantly evolving you might want to add the R sessi
 info that contains information on the R version as well as the packages that are
 loaded [@Bauer2018-dl].  
 
-```{r rsessinfo, echo=FALSE}
+```{r r-session-info, echo=FALSE}
 # set width option to force fit onto page margins
-options(width=100)
+options(width=75)
 print(sessionInfo(), locale = FALSE)
+# when using child='Appendix_*.Rmd'
+# knitr::knit_print(capture.output(print(sessionInfo(), locale = FALSE)))
 ```
 
 <!-- ## All the code in the paper
@@ -29,10 +27,11 @@ print(sessionInfo(), locale = FALSE)
 *** NOTE: This doesn't work when your using `child = ` in the "parent" .Rmd file!!! ***
 
 To simply attach all the code you used in the PDF file in the appendix see the R
-chunk in the underlying `.rmd` file: -->
+chunk in the underlying `.rmd` file:
 
-```{r, ref.label=knitr::all_labels(echo == TRUE), echo=TRUE, eval=FALSE, results='asis'}
+```{r, allrcode, ref.label=knitr::all_labels(echo == TRUE), echo=TRUE, eval=FALSE, results='asis'}
 ```
+ -->
 
 # References {-}
 
