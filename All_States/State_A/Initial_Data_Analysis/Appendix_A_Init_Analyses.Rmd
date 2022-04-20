@@ -1,0 +1,88 @@
+---
+title: "Appendix A"
+subtitle: "Initial Data Analysis"
+appendix-prefix: "A"
+output:
+  html_document:
+    template: ../../../Universal_Content/rmarkdown/assets/pandoc/wp_appendix.html
+    self_contained: true
+---
+
+```{r setup-appndx-A, echo=FALSE, include=FALSE}
+  ###   set a global knitr options
+  knitr::opts_chunk$set(
+    cache = FALSE,
+    message = FALSE,
+    dev = "svg",
+    fig.topcaption = TRUE,
+    fig.cap = TRUE)
+
+  knitr::knit_hooks$set(class = function(before, options, envir) {
+    if(before){
+      sprintf("<div class = '%s'>", options$class)
+    }else{
+      "</div>"
+    }
+  })
+
+  fig.out.ex <- 'data-prefix="Figure"'
+  tab.out.ex <- 'style="display: none;" data-prefix="Table"'
+
+  ###   Load some R packages and functions required for HTML table creation silently.
+  ###   Load SGP and other packages here to avoid messages.
+  require(ymlthis)
+	require(data.table)
+  require(SGP)
+
+  ###   Set Table, Figure and Equation Counters
+  # startAppendix()
+  setCounters()
+  options(table_counter=FALSE)
+  options(table_num_str = "A%d") # Prepend Appendix Letter when using tblNum()
+  options(table_counter_str = paste0("**Table ", "A", "%s:**")) # "**Table A%s:**" LETTERS[appendix.number]
+  options(fig_num_str = "A%d") # Prepend Appendix Letter when using figNum()
+  options(fig_caption_no_sprintf = paste0("**Figure ", "A", "%d:** %s")) # "**Figure A%d:** %s"
+
+  ###   Utility function - Assumes first two "levels" are the main dichotomy
+  ord <- function(x) { # <sup>th</sup>
+    o <- toOrdinal::toOrdinal(x)
+    return(paste0(x, "<sup>", substr(o, nchar(o)-1, nchar(o)),"</sup>"))
+  }
+
+  "%w/o%" <- function(x,y) x[!x %in% y]
+
+```
+
+This appendix presents and explains the code used to conduct the "initial" Student
+Growth Percentiles (SGP) analyses. These analyses are a minimal representation of
+the annual analyses conducted for our client states. Only baseline SGPs are created
+and SGP projections and targets (both cohort and baseline referenced) are omitted.
+The goal of this step is simply to create Baseline SGPs and merge them into the
+longitudinal data so that we can proceed with investigating academic impact.
+
+```{r ida-data-prep, echo=FALSE}
+  knitr::spin_child("State_A_Data_LONG.R")
+```
+
+```{r ida-sgp-analysis, echo=FALSE}
+  knitr::spin_child("State_A_Baseline_SGP_Analyses.R")
+```
+
+<div class='pagebreak'> </div>
+
+```{r  child = '../../../Universal_Content/rmarkdown/Child_RMD/Appendix_GoFit_Intro.Rmd', eval=TRUE}
+```
+
+<div class='pagebreak'> </div>
+
+```{r  child = 'Appendix_GoFit_Grade_Level.Rmd', eval=TRUE}
+```
+
+<!--  End appendix format: re-start counters and change back to numeric for subsequent re-rendering-->
+
+```{r, cache=FALSE, results='asis', echo=FALSE}
+	options(table_counter_str = NULL)
+	options(table_num_str = NULL)
+	options(fig_caption_no_sprintf = NULL)
+	options(fig_num_str = NULL)
+```
