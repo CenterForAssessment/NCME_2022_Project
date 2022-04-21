@@ -71,8 +71,10 @@
 		cat("\t", exec.sum.text, sep = "\n\t")
 		cat(c("", "---"), sep = "\n")
 	} else {
-		cat(c("","<div class='exec-summary'>", "", "# Executive Summary {-}"), sep = "\n")
-		cat(exec.sum.text, sep = "\n")
-		cat(c("", "</div>"), sep = "\n")
+		if (params$executive.summary) {
+			cat(c("","<div class='exec-summary'>", "", "# Executive Summary {-}"), sep = "\n")
+			cat(exec.sum.text, sep = "\n")
+			cat(c("", "</div>"), sep = "\n")
+		} else cat(exec.sum.text, sep = "\n")
 	}
 ```

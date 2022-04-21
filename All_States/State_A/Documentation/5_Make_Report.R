@@ -17,6 +17,19 @@ require(Literasee)
 ###    Render the report using `bookdown`
 #####
 
+setwd("../Initial_Data_Analysis/")
+res <- rmarkdown::render('Appendix_A_Init_Analyses.Rmd', quiet = TRUE)
+fcp.tf <- file.copy(res, "../Documentation/report/", overwrite = TRUE)
+if (fcp.tf) frm.tf <- file.remove(res)
+
+setwd("../Documentation/")
+load("../Data/Report_Data.Rdata")
+load("../Data/Report_Analyses.Rdata")
+# source("4_Make_Configs.R")
+params$render.format <- "pagedown"
+rmarkdown::render(file.path("report", "working_paper.Rmd"))
+pagedown::chrome_print(file.path("report", "working_paper.html"), wait=10, timeout=60)
+
 # bookdown::render_book(".", "bookdown::gitbook")
 
 #  Serve the site directory on a local host to see the results:

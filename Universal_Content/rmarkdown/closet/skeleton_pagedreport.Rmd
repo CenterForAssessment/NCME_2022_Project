@@ -1,0 +1,27 @@
+---
+title: "Academic Impact in State A"
+subtitle: "Student Achievement and Growth during the COVID-19 Pandemic"
+shorttitle: "State A Academic Impact"
+author:
+  - name: Adam Van Iwaarden<br>Damian Betebenner
+date: '`r toOrdinal::toOrdinalDate(Sys.Date())`'
+output:
+  pagedreport::paged_windmill:
+    front_img: !expr system.file('resources', 'img', 'abstract-img.jpg', package = 'pagedreport')
+    logo: "../../../../Universal_Content/rmarkdown/assets/images/nciea-logo-long.svg"
+    img_to_dark: FALSE
+    logo_to_white: TRUE
+knit: pagedown::chrome_print
+toc-title: "Report Contents"
+bibliography:
+  - ../../../../Universal_Content/rmarkdown/assets/bib/Literasee.bib
+  - ../../../../Universal_Content/rmarkdown/assets/bib/appendix_session.bib
+abstract: |-
+  ```{r child = '../../../../Universal_Content/rmarkdown/Child_RMD/0_Abstract.Rmd'}
+  ```
+main-color: "#002244"
+secondary-color: "#FB4F14"
+google-font: TRUE
+main-font: "Roboto"
+header-font: "Oswald"
+---

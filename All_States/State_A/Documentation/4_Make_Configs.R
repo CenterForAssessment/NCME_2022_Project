@@ -4,19 +4,19 @@
 #' specify any necessary meta-data and parameters required to run the report and
 #' create/customize/complete the required YAML and RMD file config lists.
 #'
-#'
-#'
 #' This step assumes the user is operating with their working directory set to
 #' "*NCME_2022_Project/All_States/State_A/Documentation*".
 
-
 #+ echo = TRUE, purl = TRUE
-setwd("./Documentation")
+# setwd("./Documentation")
 ##   Locate the "Universal_Content" directory
 universal.content.path <- file.path("..", "..", "..", "Universal_Content")
 
-load("../Data/Report_Data.Rdata")
-load("../Data/Report_Analyses.Rdata")
+#' Load existing `Report_Data` and `Report_Analyses` objects from steps
+#' 2 and 3.
+#+ echo = TRUE, purl = TRUE
+if (!exists("Report_Data")) load("../Data/Report_Data.Rdata")
+if (!exists("Report_Analyses")) load("../Data/Report_Analyses.Rdata")
 
 
 ###
@@ -24,13 +24,13 @@ load("../Data/Report_Analyses.Rdata")
 ###
 
 ##   Remove existing objects before (re)running
-# if (exists("report.config")) rm(report.config)
-# if (exists("rmd.files")) rm(rmd.files)
+if (exists("report.config")) rm(report.config)
+if (exists("rmd.files")) rm(rmd.files)
 
 ##   The "custom.config" list is created to supply unique client/state info.
 ##   It can also be used to override some of the Universal settings (authors, etc.)
 
-report.config <- list(
+# report.config <- list(
   client.info = list(
     state.name = "State A", # required at a minimum
     state.abv = "D.C.", # for cover page, not SGPstateData
@@ -39,16 +39,14 @@ report.config <- list(
     org.head = "Secretary Miguel Cardona",
     github.repo = "https://github.com/CenterForAssessment/NCME_2022_Project/tree/main/All_States/State_A",
     acknowledgements = "the entire staff of the SADoE Assessment and Accountability Office, and particularly Maggie Q. Public,"
-  ),
+  )#,
+
   # Title/subtitle, author.names, author.affil, date
   top.level = list(  #  Title/subtitle, author.names, author.affil, date
     title = "Academic Impact in State A",
-    subtitle = "Student Achievement and Growth during the COVID-19 Pandemic",
-    author.names = c("Adam R. VanIwaarden", "Damian W. Betebenner"),
-    # author.affil = "Center for Assessment", # Only needed if different affiliations.
-    # date = "March 2021",  #  auto configured to MONTH YEAR format
-    draft = "DRAFT REPORT -- DO NOT CITE OR CIRCULATE" # NULL to remove draft status
+    subtitle = "Student Achievement and Growth during the COVID-19 Pandemic"
   ),
+  # cat(yaml::as.yaml(top.level, indent.mapping.sequence=TRUE))
   ##  `params` are passed to R and executed internally to create Universal/Customized
   ##  text or used to run further analyses on the Report_Data.  Many of these can
   ##  be created internally in the `params.Rmd` script. This list is semi-exhaustive
@@ -60,6 +58,7 @@ report.config <- list(
     state.org.abv = "SADoE",
     draft = TRUE, # NULL to remove draft status
     draft.text = "DRAFT REPORT -- DO NOT CITE OR CIRCULATE", # NULL to remove draft status
+    executive.summary = FALSE
     keyword = "academic impact", # should be lower case.  Camel applied as needed in params.Rmd or can be customized as keyword_camel
     imputations = FALSE,
     min.size.school = 15,  #  N size cutoff - exclude SCHOOLs with fewer than X students from summaries/analyses

@@ -33,7 +33,7 @@ if (is.null(params$gof.path)) {
 ###   Lists of state specific variables included in the report.
 ###
 
-###   Draft
+###   Draft & Executive Summary
 # Example draft.text <- "FOR INTERNAL USE ONLY - DO NOT CIRCULATE!"
 if (is.null(params$draft.text)) {
   params$draft.text <- ""
@@ -43,6 +43,9 @@ if (params$draft.text != "") {
     params$draft.text <- paste0("<p style='text-align: center;'><br><strong>", params$draft.text, "</strong><br></p>")
   }
 }
+if (is.null(params$executive.summary)) params$executive.summary <- FALSE
+if (is.null(params$show.warnings)) params$show.warnings <- TRUE
+
 
 ###   Keyword (i.e. "Learning Loss" or equivalent substitute)
 if (is.null(params$keyword)) {

@@ -14,7 +14,7 @@ assessments taken at multiple points in an academic year. In this sentence we us
 the `figNum` function to get the figure number of the next figure.  Since it has
 not been placed in the report yet, we need to advance the counter by one - `figNum(1)`.
 
-```{r, ll-interim, fig.cap = "Example image placement: learning loss interim assessment illustration", out.width="80%", fig.align='center', out.extra=fig.out.ex, results="asis"}
+```{r, ll-interim, fig.cap = "Example image placement: learning loss interim assessment illustration", out.width="80%", fig.align='center', out.extra=fig.out.ex, warning = params$show.warnings, results="asis"}
 
 	if (tolower(params$render.format) == "bookdown") {
 		tmp.fig.caption <- knitr::opts_current$get("fig.cap")
@@ -30,7 +30,7 @@ detail (the figure increment is 0 to get the last figure number.)
 Figure `r figNum(1)` illustrates how learning loss might be measured by annual
 state summative assessments taken at the end of an academic year.
 
-```{r, ll-sumative, fig.cap = "Example learning loss illustration with a summative state assessment", out.width="80%", fig.align='center', out.extra=fig.out.ex, results="asis"}
+```{r, ll-sumative, fig.cap = "Example learning loss illustration with a summative state assessment", out.width="80%", fig.align='center', out.extra=fig.out.ex, warning = params$show.warnings, results="asis"}
 
 	if (tolower(params$render.format) == "bookdown") {
 		tmp.fig.caption <- knitr::opts_current$get("fig.cap")

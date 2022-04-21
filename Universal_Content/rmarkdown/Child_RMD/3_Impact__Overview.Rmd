@@ -7,7 +7,7 @@ and recovery patterns that the state might encounter in student growth over an
 extended timeline. This emphasizes the importance of being able to measure and
 monitor student growth this year and going forward in 2022.
 
-```{r, impct-ovrvw, fig.cap = "Example learning loss recovery trajectories.", fig.show = 'hold', out.width="50%", out.extra=fig.out.ex, results="asis"}
+```{r, impct-ovrvw, fig.cap = "Example learning loss recovery trajectories.", fig.show = 'hold', out.width="50%", out.extra=fig.out.ex, warning = params$show.warnings, results="asis"}
 
 	if (tolower(params$render.format) == "bookdown") {
 		tmp.fig.caption <- knitr::opts_current$get("fig.cap")
