@@ -1,4 +1,4 @@
-# Participation and Opportunity to Learn Data
+# Student Participation Data
 
 We need to know what the state looked like before and during the pandemic.  Here
 is some helpful data :)

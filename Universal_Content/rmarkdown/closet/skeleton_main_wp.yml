@@ -1,0 +1,41 @@
+title: "Academic Impact in State A"
+subtitle: "Student Achievement and Growth during the COVID-19 Pandemic"
+shorttitle: "Working Paper"
+author:
+  - name: Adam Van Iwaarden
+    affiliation: Center for Assessment
+    email: <avaniwaarden@nciea.org>
+  - name: Damian Betebenner
+    affiliation: Center for Assessment
+    email: <dbetebenner@nciea.org>
+date: 'First version: April 1, 2022<br>This version: `r toOrdinal::toOrdinalDate(Sys.Date())`'
+# at least one keyword must be supplied
+keywords: [draft, reproducible research]
+links-to-footnotes: false
+paged-footnotes: true
+output:
+  pagedown::jss_paged:
+    template: ../../../../Universal_Content/rmarkdown/assets/pandoc/wp_paged.html
+    self_contained: true
+    css:
+    - ../../../../Universal_Content/rmarkdown/assets/css/wp.css
+    - ../../../../Universal_Content/rmarkdown/assets/css/wp-fonts.css
+    - ../../../../Universal_Content/rmarkdown/assets/css/wp-page.css
+    pandoc_args: '--lua-filter=../../../../Universal_Content/rmarkdown/assets/lua/multiple-bibliographies.lua'
+bibliography_main: ../../../../Universal_Content/rmarkdown/assets/bib/Literasee.bib
+bibliography_appndxR: ../../../../Universal_Content/rmarkdown/assets/bib/appendix_session.bib
+abstract: |-
+  ```{r abstract, child = '../../../../Universal_Content/rmarkdown/Child_RMD/0_Abstract.Rmd'}
+  ```
+appendix: |-
+  ```{r, appndx-B, echo=FALSE, results='asis'}
+    cat(readLines("../assets/rmd/Custom_Content/APPENDIX_SGP_Analysis_WP.html"), sep = '\n')
+  ```
+  ```{r, appndx-R, echo=FALSE, results='asis'}
+    res <- rmarkdown::render('../../../../Universal_Content/rmarkdown/Child_RMD/Appendix_R.Rmd', quiet = TRUE)
+    fcp.tf <- file.copy(res, "../../../../All_States/State_A/Documentation/report/", overwrite = TRUE)
+    frm.tf <- file.remove(res)
+    cat(readLines("../../../../All_States/State_A/Documentation/report/Appendix_R.html"), sep = '\n')
+  ```
+appendix-prefix: ["B", "R"] # Need to correspond to the `appendix-prefix` YAML in the appendix script(s)
+knit: pagedown::chrome_print

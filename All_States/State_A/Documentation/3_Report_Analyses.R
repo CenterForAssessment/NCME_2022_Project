@@ -1,4 +1,4 @@
-#' ## Academic Impact Analysis Step 3: `Report_Analyses`
+#' ## Reporting Step 3: `Report_Analyses`
 #'
 #' In this step we run any external analyses using data from any/all elements of
 #' the `Report_Data` object for the academic impact report and house the results
@@ -13,7 +13,7 @@
 #' "*NCME_2022_Project/All_States/State_A/Documentation*".
 
 #+ echo = TRUE, purl = TRUE
-setwd("./Documentation")
+# setwd("./Documentation")
 ##   Locate the "Universal_Content" directory
 universal.content.path <- file.path("..", "..", "..", "Universal_Content")
 
@@ -89,4 +89,4 @@ Report_Analyses[["Summary_Tables"]][[assessment]][[
 #+ echo = TRUE, purl = TRUE
 save(Report_Analyses, file = "../Data/Report_Analyses.Rdata")
 # rm(params)
-setwd("..")
+# setwd("..")

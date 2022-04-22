@@ -5,7 +5,7 @@
 ####                                                                        ####
 ################################################################################
 
-#' ## Academic Impact Analysis Step 2: `Report_Data`
+#' ## Reporting Step 2: `Report_Data`
 
 #' In the data preparation and cleaning step of the the academic impact analysis,
 #' we create a `Report_Data` object with data (sub)sets from various available
@@ -20,7 +20,7 @@
 #' "*NCME_2022_Project/All_States/State_A/Documentation*".
 
 #+ echo = TRUE, purl = TRUE
-setwd("./Documentation")
+# setwd("./Documentation")
 
 #' ### Load packages and custom functions.
 #'
@@ -199,4 +199,4 @@ Report_Data[["State_Assessment"]] <- copy(State_A_Data_LONG); rm(State_A_SGP); r
 if (!dir.exists(file.path("..", "Data"))) dir.create(file.path("..", "Data"))
 save(Report_Data, file = file.path("..", "Data", "Report_Data.Rdata"))
 
-setwd("..")
+# setwd("..")

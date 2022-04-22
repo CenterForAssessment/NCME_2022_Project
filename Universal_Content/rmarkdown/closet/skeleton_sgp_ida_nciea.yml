@@ -1,0 +1,19 @@
+title: "Initial SGP Analysis"
+subtitle: "Academic Impact in State A"
+appendix-prefix: "B"
+toc-title: "Appendix Contents"
+paged-footnotes: yes
+output:
+  pagedown::html_paged:
+    css:
+    - ../Documentation/assets/css/nciea-style.css
+    - ../Documentation/assets/css/nciea-appendix-page.css
+    - ../Documentation/assets/css/nciea-default.css
+    - ../Documentation/assets/css/literasee_bookdown_style.css
+    template: ../Documentation/assets/pandoc/nciea_appendix.html
+    toc: yes
+    toc_depth: 2
+    self_contained: yes
+    number_sections: no
+    fig_caption: yes
+knit: pagedown::chrome_print

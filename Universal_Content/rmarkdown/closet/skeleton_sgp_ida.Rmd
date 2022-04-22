@@ -1,0 +1,52 @@
+
+```{r  child = '../../../Universal_Content/rmarkdown/Child_RMD/params.Rmd', eval=TRUE}
+```
+
+```{r  child = '../../../Universal_Content/rmarkdown/Child_RMD/setup_sgp_appendix.Rmd', eval=TRUE}
+```
+
+# Initial SGP Analysis {.unlisted .unnumbered}
+
+This appendix presents and explains the code used to conduct Student Growth
+Percentiles (SGP) analyses. These analyses are a minimal representation of the
+annual analyses conducted for our client states.
+
+The first section deals with data cleaning and prep, as well as simulation of
+academic impact. In State A, a relatively minor amount of impact is added to the
+unperturbed data. Impact is also simulated to increase as a function of prior
+achievement (i.e., students with higher 2019 scores are impacted more).
+
+In the second section we run baseline SGP analyses. Unlike typical analyses, only
+baseline referenced SGPs are created and SGP projections and targets (both cohort
+and baseline referenced) are omitted. The goal of this step is simply to create
+Baseline SGPs and merge them into the longitudinal data so that we can proceed
+with investigating academic impact.
+
+Finally, we present goodness of fit plots for both 2019 and 2021 results. Because
+the baseline was established with the 2019 cohort, this allows for a direct
+comparison between pre-pandemic results and 2021 impact (based on expected or
+typical growth prior to the pandemic).
+
+
+```{r ida-data-prep, echo=FALSE}
+  knitr::spin_child("State_A_Data_LONG.R")
+```
+
+```{r ida-sgp-analysis, echo=FALSE}
+  knitr::spin_child("State_A_Baseline_SGP_Analyses.R")
+```
+
+```{r child = '../../../Universal_Content/rmarkdown/Child_RMD/Appendix_GoFit_Intro.Rmd', eval=TRUE}
+```
+
+```{r child = '../../../Universal_Content/rmarkdown/Child_RMD/Appendix_GoFit_Grade_Level.Rmd', eval=TRUE, warning = FALSE}
+```
+
+<!--  End appendix format: re-start counters and change back to numeric for subsequent re-rendering-->
+
+```{r, cache=FALSE, results='asis', echo=FALSE}
+	options(table_counter_str = NULL)
+	options(table_num_str = NULL)
+	options(fig_caption_no_sprintf = NULL)
+	options(fig_num_str = NULL)
+```

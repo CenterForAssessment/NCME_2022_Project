@@ -4,6 +4,8 @@
   knitr::opts_chunk$set(
     cache.path = file.path(params$base.directory, "_cache", "Impact_Overview"),
     echo = FALSE,
+    warning = FALSE,# = params$show.warnings,
+    message = FALSE, #params$show.warnings,
     fig.topcaption = TRUE,
     fig.cap = TRUE) # For pagedown (turned off in bookdown and provided manually)
 

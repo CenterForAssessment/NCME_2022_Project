@@ -1,6 +1,5 @@
 ---
 title: "Appendix R"
-subtitle: "R Session Information"
 appendix-prefix: "R"
 output:
   html_document:
@@ -8,7 +7,7 @@ output:
     self_contained: true
 ---
 
-## Attach R session info in appendix
+# R Session Information
 
 Since R and R packages are constantly evolving you might want to add the R session
 info that contains information on the R version as well as the packages that are
@@ -32,6 +31,8 @@ chunk in the underlying `.rmd` file:
 ```{r, allrcode, ref.label=knitr::all_labels(echo == TRUE), echo=TRUE, eval=FALSE, results='asis'}
 ```
  -->
+
+<br><br><br>
 
 # References {-}
 

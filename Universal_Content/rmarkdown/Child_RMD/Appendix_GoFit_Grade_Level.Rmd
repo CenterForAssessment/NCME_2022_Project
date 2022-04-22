@@ -19,7 +19,7 @@
 		# chrt.year <- ifelse(params$Year_Long_Form$State_Assessment, "2018_2019", "2019")
 		chrt.year <- "2019"
 
-		chrt.plots <-  unique(gsub(".png|.pdf", "", list.files(file.path("Goodness_of_Fit", paste0(ca, ".", chrt.year, ".", "BASELINE", gof.type)))))
+		chrt.plots <-  unique(gsub(".png|.pdf", "", list.files(file.path(params$gof.path$State_Assessment, paste0(ca, ".", chrt.year, ".", "BASELINE", gof.type)))))
 		chrt.plots <- chrt.plots[order(chrt.plots)][chrt.plots != "Decile_Tables"]
 		# weed out norm group nesting
 		nest.test <- sapply(seq(chrt.plots), function(f) grepl(chrt.plots[f], chrt.plots[-f]))
@@ -29,14 +29,14 @@
 		chrt.plots <- chrt.plots[!duplicated(chrt.grd) & chrt.grd %in% grd.subj.list[[ca]]]
 		if (any(!chrt.grd %in% grd.subj.list[[ca]])) chrt.grd <- chrt.grd[chrt.grd %in% grd.subj.list[[ca]]]
 		chrt.plots <- chrt.plots[order(unlist(sapply(chrt.grd[!duplicated(chrt.grd)], as.numeric)))] # re-order for grades >= 10
-		chrt.plot.list <- c(chrt.plot.list, file.path("Goodness_of_Fit", paste0(ca, ".", chrt.year, ".", "BASELINE", gof.type), paste0(chrt.plots[!is.na(chrt.plots)], ".png")))
+		chrt.plot.list <- c(chrt.plot.list, file.path(params$gof.path$State_Assessment, paste0(ca, ".", chrt.year, ".", "BASELINE", gof.type), paste0(chrt.plots[!is.na(chrt.plots)], ".png")))
 
 		##  BASELINE plots (i.e. 2021, actually used baseline/different cohort than used to create baseline)
 		bsln.plot.list <- NULL
 		# bsln.year <- ifelse(params$Year_Long_Form$State_Assessment, "2020_2021", "2021")
 		bsln.year <- "2021"
 
-		bsln.plots <- unique(gsub(".png|.pdf", "", list.files(file.path("Goodness_of_Fit", paste0(ca, ".", bsln.year, ".", "BASELINE", gof.type)))))
+		bsln.plots <- unique(gsub(".png|.pdf", "", list.files(file.path(params$gof.path$State_Assessment, paste0(ca, ".", bsln.year, ".", "BASELINE", gof.type)))))
 		bsln.plots <- bsln.plots[order(bsln.plots)][bsln.plots != "Decile_Tables"]
 		# weed out norm group nesting
 		nest.test <- sapply(seq(bsln.plots), function(f) grepl(bsln.plots[f], bsln.plots[-f]))
@@ -46,7 +46,7 @@
 		bsln.plots <- bsln.plots[!duplicated(bsln.grd) & bsln.grd %in% grd.subj.list[[ca]]]  #  additional removal of dups needed for Utah
 		if (any(!bsln.grd %in% grd.subj.list[[ca]])) bsln.grd <- bsln.grd[bsln.grd %in% grd.subj.list[[ca]]]
 		bsln.plots <- bsln.plots[order(unlist(sapply(bsln.grd[!duplicated(bsln.grd)], as.numeric)))] # re-order for grades >= 10
-		bsln.plot.list <- c(bsln.plot.list, file.path("Goodness_of_Fit", paste0(ca, ".", bsln.year, ".", "BASELINE", gof.type), paste0(bsln.plots[!is.na(bsln.plots)], ".png")))
+		bsln.plot.list <- c(bsln.plot.list, file.path(params$gof.path$State_Assessment, paste0(ca, ".", bsln.year, ".", "BASELINE", gof.type), paste0(bsln.plots[!is.na(bsln.plots)], ".png")))
 
 		###  Copy fit plots for bookdown
 		##   Baseline plots
@@ -86,7 +86,7 @@
 
 		cat("
 
-### ", capwords(GOF_Subj), "
+## ", capwords(GOF_Subj), "
 
 		")
 

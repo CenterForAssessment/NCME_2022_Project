@@ -1,0 +1,24 @@
+params:
+  keyword: "academic impact"
+  show.warnings: no
+  base.directory: "/Users/avi/Data/NCME_2022/NCME_2022_Demonstration/NCME_2022_Project/All_States/State_A/Documentation"
+  unvrsl.rmd.path: "../../Universal_Content/rmarkdown/Child_RMD"
+  custom.rmd.path: "../Documentation/assets/rmd/Custom_Content"
+  state.name: "State A"
+  state.abv: "S.A."
+  state.org: "State A Department of Education"
+  state.org.abv: "SADoE"
+  draft: yes
+  imputations: no
+  min.size.school: 15.0
+  min.size.district: 50.0
+  sgp.abv: !r list(State_Assessment = "State_A")
+  sgp.name: !r list(State_Assessment = "State A")
+  test.name: !r list(State_Assessment = "A+ State Assessment Program")
+  test.abv: !r list(State_Assessment = "ASAP")
+  test.url: !r list(State_Assessment = "https://centerforassessment.github.io/SGPdata/")
+  code.url: !r list(State_Assessment = "https://github.com/CenterForAssessment/NCME_2022_Project/tree/main/All_States/State_A/Initial_Data_Analysis")
+  gof.path: !r list(State_Assessment = "../../../All_States/State_A/Initial_Data_Analysis/Goodness_of_Fit")
+  draft.text: "DRAFT REPORT -- DO NOT CITE OR CIRCULATE"
+  executive.summary: no
+  render.format: pagedown

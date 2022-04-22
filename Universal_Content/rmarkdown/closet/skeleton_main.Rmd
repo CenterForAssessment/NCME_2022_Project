@@ -1,0 +1,56 @@
+```{r  child = '../../../../Universal_Content/rmarkdown/Child_RMD/setup.Rmd', eval=TRUE}
+```
+
+```{r  child = '../../../../Universal_Content/rmarkdown/Child_RMD/params.Rmd', eval=TRUE}
+```
+
+```{r  child = '../../../../Universal_Content/rmarkdown/Child_RMD/0_Abstract.Rmd', eval=TRUE}
+```
+
+```{r  child = '../../../../Universal_Content/rmarkdown/Child_RMD/1_Intro__Overview.Rmd', eval=TRUE}
+```
+
+```{r  child = '../../../../Universal_Content/rmarkdown/Child_RMD/1_Intro_Background.Rmd', eval=TRUE}
+```
+
+```{r  child = '../../../../Universal_Content/rmarkdown/Child_RMD/1_Intro_Methods.Rmd', eval=TRUE}
+```
+
+```{r  child = '../../../../Universal_Content/rmarkdown/Child_RMD/1_Intro_Data_Sources.Rmd', eval=TRUE}
+```
+
+```{r  child = '../../../../Universal_Content/rmarkdown/Child_RMD/2_Participate__Analysis.Rmd', eval=TRUE}
+```
+
+```{r  child = '../../../../Universal_Content/rmarkdown/Child_RMD/2_Participate__Overview.Rmd', eval=TRUE}
+```
+
+```{r  child = '../../../../Universal_Content/rmarkdown/Child_RMD/2_Participate_Counts.Rmd', eval=TRUE}
+```
+
+```{r  child = '../../../../Universal_Content/rmarkdown/Child_RMD/3_Impact__Overview.Rmd', eval=TRUE}
+```
+
+```{r  child = '../../../../Universal_Content/rmarkdown/Child_RMD/3_Impact_Achievement_Analysis.Rmd', eval=TRUE}
+```
+
+```{r  child = '../../../../Universal_Content/rmarkdown/Child_RMD/3_Impact_Achievement_Overview.Rmd', eval=TRUE}
+```
+
+```{r  child = '../../../../Universal_Content/rmarkdown/Child_RMD/3_Impact_Growth_Analysis.Rmd', eval=TRUE}
+```
+
+```{r  child = '../../../../Universal_Content/rmarkdown/Child_RMD/3_Impact_Growth_Overview.Rmd', eval=TRUE}
+```
+
+```{r  child = '../../../../Universal_Content/rmarkdown/Child_RMD/4_Summary.Rmd', eval=TRUE}
+```
+
+<!--  References  -->
+
+<div class='pagebreak'> </div>
+
+# References {-}
+
+::: {#refs_main}
+:::

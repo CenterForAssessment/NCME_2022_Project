@@ -5,7 +5,7 @@
 ####                                                                        ####
 ################################################################################
 
-#' ## Create 2019 and 2021 Baseline SGPs for State A
+#' #  Create 2019 and 2021 Baseline SGPs
 #'
 #' The baseline SGP analysis section of the appendix assumes the user is operating
 #' with their working directory set to "*NCME_2022_Project/All_States/State_A/Initial_Data_Analysis*".
@@ -13,14 +13,14 @@
 #+ ida-sgp-wd, echo = TRUE, purl = TRUE
 # setwd("./Initial_Data_Analysis")
 
-#' ### Load packages and custom functions.
+#' ## Load SGP package
 #'
 #' The `SGP` package is required for the data analysis with simulated data.
 #'
 #+ ida-sgp-pkg, echo = TRUE, purl = TRUE
 require(SGP)
 
-#' ### Load baseline matrices for Demonstration Covid
+#' ## Load baseline matrices for Demonstration Covid
 #'
 #' These coefficient matrices were created using the same *`sgpData_LONG_COVID`*
 #' data set that our simulated impact data comes from. Baselines were established
@@ -29,7 +29,7 @@ require(SGP)
 #+ ida-sgp-bslnmtrx, echo = TRUE, purl = TRUE
 load("../../../Universal_Content/Data/Baseline_Matrices/DEMO_COVID_Baseline_Matrices-SingleCohort.Rdata")
 
-#' ### Modify SGPstateData
+#' ## Modify SGPstateData
 #'
 #' In these simulation analyses, we want to simulate varyious levels and patterns
 #' of academic impact using the same base data set. We will call them by different
@@ -45,7 +45,7 @@ SGPstateData[["State_A"]][["Growth"]][["Levels"]] <-
 SGPstateData[["State_A"]][["Growth"]][["Cutscores"]] <-
 SGPstateData[["State_A"]][["SGP_Configuration"]][["percentile.cuts"]] <- NULL
 
-#' ### Load and combine SGP config scripts
+#' ## Load and combine SGP config scripts
 #'
 #' Because we are incorporating the skipped year (2020) of testing, we need to
 #' manually specify which SGP progressions we want to run. That is, which unique
@@ -63,7 +63,7 @@ baseline.config <- c(ELA_2021.config,
                      ELA_2019.config,
                      MATHEMATICS_2019.config)
 
-#' ### Calculate baseline SGPs
+#' ## Calculate baseline SGPs
 #'
 #' We use the `abcSGP` function from the `SGP` package to create 2019 and 2021
 #' baseline referenced SGPs. We need the 2019 values for comparisons with 2021
@@ -98,7 +98,7 @@ unlk.tf <- unlink(grep("Decile_Tables", list.dirs(), value=TRUE), recursive = TR
 ## reset working directory to State_A
 #  setwd("..")
 
-#' ### Summary and notes
+#' ## Summary and notes
 #'
 #'   * This was a very minimal SGP analysis. Only baseline SGPs were created and
 #'     we did not produce any (cohort or baseline referenced) SGP targets. The

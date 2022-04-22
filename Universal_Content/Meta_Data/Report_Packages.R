@@ -19,11 +19,17 @@ if (!require(stringr)) {
 }
 
 ##    Plotting
+if (!require(colorspace)) {
+	install.packages("colorspace", dep=T)
+}
 if (!require(ggplot2)) {
 	install.packages("ggplot2", dep=T)
 }
 if (!require(gghighlight)) {
 	install.packages("gghighlight", dep=T)
+}
+if (!require(hexbin)) {
+	install.packages("hexbin", dep=T)
 }
 if (!require(svglite)) {
 	install.packages("svglite", dep=T)
@@ -56,6 +62,7 @@ remotes::install_github('rstudio/rmarkdown')
 remotes::install_github('rstudio/bookdown')
 remotes::install_github('rstudio/pagedown')
 remotes::install_github("rfortherestofus/pagedreport", ref = "main")
+remotes::install_github("ropensci/qpdf")
 
 ###  Utils function from `pagedreport`
 pkg_resource <- function(...) {

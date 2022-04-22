@@ -12,11 +12,11 @@ report.config <- list(
     # title = "Demonstration COVID Learning Loss Analysis", auto configured if NULL based on client state.name
     # subtitle = "Academic Impact During the COVID-19 Pandemic", # auto configured if NULL
     author.names = c("Adam R. VanIwaarden", "Damian W. Betebenner"),
-    # author.affil = "Center for Assessment", # Only needed if different affiliations.
+    author.affil = "Center for Assessment", # Only needed if different affiliations.
     # date = "March 2021",  #  auto configured to MONTH YEAR format
     draft = TRUE,
     executive.summary = TRUE,
-    project.team = "SGP Team",
+    project.team = "Team SGP",
     project.email = "avaniwaarden@nciea.org"
   ),
   ###   client.info to be customized for each state.
@@ -24,9 +24,10 @@ report.config <- list(
   params = list(
     draft.text = c(), # "ALTERNATE DRAFT TEXT", #  auto configured to 'DRAFT REPORT -- DO NOT CITE' if report.config$top.level$draft = TRUE
     keyword = "academic impact", # should be lower case.  Camel applied as needed in params.Rmd or can be customized as keyword_camel
+    show.warnings = FALSE,
     base.directory = getwd(),
-    unvrsl.rmd.path = file.path("..", "..", "..", "Universal_Content", "Child_RMD"),
-    custom.rmd.path = file.path("assets", "rmd", "Custom_Content")#,
+    unvrsl.rmd.path = file.path("..", "..", "..", "Universal_Content", "rmarkdown", "Child_RMD"),
+    custom.rmd.path = file.path("assets", "rmd", "Custom_Content")
   ),
   output = list(
     bookdown = list(
@@ -83,6 +84,7 @@ if (is.null(report.config$top.level$executive.summary)) {
     report.config$top.level$executive.summary <- TRUE
   }
 }
+report.config$params$executive.summary <- report.config$top.level$executive.summary
 
 if (is.null(report.config$top.level$bibliography)) {
   report.config$top.level$bibliography <- system.file("rmarkdown", "content", "bibliography", "Literasee.bib" , package = "Literasee")

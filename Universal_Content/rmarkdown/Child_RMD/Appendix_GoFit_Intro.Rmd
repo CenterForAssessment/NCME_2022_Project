@@ -1,4 +1,4 @@
-## Goodness of Fit Plots
+# Goodness of Fit Plots
 
 A goodness of fit plot is produced for each unique analysis run in 2021. All fit plots will contain at least four panels. Each panel is a different depiction of the distribution of the Student Growth Percentiles (SGPs) calculated in that analysis relative to the students' prior or current achievement (i.e. the test scores used as the independent and dependent variables in the model).
 

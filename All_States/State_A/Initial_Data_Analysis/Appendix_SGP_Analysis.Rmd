@@ -1,14 +1,14 @@
 ---
-title: "Appendix A"
-subtitle: "Initial Data Analysis"
-appendix-prefix: "A"
+title: "Appendix B"
+subtitle: "Initial SGP Analysis"
+appendix-prefix: "B"
 output:
   html_document:
     template: ../../../Universal_Content/rmarkdown/assets/pandoc/wp_appendix.html
     self_contained: true
 ---
 
-```{r setup-appndx-A, echo=FALSE, include=FALSE}
+```{r setup-appndx-B, echo=FALSE, include=FALSE}
   ###   set a global knitr options
   knitr::opts_chunk$set(
     cache = FALSE,
@@ -38,10 +38,10 @@ output:
   # startAppendix()
   setCounters()
   options(table_counter=FALSE)
-  options(table_num_str = "A%d") # Prepend Appendix Letter when using tblNum()
-  options(table_counter_str = paste0("**Table ", "A", "%s:**")) # "**Table A%s:**" LETTERS[appendix.number]
-  options(fig_num_str = "A%d") # Prepend Appendix Letter when using figNum()
-  options(fig_caption_no_sprintf = paste0("**Figure ", "A", "%d:** %s")) # "**Figure A%d:** %s"
+  options(table_num_str = "B%d") # Prepend Appendix Letter when using tblNum()
+  options(table_counter_str = paste0("**Table ", "B", "%s:**")) # "**Table A%s:**" LETTERS[appendix.number]
+  options(fig_num_str = "B%d") # Prepend Appendix Letter when using figNum()
+  options(fig_caption_no_sprintf = paste0("**Figure ", "B", "%d:** %s")) # "**Figure A%d:** %s"
 
   ###   Utility function - Assumes first two "levels" are the main dichotomy
   ord <- function(x) { # <sup>th</sup>

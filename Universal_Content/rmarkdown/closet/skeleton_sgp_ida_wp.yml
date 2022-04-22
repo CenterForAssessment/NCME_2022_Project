@@ -1,0 +1,6 @@
+title: "Appendix B"
+appendix-prefix: "B"
+output:
+  html_document:
+    template: ../../../Universal_Content/rmarkdown/assets/pandoc/wp_appendix.html
+    self_contained: true

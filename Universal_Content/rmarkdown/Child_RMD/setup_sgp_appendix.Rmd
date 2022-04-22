@@ -1,11 +1,12 @@
 
-```{r, echo=FALSE, include=FALSE}
-  ###   set opts_chunk
+```{r setup-appndx-B, echo=FALSE, include=FALSE}
+  ###   set a global knitr options
   knitr::opts_chunk$set(
-    cache.path = file.path(params$base.directory, "_cache", "GoFit"),
-    echo = FALSE,
+    cache = FALSE,
+    message = FALSE,
+    dev = "svg",
     fig.topcaption = TRUE,
-    fig.cap = TRUE) # For pagedown (turned off in bookdown and provided manually)
+    fig.cap = TRUE)
 
   knitr::knit_hooks$set(class = function(before, options, envir) {
     if(before){
@@ -28,10 +29,10 @@
   # startAppendix()
   setCounters()
   options(table_counter=FALSE)
-  options(table_num_str = "G%d") # Prepend Appendix Letter when using tblNum()
-  options(table_counter_str = paste0("**Table ", "G", "%s:**")) # "**Table A%s:**" LETTERS[appendix.number]
-  options(fig_num_str = "G%d") # Prepend Appendix Letter when using figNum()
-  options(fig_caption_no_sprintf = paste0("**Figure ", "G", "%d:** %s")) # "**Figure A%d:** %s"
+  options(table_num_str = "B%d") # Prepend Appendix Letter when using tblNum()
+  options(table_counter_str = paste0("**Table ", "B", "%s:**")) # "**Table A%s:**" LETTERS[appendix.number]
+  options(fig_num_str = "B%d") # Prepend Appendix Letter when using figNum()
+  options(fig_caption_no_sprintf = paste0("**Figure ", "B", "%d:** %s")) # "**Figure A%d:** %s"
 
   ###   Utility function - Assumes first two "levels" are the main dichotomy
   ord <- function(x) { # <sup>th</sup>
@@ -40,4 +41,21 @@
   }
 
   "%w/o%" <- function(x,y) x[!x %in% y]
+
+```
+
+```{css, echo=FALSE}
+.figure img {
+    max-width: 45%;
+}
+```
+
+<!--  create _bookdown.yml file for labeling `Figures` and `Tables` with appendix prefix.-->
+
+```{r, include=FALSE}
+	ymlthis::yml_empty() %>%
+		ymlthis::yml_bookdown_opts(
+			language=list(label=list(fig="'Figure B'", tab="'Table B'"))
+		) %>%
+			Literasee:::writeYAML(filename = '_bookdown.yml', fences=FALSE)
 ```
