@@ -1,15 +1,28 @@
 Flexible Report Generation: Demonstration session, NCME 2022 Annual Meeting
 ===========================================================================
 
-#  NCME_2022_Project Purpose
+Data analysts are often tasked with writing reports that describe data, analyses,
+and results associated with a project. Depending upon the nature of the project,
+such reports are either completely customized or borrow heavily from other reports
+(e.g., annual reports). GitHub repositories and associated GitHub actions can be
+used to coordinate the writing as well as the production of final reports for
+dissemination. The process we demonstrate utilizes `R`, R Markdown, and several
+associated `R` packages as the base tools to construct these reports.
 
-Generation of multiple format reports (e.g., a `bookdown` website and a `pagedown`
-PDF document) can be generally conducted in five steps. These steps are lined out
-generically in the `.R` scripts included in this repo.
+##  NCME_2022_Project Purpose
 
-First a consistent working environment should be set up, including a directory
-structure with all the required external assets and libraries, as well as the `R`
-command and function scripts included in this repo. Second, the data required to
+The concept of "flexibility" in report generation can be applied in numerous ways.
+It may mean generating multiple format reports (e.g., websites and PDF document),
+setting up workflows that can be used in various settings or for any number of
+clients, or combining analytics and documentation into a seamless process. In building
+this GitHub repository for our demonstration, we have tried to condense the lessons
+we have learned on being flexible in our processes of data analytics and documentation.
+We outline five steps that help us get from raw data to reporting results in this
+demonstration.
+
+First a well structured working environment should be set up, including a uniform
+directory structure with any required external assets and resources, as well as
+easily generalized `R` command and function scripts. Second, the data required to
 generate the report must be compiled in a consistent data-object structure. Third,
 any time-consuming and/or state-specific external analyses should be conducted
 and thoroughly reviewed, and also compiled in a consistent data-object structure.
@@ -32,13 +45,14 @@ repo that give more detailed information about their contents. The main componen
 located in this top directory are:
 
 
-##  All_States
+###  All_States
 
 This component contains the "state" specific data analysis and report generation
 content. Although this project has been framed as a workflow across multiple states,
 this could be envisioned in other ways where many projects resemble each other,
 but separation is required: school level analysis and reporting, different branches
-of a simulation study, annual analysis/reporting within a single organization, etc.
+of a simulation study, annual analysis/reporting within a single organization,
+technical reports, etc.
 
 Each "state" has its own sub directory that houses "Initial_Data_Analysis",
 "Report_Analyses", "Data" and "Documentation" directories. These represent the
@@ -57,7 +71,7 @@ in different areas of our work environments.
 * **Data** is where we keep specifically formatted student data and results from
   the impact related analyses. Again, housed outside of any Github repo because
   it contains confidential data.
-* **Documentation** includes all the RMarkdown based code, content and assets for
+* **Documentation** includes all the R Markdown based code, content and assets for
   generating reports. This is typically a separate Github repo (with final reports
   provided to clients, not included in the repo). ***This is the heart of the
   "Flexible Report Generation" portion of the NCME Demonstration session.***
@@ -68,7 +82,7 @@ simulated student data (*`sgpData_LONG_COVID`*) from the
 [`SGPData`](https://github.com/CenterForAssessment/SGPdata) package.
 
 
-##  Universal_Content
+###  Universal_Content
 
 The ability to generate reports flexibly and automatically with data and analytic
 results from multiple sources requires the identification of what content is
@@ -105,7 +119,7 @@ components.
     order in a master (parent) document.
   - The css, JavaScript code, etc. in the "templates" subdirectory are structured
     in a way that is typically used (required?) in some packages commonly used to
-    render RMarkdown into documents (e.g., `rmarkdown`, `bookdown`, `pagedown`
+    render R Markdown into documents (e.g., `rmarkdown`, `bookdown`, `pagedown`
     or our `Literasee` package).
 
 ##  Custom_Content

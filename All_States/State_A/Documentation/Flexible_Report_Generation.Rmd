@@ -1,0 +1,59 @@
+---
+title: "Flexible Report Generation"
+subtitle: "Demonstration Session, NCME 2022 Annual Meeting"
+author: "Adam R. VanIwaarden"
+date: April 23, 2022
+knit: pagedown::chrome_print
+client_city: San Diego
+client_state: CA
+client_organization: "The National Council on Measurement in Education"
+client_name: "Derek C. Briggs, Ph.D."
+project_team: "Team SGP"
+project_code: "[Github](https://github.com/CenterForAssessment/NCME_2022_Project)"
+project_email: avaniwaarden@nciea.org
+acknowledgements: "our partners and colleagues at the Center for Assessment"
+output:
+  pagedown::html_paged:
+    css:
+    - assets/css/nciea-style.css
+    - assets/css/nciea-page.css
+    - assets/css/nciea-default.css
+    template: assets/pandoc/nciea.html
+    toc: yes
+    toc_depth: 2
+    self_contained: yes
+    number_sections: no
+    fig_caption: yes
+    includes:
+      in_header: assets/js/meta_lof_js.html
+customjs: assets/js/lof.js
+abstract: |-
+  ```{r child = 'assets/rmd/pagedown/abstract.Rmd'}
+  ```
+---
+
+```{r rpt-gen-readme, echo=FALSE, results="asis"}
+  read.me.doc <- readLines("../../../README.md")
+  cat(
+read.me.doc[4:length(read.me.doc)], sep = "\n")
+```
+
+```{r rpt-gen-step1, echo=FALSE}
+  knitr::spin_child("1_Repo_Setup_and_Maintenance.R")
+```
+
+```{r rpt-gen-step2, echo=FALSE}
+  knitr::spin_child("2_Report_Data.R")
+```
+
+```{r rpt-gen-step3, echo=FALSE}
+  knitr::spin_child("3_Report_Analyses.R")
+```
+
+```{r rpt-gen-step4, echo=FALSE}
+  knitr::spin_child("4_Make_Configs.R")
+```
+
+```{r rpt-gen-step5, echo=FALSE}
+  knitr::spin_child("5_Make_Report.R")
+```
