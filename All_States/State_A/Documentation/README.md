@@ -83,5 +83,5 @@ appropriate `R` functions.
     elements can be easily overridden. The combined custom and universal information
     `list` objects are then used by functions in the `Literasee` package to create
     the YAML and RMD files that control the report generation output.
-* The `Make_Report.R` file contains `R` code to render the website/report using
-  the `bookdown` and `pagedown` packages respectively.
+* The `5_Make_Report.R` file contains `R` code to render the report using
+  the `pagedown` templates (and workable scripts to create a`bookdown` website).
