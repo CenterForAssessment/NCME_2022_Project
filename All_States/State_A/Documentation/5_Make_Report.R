@@ -275,6 +275,11 @@ pagedown::chrome_print("report/Appendix_R.html")
 #' files sprinkled throughout the repository. Here's how I put it together:
 #'
 #+ echo = TRUE, purl = TRUE, eval = FALSE
+## Everything is meant to be run from the "report" directory...
+R.utils::copyDirectory(from = "assets/js", to = "../assets/js")
+R.utils::copyDirectory(from = "assets/images", to = "../assets/images")
 rmarkdown::render("Flexible_Report_Generation.Rmd")
+pagedown::chrome_print("Flexible_Report_Generation.html",
+                       output = "report/Flexible_Report_Generation.pdf")
 
 # setwd("..")

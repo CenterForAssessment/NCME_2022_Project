@@ -1,7 +1,9 @@
 ---
 title: "Flexible Report Generation"
 subtitle: "Demonstration Session, NCME 2022 Annual Meeting"
-author: "Adam R. VanIwaarden"
+author:
+- name: "Adam R. VanIwaarden"
+- name: "Damian W. Betebenner"
 date: April 23, 2022
 knit: pagedown::chrome_print
 client_city: San Diego
