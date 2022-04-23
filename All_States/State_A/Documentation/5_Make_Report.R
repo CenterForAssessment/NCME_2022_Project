@@ -235,7 +235,7 @@ pagedown::chrome_print("report/State_A_Academic_Impact_Analysis.html")
 # pagedown::chrome_print("report/Appendix_A.html") # Done above with rotation
 pagedown::chrome_print("report/Appendix_SGP_Analysis.html")
 pagedown::chrome_print("report/Appendix_Impact_Report_Generation.html")
-pagedown::chrome_print("report/Appendix_R.html")
+pagedown::chrome_print("report/Appendix_Academic_Impact_R.html")
 
 #' ##  Creating a `bookdown` website
 #'
@@ -259,7 +259,7 @@ pagedown::chrome_print("report/Appendix_R.html")
 #             file.path("report", "Academic_Impact_Analyses_APPENDIX_A.pdf"),
 #             file.path("report", "Appendix_SGP_Analysis.pdf"),
 #             file.path("report", "Appendix_Impact_Report_Generation.pdf"),
-#             file.path("report", "APPENDIX_R.pdf")),
+#             file.path("report", "Appendix_Academic_Impact_R.pdf")),
 #           file.path("site", "downloads"), overwrite = TRUE)
 #
 # bookdown::render_book(".", "bookdown::gitbook") # delete all appendices from yaml
