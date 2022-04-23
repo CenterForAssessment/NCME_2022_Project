@@ -1,0 +1,59 @@
+---
+title: "R Session Information"
+subtitle: "Academic Impact in State A"
+appendix-prefix: "R"
+knit: pagedown::chrome_print
+paged-footnotes: yes
+output:
+  pagedown::html_paged:
+    css:
+    - ../assets/css/nciea-style.css
+    - ../assets/css/nciea-appendix-page.css
+    - ../assets/css/nciea-default.css
+    - ../assets/css/literasee_bookdown_style.css
+    template: ../assets/pandoc/nciea_appendix.html
+    bibliography: ../assets/bib/appendix_session.bib
+    self_contained: yes
+    number_sections: no
+    fig_caption: no
+---
+
+<!--
+  This document is intended to be rendered from the "Child_RMD" directory.
+-->
+
+# R Session Information
+
+Since `R` and `R` packages are constantly evolving, the information on the system
+platform, `R` version, as well as the packages that were loaded during the creation
+of this report and its associated analyses are reported here.
+
+```{r r-session-info, echo=FALSE}
+# set width option to force fit onto page margins
+# options(width=75)
+# print(sessionInfo(), locale = FALSE)
+# when using child='Appendix_*.Rmd'
+# knitr::knit_print(capture.output(print(sessionInfo(), locale = FALSE)))
+pander::pander(sessionInfo(), compact = FALSE, locale=FALSE)
+
+  #r-session-platform, fig.cap="R Session Platform Information", out.width="0", out.height="0", out.extra=tab.out.ex, class = "figtab", results="asis"}
+	###  Include VERY small, transparent image to create table title and
+	# knitr::include_graphics("data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7", dpi=NA, error = FALSE)
+  #
+  # session_platform <- as.data.table(unlist(devtools::session_info()$platform), keep.rownames=T)[V1 != "tz"]
+  # setnames(session_platform, c("Setting", "Value"))
+  # row.names(session_platform) <- NULL
+  #
+  # knitr::knit_print(
+	# 	htmlTable::htmlTable(as.matrix(session_platform), align='rr',
+	#     caption = tblCap(knitr::opts_current$get("fig.cap"))))
+```
+
+<!--  End appendix format: re-start counters and change back to numeric for subsequent re-rendering-->
+
+```{r, cache=FALSE, results='asis', echo=FALSE}
+	options(table_counter_str = NULL)
+	options(table_num_str = NULL)
+	options(fig_caption_no_sprintf = NULL)
+	options(fig_num_str = NULL)
+```

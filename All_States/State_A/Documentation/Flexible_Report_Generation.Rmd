@@ -32,10 +32,20 @@ abstract: |-
   ```
 ---
 
-```{r rpt-gen-readme, echo=FALSE, results="asis"}
-  read.me.doc <- readLines("../../../README.md")
+# Why Be Flexible?
+
+```{r rpt-gen-readme1, echo=FALSE, results="asis"}
+  read.me.top <- readLines("../../../README.md")
   cat(
-read.me.doc[4:length(read.me.doc)], sep = "\n")
+read.me.top[4:length(read.me.top)], sep = "\n")
+```
+
+#  Five steps to report generation
+
+```{r rpt-gen-readme5, echo=FALSE, results="asis"}
+  read.me.doc <- readLines("README.md")
+  cat(
+read.me.doc[12:length(read.me.doc)], sep = "\n")
 ```
 
 ```{r rpt-gen-step1, echo=FALSE}
@@ -50,6 +60,21 @@ read.me.doc[4:length(read.me.doc)], sep = "\n")
   knitr::spin_child("3_Report_Analyses.R")
 ```
 
+#  The Universality of Meta-Data
+
+Before turning to Step 4, it may be useful to first look at the Universal Content
+on which this step interacts. In the "*Universal_Content/Meta_Data*" directory
+there are two files that contain a running list of the elements and resources that
+are available and/or required for the report generation in Step 5. The purpose of
+Step 4 is to combine the generic meta-data with the custom meta-data in hopes of
+making a complete picture of what the report will be.
+
+```{r rpt-gen-readmeta, echo=FALSE, results="asis"}
+  read.meta <- readLines("../../../Universal_Content/Meta_Data/README.md")
+  cat(
+read.meta[11:length(read.meta)], sep = "\n")
+```
+
 ```{r rpt-gen-step4, echo=FALSE}
   knitr::spin_child("4_Make_Configs.R")
 ```
@@ -57,3 +82,8 @@ read.me.doc[4:length(read.me.doc)], sep = "\n")
 ```{r rpt-gen-step5, echo=FALSE}
   knitr::spin_child("5_Make_Report.R")
 ```
+
+# The End
+
+Hope that gets you started! There is a lot to dig into and we will do our best to
+help you out and answer any questions.

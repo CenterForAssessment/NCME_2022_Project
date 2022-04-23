@@ -33,8 +33,8 @@ closet <- "../../../Universal_Content/rmarkdown/closet/"
 
 ##  Load existing `Report_Data` and `Report_Analyses` objects from steps 2 and 3.
 ##  Or... Skip the data loading and proceed to the next step to re-run while reporting.
-if (!exists("Report_Data")) load("../Data/Report_Data.Rdata")
-if (!exists("Report_Analyses")) load("../Data/Report_Analyses.Rdata")
+# if (!exists("Report_Data")) load("../Data/Report_Data.Rdata")
+# if (!exists("Report_Analyses")) load("../Data/Report_Analyses.Rdata")
 
 ##  Create directories if needed for results
 if(!dir.exists("../Documentation/report"))
@@ -216,10 +216,11 @@ frm.tf <- file.remove(base.pdf)
 #'
 #' We now have all the pieces in place to run the final report. We do not need
 #' to modify the parent script `createReportScripts` produced. This is now the
-#' easy part!
+#' easy part! We then add in final appendix, which displays the R session information
+#' (the user's system specifications, package versions, etc.).
 
+#+ echo = TRUE, purl = TRUE, eval = FALSE
 rmarkdown::render("report/State_A_Academic_Impact_Analysis.Rmd")
-
 
 here <- getwd()
 rmarkdown::render(
@@ -251,20 +252,29 @@ pagedown::chrome_print("report/Appendix_R.html")
 #' and then rendering the website.
 
 #+ echo = TRUE, purl = TRUE, eval = FALSE
-if (!file.exists(file.path("site", "downloads")))
-        dir.create(file.path("site", "downloads"))
+# if (!dir.exists(file.path("site", "downloads")))
+#         dir.create(file.path("site", "downloads"), recursive = TRUE)
+#
+# file.copy(c(file.path("report", "State_A_Academic_Impact_Analysis.pdf"),
+#             file.path("report", "Academic_Impact_Analyses_APPENDIX_A.pdf"),
+#             file.path("report", "Appendix_SGP_Analysis.pdf"),
+#             file.path("report", "Appendix_Impact_Report_Generation.pdf"),
+#             file.path("report", "APPENDIX_R.pdf")),
+#           file.path("site", "downloads"), overwrite = TRUE)
+#
+# bookdown::render_book(".", "bookdown::gitbook") # delete all appendices from yaml
+#
+# # Serve the site directory on a local host to see the results:
+# servr::httw(dir = "site", watch = "site", port=4224)
+# servr::daemon_stop()
 
-file.copy(c(file.path("report", "State_A_Academic_Impact_Analysis.pdf"),
-            file.path("report", "Academic_Imapact_Analysis_APPENDIX_A.pdf"),
-            file.path("report", "Initial_SGP_Analysis_APPENDIX_B.pdf"),
-            file.path("report", "Imapact_Report_Generation_APPENDIX_C.pdf"),
-            file.path("report", "APPENDIX_R.pdf")),
-          file.path("site", "downloads"), overwrite = TRUE)
 
-bookdown::render_book(".", "bookdown::gitbook") # delete all appendices from yaml
-
-# Serve the site directory on a local host to see the results:
-servr::httw(dir = "site", watch = "site", port=4224)
-servr::daemon_stop()
+#' ##  Bonus Report: The paper from this session
+#'
+#' The paper that accompanies this demonstration is built from the README.md
+#' files sprinkled throughout the repository. Here's how I put it together:
+#'
+#+ echo = TRUE, purl = TRUE, eval = FALSE
+rmarkdown::render("Flexible_Report_Generation.Rmd")
 
 # setwd("..")

@@ -9,7 +9,7 @@ child file information that are considered "universal" to these reports are
 contained here for access by each branch (e.g., state/organization) for which a
 report will be generated.
 
-#  Included files
+##  Included files
 
 * The `Report_Configs.R` file contains `R` code that stores general report
   information in an appropriately formatted (named) `list` object. This object is
