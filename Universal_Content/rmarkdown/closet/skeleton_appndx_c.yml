@@ -1,0 +1,20 @@
+title: "Academic Impact Report Generation"
+appendix-prefix: "C"
+toc-title: "Appendix Contents"
+paged-footnotes: yes
+knit: pagedown::chrome_print
+output:
+  html_document:
+    template: ../../../Universal_Content/rmarkdown/assets/pandoc/wp_appendix.html
+    self_contained: true
+  pagedown::html_paged:
+    css:
+    - ../assets/css/nciea-style.css
+    - ../assets/css/nciea-appendix-page.css
+    - ../assets/css/nciea-default.css
+    - ../assets/css/literasee_bookdown_style.css
+    template: ../assets/pandoc/nciea_appendix.html
+    toc: yes
+    toc_depth: 2
+    self_contained: yes
+    number_sections: no

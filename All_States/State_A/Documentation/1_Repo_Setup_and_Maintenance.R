@@ -9,13 +9,22 @@
 # setwd("./Documentation")
 
 # Locate the "Universal_Content" directory
-universal.content.path <- file.path("..", "..", "..", "Universal_Content")
+universal.content.path <- file.path("")
 
 # Install/update packages used in the report
-source(file.path(universal.content.path, "Meta_Data", "Report_Packages.R"))
+source("../../../Universal_Content/Meta_Data/Report_Packages.R")
+
+###   Load packages required for report setup
+require(Literasee)
+
+template.path <- file.path("../../../Custom_Content/assets/Child_RMD")
+setupReportDirectory(custom.content.path = template.path)
 
 # It may be necessary to occasionally update Literasee package assets.
-require(Literasee)
-updateAssets(asset.type=c("css", "js", "pandoc", "rmd", "images"))
+# updateAssets(asset.type=c("css", "js", "pandoc", "rmd", "images"))
+
+# copy additional assets from the Universal_Content directory
+R.utils::copyDirectory(to = "assets/fonts",
+         from = "../../../Universal_Content/rmarkdown/assets/fonts")
 
 # setwd("..")

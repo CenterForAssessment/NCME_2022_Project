@@ -29,7 +29,10 @@ abstract: |-
   ```
 appendix: |-
   ```{r, appndx-B, echo=FALSE, results='asis'}
-    cat(readLines("../assets/rmd/Custom_Content/APPENDIX_SGP_Analysis_WP.html"), sep = '\n')
+    cat(readLines("Appendix_SGP_Analysis_WP.html"), sep = '\n')
+  ```
+  ```{r, appndx-C, echo=FALSE, results='asis'}
+    cat(readLines("AIRG_WP.html"), sep = '\n')
   ```
   ```{r, appndx-R, echo=FALSE, results='asis'}
     res <- rmarkdown::render('../../../../Universal_Content/rmarkdown/Child_RMD/Appendix_R.Rmd', quiet = TRUE)
@@ -37,5 +40,5 @@ appendix: |-
     frm.tf <- file.remove(res)
     cat(readLines("../../../../All_States/State_A/Documentation/report/Appendix_R.html"), sep = '\n')
   ```
-appendix-prefix: ["B", "R"] # Need to correspond to the `appendix-prefix` YAML in the appendix script(s)
+appendix-prefix: ["B", "C", "R"] # Need to correspond to the `appendix-prefix` YAML in the appendix script(s)
 knit: pagedown::chrome_print

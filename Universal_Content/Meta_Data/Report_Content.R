@@ -37,8 +37,7 @@ rmd.files <- list(
       ),
       references = NULL
     ),
-    # B = c(),
-    # C = c(),
+    # A = c(),
     # B = list(
     #   title = "Initial SGP Analysis",
     #   file.order = c(

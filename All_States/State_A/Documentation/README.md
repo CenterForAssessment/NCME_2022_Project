@@ -7,7 +7,7 @@ This is a template for a "Documentation" directory that one might use (copy/past
 into a project from which to build out `pagedown` report(s) and a `bookdown`
 website using the child RMD files included in the Universal_Content repo.
 
-#  Five steps to report generation
+##  Five steps to report generation
 
 Generation of multiple format reports (e.g., a `bookdown` website and a `pagedown`
 PDF document) can be generally conducted in five steps. These steps are lined out
@@ -24,9 +24,9 @@ are compiled from generic (Universal) and custom sources to create dual-format
 configuration scripts. Lastly, the desired formats are generated using the
 appropriate `R` functions.
 
-#  Included files
+##  Included files
 
-* The `1_Report_Setup_and_Maintenance.R` file contains `R` code from which required
+* The `1_Repo_Setup_and_Maintenance.R` file contains `R` code from which required
   `R` packages can be installed or updated, and other assets can be copied into
   the report directory.
   - A script, `Universal_Content/Meta_Data/Report_Packages.R`, is available to
@@ -68,7 +68,7 @@ appropriate `R` functions.
 * Generation of the multiple format reports (e.g., a `bookdown` website and a
   `pagedown` PDF document) typically depends on different types of configuration
   scripts that list the child documents to knit together: _bookdown.yml and
-  index.Rmd for `bookdown`, and a parent .Rmd file (e.g., STATE_X_Learning_Loss_Analysis.Rmd)
+  index.Rmd for `bookdown`, and a parent .Rmd file (e.g., STATE_X_Academic_Impact_Analysis.Rmd)
   for `pagedown`.
   - The child documents can be generic (i.e. `Universal_Content`) or customized/novel
     content. The `4_Make_Configs.R` script creates custom configuration lists that

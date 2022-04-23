@@ -4,3 +4,7 @@ output:
   html_document:
     template: ../../../Universal_Content/rmarkdown/assets/pandoc/wp_appendix.html
     self_contained: true
+params:
+  render.format: pagedown
+  gof.path: !r list(State_Assessment = "../../../All_States/State_A/Initial_Data_Analysis/Goodness_of_Fit")
+  executive.summary: false

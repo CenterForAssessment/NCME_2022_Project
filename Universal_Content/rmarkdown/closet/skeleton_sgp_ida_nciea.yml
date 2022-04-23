@@ -17,3 +17,7 @@ output:
     number_sections: no
     fig_caption: yes
 knit: pagedown::chrome_print
+params:
+  render.format: pagedown
+  GL_subjects: !r list(State_Assessment = c("ELA", "MATHEMATICS"))
+  gof.path: !r list(State_Assessment = "../../../All_States/State_A/Initial_Data_Analysis/Goodness_of_Fit")

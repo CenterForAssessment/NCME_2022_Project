@@ -14,6 +14,9 @@ update.packages(ask = FALSE, checkBuilt = TRUE)
 if (!require(data.table)) {
 	install.packages("data.table", dep=T)
 }
+if (!require(R.utils)) {
+	install.packages("R.utils", dep=T)
+}
 if (!require(stringr)) {
 	install.packages("stringr", dep=T)
 }
@@ -44,6 +47,9 @@ if (!require(htmlTable)) {
 }
 if (!require(Gmisc)) {
 	install.packages("Gmisc", dep=T)
+}
+if (!require(pander)) {
+	install.packages("pander", dep=T)
 }
 
 ###   Install/update latest packages from GITHUB

@@ -1,4 +1,4 @@
-#' ## Reporting Step 3: `Report_Analyses`
+#' #  Reporting Step 3: `Report_Analyses`
 #'
 #' In this step we run any external analyses using data from any/all elements of
 #' the `Report_Data` object for the academic impact report and house the results
@@ -87,6 +87,11 @@ Report_Analyses[["Summary_Tables"]][[assessment]][[
 
 #' ###   Combine all data analyses into `Report_Analyses` and Save
 #+ echo = TRUE, purl = TRUE
-save(Report_Analyses, file = "../Data/Report_Analyses.Rdata")
+##  This logic is required for running this script while generating the report:
+if (exists("params")) {
+  if (params$appendix.c)
+    save(Report_Analyses, file = "../../../../Data/Report_Analyses.Rdata")
+} else save(Report_Analyses, file = "../Data/Report_Analyses.Rdata")
+
 # rm(params)
 # setwd("..")

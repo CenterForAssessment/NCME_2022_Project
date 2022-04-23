@@ -1,7 +1,4 @@
 
-```{r  child = '../../../Universal_Content/rmarkdown/Child_RMD/params.Rmd', eval=TRUE}
-```
-
 ```{r  child = '../../../Universal_Content/rmarkdown/Child_RMD/setup_sgp_appendix.Rmd', eval=TRUE}
 ```
 

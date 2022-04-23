@@ -1,8 +1,6 @@
 
 ```{r, cache=FALSE, results="asis", echo=FALSE}
 	gof.type <- NULL
-	# if (grepl("SIMEX$", params$baseline.sgp$State_Assessment)) gof.type <- paste0(gof.type, ".SIMEX")
-	# if (grepl("SIMEX_RANKED", params$baseline.sgp$State_Assessment)) gof.type <- paste0(gof.type, ".RANKED_SIMEX")
 
 	grd.subj.list <- list(ELA = c("5", "6", "7", "8"), MATHEMATICS = c("5", "6", "7", "8"))
 	# grd.subj.list <- list()

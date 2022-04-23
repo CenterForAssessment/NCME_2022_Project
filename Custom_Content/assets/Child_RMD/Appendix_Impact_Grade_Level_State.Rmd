@@ -1,0 +1,92 @@
+
+```{r, cache=FALSE, results="asis", echo=FALSE}
+	##    Source covidImpactVisualization function
+	# source("../../../../../Universal_Content/Learning_Loss_Analysis/Functions/covidImpactSubVisualization.R")
+
+	# grob.dir <- "assets/Rplots/Impact/State_Assessment/CONDITIONAL_STATUS/CONTENT_AREA_by_GRADE/GROBS" # for testing
+	grob.dir <- "../../Rplots/Impact/State_Assessment/CONDITIONAL_STATUS/CONTENT_AREA_by_GRADE/GROBS"
+	plot.dir <- tempdir() # "../../Rplots/Impact/State_Assessment/SVGs/CONTENT_AREA_by_GRADE"
+	grobs.to.use <- list.files(grob.dir)
+	# basewd <- knitr::knit_print(print(getwd())) # ...Documentation
+
+	for (grb in grobs.to.use) {
+	  # if (grepl("_[3-4].", grb)) subplots.to.make <- "no_title" else subplots.to.make <- c("no_title", "top_growth")
+	  covidImpactSubVisualization(
+	        grob = file.path(grob.dir, grb),
+	        subplot.types = "no_title", # subplots.to.make,
+			    parent_width = 17,
+			    parent_height = 13,
+	        output_path = plot.dir,
+					output_compressed = FALSE)
+	}
+
+	tmp.font <- readChar("../../fonts/Oswald-Light_base64.txt", file.info("../../fonts/Oswald-Light_base64.txt")$size)
+
+	all.plots <- unique(gsub(".svgz|.svg", "", grep("no_title", list.files(plot.dir), value=TRUE)))
+	for (ca in params$GL_subjects$State_Assessment) {
+		subj.plots <- sort(grep(capwords(ca), all.plots, value = TRUE))
+
+		child.plot.list <- vector(mode="list", length(subj.plots))
+		for (k in seq(subj.plots)) {
+			tmp.path <- file.path(plot.dir, paste0(subj.plots[k], ".svg"))
+
+			##  post-process SVG files :: doesn't work - <img> doesn't allow reading from external sites - https://www.r-bloggers.com/2019/04/using-svglite-with-web-fonts-by-ellis2013nz/
+			# txt <- readChar(tmp.path, file.info(tmp.path)$size)
+			# txt <- gsub("\"Arial\"", "\"Oswald\"", txt)
+			# txt <- gsub("6.21px", "8px", txt) # specific to 17 x 13 output
+			# writeChar(txt, tmp.path, eos = NULL)
+
+			tmp.text <- enc2utf8(readLines(tmp.path, warn = FALSE))
+			# tmp.text <- unlist(lapply(tmp.text, Literasee:::trimWhiteSpace))
+			tmp.text <- gsub("\"Arial\"", "\"Oswald\"", tmp.text)
+			# tmp.text <- gsub("6.21px", "8px", tmp.text) # specific to 17 x 13 output
+
+			tmp.indx <- grep("@import", tmp.text)
+
+			tmp.text <- c(tmp.text[1:(tmp.indx-1)],
+										"@font-face {",
+										"    font-family: 'Oswald';",
+										paste0("    src: url(data:font/truetype;charset=utf-8;base64,", tmp.font, ") format('truetype');"),
+										"}",
+										tmp.text[(tmp.indx+1):length(tmp.text)]
+							)
+			writeLines(tmp.text, tmp.path, sep="")
+
+		  child.plot.list[[k]]$files = tmp.path
+		  child.plot.list[[k]]$caption = paste0("Academic impact plot for ",
+									ord(as.numeric(strsplit(gsub("_no_title", "", subj.plots[k]), "Grade_")[[1]][2])),
+									" grade ", sub("MATHEMATICS", "math", ca))
+		}
+
+			##  Make this a H2 instead of H1 ???
+		if (tolower(params$render.format) == "bookdown") {
+			cat("
+
+## ", capwords(ca), "
+
+<div class='pagebreak'> </div>
+
+			")
+		} else {
+			cat("
+
+# ", capwords(ca), "
+
+<div class='pagebreak'> </div>
+
+			")
+		}
+
+		res <- lapply(child.plot.list, function(f) {
+		 knitr::knit_child(text = c(
+		    paste0('```{r, fig.cap = \'', f$caption, '\', out.width=\'100%\', fig.align=\'center\', out.extra=\'data-prefix=\"Figure\"\', class = \'longdiv\', results=\'asis\'}'),
+		    '',
+		    'if (tolower(params$render.format) == \'pagedown\') fign <- figNumIncrement()',
+				paste0('knitr::include_graphics(\'', f$files, '\', error = FALSE)'),
+		    '```',
+		    ''
+		  ), envir = environment(), quiet = TRUE)
+		})
+		cat(unlist(res), sep = '\n')
+	}
+```

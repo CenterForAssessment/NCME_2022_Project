@@ -5,7 +5,7 @@
 ####                                                                        ####
 ################################################################################
 
-#' ## Reporting Step 2: `Report_Data`
+#' #  Reporting Step 2: `Report_Data`
 
 #' In the data preparation and cleaning step of the the academic impact analysis,
 #' we create a `Report_Data` object with data (sub)sets from various available
@@ -39,12 +39,11 @@ require(cfaTools)
 #' have been saved/output in the "*Initial_Data_Analysis/State_A_Baseline_SGP_Analyses.R*"
 #' script.
 #'
-#' Here we simply copy the data from the `SGP` object and name it `State_A_Data_LONG`.
+#' Here we simply copy the data from the `SGP` object and name it `State_A_Data`.
 
 
 #+ echo = TRUE, purl = TRUE
-rm(State_A_Data_LONG)
-State_A_Data_LONG <- copy(State_A_SGP@Data)
+State_A_Data <- copy(State_A_SGP@Data)
 
 #' Data loading is typically followed by an initial subsetting to select only the
 #' report-relevant information (years, content areas and grades to be reported,
@@ -52,7 +51,7 @@ State_A_Data_LONG <- copy(State_A_SGP@Data)
 #' criteria, etc.). This process has already been carried out in the
 #' "*Initial_Data_Analysis/State_A_Data_LONG.R*" script.
 #'
-#' ###   Create lagged variables
+#' ###  Create lagged variables
 #'
 #' Lagged scale and standardized score variables (and their associated achievement
 #' levels) are required for our academic impact analyses. Here we first create a
@@ -70,7 +69,7 @@ State_A_Data_LONG <- copy(State_A_SGP@Data)
 #'
 #+ echo = TRUE, purl = TRUE
 ##    Standardize SCALE_SCORE by CONTENT_AREA and GRADE using 2019 norms
-State_A_Data_LONG[, SCALE_SCORE_STANDARDIZED :=
+State_A_Data[, SCALE_SCORE_STANDARDIZED :=
                       Z(.SD, "SCALE_SCORE", reference.year = "2019"),
                   by = list(CONTENT_AREA, GRADE),
                   .SDcols = c("YEAR", "CONTENT_AREA", "GRADE", "SCALE_SCORE")]
@@ -84,39 +83,39 @@ missing_data <- data.table(YEAR = "2020",
                            GRADE = c(3:8, 3:8),
                            CONTENT_AREA = c(rep("ELA", 6),
                                             rep("MATHEMATICS", 6)))
-State_A_Data_LONG <- rbindlist(list(State_A_Data_LONG, missing_data), fill=TRUE)
+State_A_Data <- rbindlist(list(State_A_Data, missing_data), fill=TRUE)
 
 shift.key <- c("ID", "CONTENT_AREA", "YEAR", "GRADE", "VALID_CASE")
-setkeyv(State_A_Data_LONG, shift.key)
+setkeyv(State_A_Data, shift.key)
 
-getShiftedValues(State_A_Data_LONG,
+getShiftedValues(State_A_Data,
                  shift_amount = c(1L, 2L),
                  shift_variable = c("SCALE_SCORE",
                                     "SCALE_SCORE_STANDARDIZED",
                                     "ACHIEVEMENT_LEVEL"))
 # Check initial agreement between `SGP` and `shift` generated lagged variables:
-# table(State_A_Data_LONG[YEAR==current.year,
+# table(State_A_Data[YEAR==current.year,
 #            ACHIEVEMENT_LEVEL_PRIOR, ACHIEVEMENT_LEVEL_LAG_2], exclude=NULL)
 
 #  Clean up - remove 2020 dummy data and rename according to old conventions
-State_A_Data_LONG <- State_A_Data_LONG[YEAR != '2020']
-setnames(State_A_Data_LONG, gsub("LAG_1", "PRIOR_1YEAR", names(State_A_Data_LONG)))
-setnames(State_A_Data_LONG, gsub("LAG_2", "PRIOR_2YEAR", names(State_A_Data_LONG)))
+State_A_Data <- State_A_Data[YEAR != '2020']
+setnames(State_A_Data, gsub("LAG_1", "PRIOR_1YEAR", names(State_A_Data)))
+setnames(State_A_Data, gsub("LAG_2", "PRIOR_2YEAR", names(State_A_Data)))
 
 ##    Fix 2021 Lags for Grades 3 & 4 - repeaters:
-# table(State_A_Data_LONG[, YEAR, is.na(SCALE_SCORE_PRIOR_2YEAR)], exclude=NULL)
-# table(State_A_Data_LONG[, GRADE, is.na(SCALE_SCORE_PRIOR_2YEAR)], exclude=NULL)
-State_A_Data_LONG[GRADE %in% c(3, 4) | YEAR %in% c("2016", "2017"),
+# table(State_A_Data[, YEAR, is.na(SCALE_SCORE_PRIOR_2YEAR)], exclude=NULL)
+# table(State_A_Data[, GRADE, is.na(SCALE_SCORE_PRIOR_2YEAR)], exclude=NULL)
+State_A_Data[GRADE %in% c(3, 4) | YEAR %in% c("2016", "2017"),
                     SCALE_SCORE_PRIOR_2YEAR := NA]
-State_A_Data_LONG[GRADE %in% c(3, 4) | YEAR %in% c("2016", "2017"),
+State_A_Data[GRADE %in% c(3, 4) | YEAR %in% c("2016", "2017"),
                     SCALE_SCORE_STANDARDIZED_PRIOR_2YEAR := NA]
-State_A_Data_LONG[GRADE %in% c(3, 4) | YEAR %in% c("2016", "2017"),
+State_A_Data[GRADE %in% c(3, 4) | YEAR %in% c("2016", "2017"),
                     ACHIEVEMENT_LEVEL_PRIOR_2YEAR := NA]
-State_A_Data_LONG[GRADE == 3 | YEAR == "2016",
+State_A_Data[GRADE == 3 | YEAR == "2016",
                     SCALE_SCORE_PRIOR_1YEAR := NA]
-State_A_Data_LONG[GRADE == 3 | YEAR == "2016",
+State_A_Data[GRADE == 3 | YEAR == "2016",
                     SCALE_SCORE_STANDARDIZED_PRIOR_1YEAR := NA]
-State_A_Data_LONG[GRADE == 3 | YEAR == "2016",
+State_A_Data[GRADE == 3 | YEAR == "2016",
                     ACHIEVEMENT_LEVEL_PRIOR_1YEAR := NA]
 
 #' ###   Create other variables
@@ -134,13 +133,13 @@ State_A_Data_LONG[GRADE == 3 | YEAR == "2016",
 #' could be used in the same `R` code or custom functions.
 #'
 #+ echo = TRUE, purl = TRUE
-State_A_Data_LONG[, ACHIEVEMENT_ProfandAbove := fcase(
+State_A_Data[, ACHIEVEMENT_ProfandAbove := fcase(
   ACHIEVEMENT_LEVEL %in% c("Partially Proficient", "Unsatisfactory"), "Not Proficient",
   ACHIEVEMENT_LEVEL %in% c("Advanced", "Proficient"), "Proficient")]
 
-State_A_Data_LONG[YEAR == "2021", ACHIEVEMENT_LEVEL_PRIOR := ACHIEVEMENT_LEVEL_PRIOR_2YEAR]
-State_A_Data_LONG[YEAR != "2021", ACHIEVEMENT_LEVEL_PRIOR := ACHIEVEMENT_LEVEL_PRIOR_1YEAR]
-State_A_Data_LONG[, PRIOR_ACHIEVEMENT_ProfandAbove := fcase(
+State_A_Data[YEAR == "2021", ACHIEVEMENT_LEVEL_PRIOR := ACHIEVEMENT_LEVEL_PRIOR_2YEAR]
+State_A_Data[YEAR != "2021", ACHIEVEMENT_LEVEL_PRIOR := ACHIEVEMENT_LEVEL_PRIOR_1YEAR]
+State_A_Data[, PRIOR_ACHIEVEMENT_ProfandAbove := fcase(
   ACHIEVEMENT_LEVEL_PRIOR %in% c("Partially Proficient", "Unsatisfactory"), "Not Proficient",
   ACHIEVEMENT_LEVEL_PRIOR %in% c("Advanced", "Proficient"), "Proficient")]
 
@@ -152,7 +151,7 @@ State_A_Data_LONG[, PRIOR_ACHIEVEMENT_ProfandAbove := fcase(
 #' that we will need/want.
 #'
 #+ echo = TRUE, purl = TRUE
-State_A_Data_LONG[, c("SCALE_SCORE_PRIOR",
+State_A_Data[, c("SCALE_SCORE_PRIOR",
                       "SCALE_SCORE_PRIOR_STANDARDIZED",
                       "ACHIEVEMENT_LEVEL_PRIOR",
                       "SGP_NORM_GROUP_BASELINE",
@@ -194,7 +193,7 @@ State_A_Data_LONG[, c("SCALE_SCORE_PRIOR",
 Report_Data <- vector("list", 4);
 names(Report_Data) <- c("State_Assessment", "College_Entrance", "ELP_Assessment", "Interim_Assessment")
 
-Report_Data[["State_Assessment"]] <- copy(State_A_Data_LONG); rm(State_A_SGP); rm(State_A_Data_LONG)
+Report_Data[["State_Assessment"]] <- State_A_Data; rm(State_A_Data)
 
 if (!dir.exists(file.path("..", "Data"))) dir.create(file.path("..", "Data"))
 save(Report_Data, file = file.path("..", "Data", "Report_Data.Rdata"))

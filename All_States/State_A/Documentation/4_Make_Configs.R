@@ -1,4 +1,4 @@
-#' ## Reporting Step 4: Parameters and configurations
+#' #  Reporting Step 4: Parameters and configurations
 #'
 #' In this step we set up report configuration and content lists. This means we
 #' specify any necessary meta-data and parameters required to run the report and
@@ -164,7 +164,16 @@ report = list(
 
 #+ echo = TRUE, purl = TRUE
 appendices = list(
-  A = c(),
+  A = list(
+    title = "Academic Impact Overview",
+    file.order = c(
+      "params.Rmd",
+      "setup_impact_overview_appendix.Rmd",
+      "Appendix_Impact_Intro.Rmd",
+      "Appendix_Impact_Grade_Level_State.Rmd"
+    ),
+    references = NULL
+  ),
   B = list(
     title = "Initial SGP Analysis",
     file.order = c(
@@ -175,9 +184,9 @@ appendices = list(
     references = NULL
   ),
   C = list(
-    title = "Imapact Report Generation",
+    title = "Impact Report Generation",
     file.order = c(
-      "Appendix_Imapact_Report_Generation.html"
+      "Appendix_Impact_Report_Generation.html"
     ),
     references = NULL
   ),

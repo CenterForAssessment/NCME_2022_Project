@@ -1,0 +1,57 @@
+---
+title: "Academic Impact Report Generation"
+appendix-prefix: "C"
+toc-title: "Appendix Contents"
+paged-footnotes: yes
+knit: pagedown::chrome_print
+output:
+  html_document:
+    template: ../../../Universal_Content/rmarkdown/assets/pandoc/wp_appendix.html
+    self_contained: true
+  pagedown::html_paged:
+    css:
+    - assets/css/nciea-style.css
+    - assets/css/nciea-appendix-page.css
+    - assets/css/nciea-default.css
+    - assets/css/literasee_bookdown_style.css
+    template: assets/pandoc/nciea_appendix.html
+    toc: yes
+    toc_depth: 2
+    self_contained: yes
+    number_sections: no
+---
+
+```{r rpt-gen-readme, echo=FALSE, results="asis"}
+  read.me.doc <- readLines("README.md")
+  cat(
+read.me.doc[4:length(read.me.doc)], sep = "\n")
+```
+
+```{r rpt-gen-step1, echo=FALSE}
+  knitr::spin_child("1_Repo_Setup_and_Maintenance.R")
+```
+
+```{r rpt-gen-step2, echo=FALSE}
+  knitr::spin_child("2_Report_Data.R")
+```
+
+```{r rpt-gen-step3, echo=FALSE}
+  knitr::spin_child("3_Report_Analyses.R")
+```
+
+```{r rpt-gen-step4, echo=FALSE}
+  knitr::spin_child("4_Make_Configs.R")
+```
+
+```{r rpt-gen-step5, echo=FALSE}
+  knitr::spin_child("5_Make_Report.R")
+```
+
+<!--  End appendix format: re-start counters and change back to numeric for subsequent re-rendering-->
+
+```{r, cache=FALSE, results='asis', echo=FALSE}
+	options(table_counter_str = NULL)
+	options(table_num_str = NULL)
+	options(fig_caption_no_sprintf = NULL)
+	options(fig_num_str = NULL)
+```
