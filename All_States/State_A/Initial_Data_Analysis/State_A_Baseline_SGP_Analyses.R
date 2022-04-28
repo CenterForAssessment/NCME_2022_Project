@@ -73,14 +73,14 @@ baseline.config <- c(ELA_2021.config,
 #+ ida-sgp-abcsgp, echo = TRUE, message = FALSE, purl = TRUE
 State_A_SGP <- abcSGP(sgp_object = State_A_Data_LONG,
                       state = "State_A",
-                    	steps = c("prepareSGP", "analyzeSGP", "combineSGP"),
+                      steps = c("prepareSGP", "analyzeSGP", "combineSGP"),
                       sgp.config = baseline.config,
                       sgp.percentiles = FALSE,
-                    	sgp.projections = FALSE,
-                    	sgp.projections.lagged = FALSE,
-                    	sgp.percentiles.baseline = TRUE,
-                    	sgp.projections.baseline = FALSE,
-                    	sgp.projections.lagged.baseline=FALSE,
+                      sgp.projections = FALSE,
+                      sgp.projections.lagged = FALSE,
+                      sgp.percentiles.baseline = TRUE,
+                      sgp.projections.baseline = FALSE,
+                      sgp.projections.lagged.baseline=FALSE,
                       simulate.sgps=FALSE)
 
 #' Since we will only be using these results for creating reports, we will remove
